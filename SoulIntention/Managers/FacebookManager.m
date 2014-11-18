@@ -32,10 +32,16 @@
 {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         SLComposeViewController *viewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        [viewController setInitialText:text];
-        UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
-        [viewController addImage:picture];
-        [viewController addURL:url];
+        if (text) {
+            [viewController setInitialText:text];
+        }
+        if (image) {
+            UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
+            [viewController addImage:picture];
+        }
+        if (url) {
+            [viewController addURL:url];
+        }
         AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
         [appDelegate.window.rootViewController presentViewController:viewController animated:YES completion:nil];
     } else {

@@ -39,67 +39,71 @@ static NSString *const TSTwitterPostRequestURL = @"https://api.twitter.com/1.1/s
 {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
         SLComposeViewController *viewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        [viewController setInitialText:text];
-        UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
-        [viewController addImage:picture];
-        [viewController addURL:url];
+        if (text) {
+            [viewController setInitialText:text];
+        }
+        if (image) {
+            UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
+            [viewController addImage:picture];
+        }
+        if (url) {
+            [viewController addURL:url];
+        }
         AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
         [appDelegate.window.rootViewController presentViewController:viewController animated:YES completion:nil];
     } else {
-        NSLog(@"Twitter is not available");
-        UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
-#warning Twitter share dialog doesnot implemented yet
-        [self shareWithTwitterText:text image:picture];
+        NSLog(@"Twitter is not available on the device");
+        [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please, setup your twitter account in Settings" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 
-#pragma mark - Private
-
-- (void)login
-{
-    if (!self.twitterAccount) {
-        ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-        ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-            if(granted) {
-                NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
-                if (accountsArray.count) {
-                    NSLog(@"Twitter account access recieved");
-                    self.twitterAccount = [accountsArray firstObject];
-                } else {
-                    NSLog(@"Twitter account not found");
-                    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"TwitterLogin"];
-                }
-            }
-            else {
-                NSLog(@"Twitter account access denied");
-                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"TwitterLogin"];
-            }
-        }];
-    }
-}
-
-- (void)shareWithTwitterText:(NSString *)text image:(UIImage *)image
-{
-    if (!self.twitterAccount) {
-        [self login];
-        return;
-    }
-
-    NSDictionary *tweetDetails;
-    NSURL *url = [NSURL URLWithString:TSTwitterPostRequestURL];
-    tweetDetails = @{@"status":text};
-    SLRequest *post = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:url parameters:tweetDetails];
-    NSData *data = UIImageJPEGRepresentation(image, 1.0f);
-    [post addMultipartData:data withName:@"media[]" type:@"image/jpeg" filename:nil];
-    [post setAccount:self.twitterAccount];
-    [post performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-        if (error) {
-            NSLog(@"Twitter share error: %@", error);
-        } else {
-            NSLog(@"Twitter share success");
-        }
-    }];
-}
+//#pragma mark - Private
+//
+//- (void)login
+//{
+//    if (!self.twitterAccount) {
+//        ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+//        ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+//        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+//            if(granted) {
+//                NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
+//                if (accountsArray.count) {
+//                    NSLog(@"Twitter account access recieved");
+//                    self.twitterAccount = [accountsArray firstObject];
+//                } else {
+//                    NSLog(@"Twitter account not found");
+//                    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"TwitterLogin"];
+//                }
+//            }
+//            else {
+//                NSLog(@"Twitter account access denied");
+//                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"TwitterLogin"];
+//            }
+//        }];
+//    }
+//}
+//
+//- (void)shareWithTwitterText:(NSString *)text image:(UIImage *)image
+//{
+//    if (!self.twitterAccount) {
+//        [self login];
+//        return;
+//    }
+//
+//    NSDictionary *tweetDetails;
+//    NSURL *url = [NSURL URLWithString:TSTwitterPostRequestURL];
+//    tweetDetails = @{@"status":text};
+//    SLRequest *post = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:url parameters:tweetDetails];
+//    NSData *data = UIImageJPEGRepresentation(image, 1.0f);
+//    [post addMultipartData:data withName:@"media[]" type:@"image/jpeg" filename:nil];
+//    [post setAccount:self.twitterAccount];
+//    [post performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+//        if (error) {
+//            NSLog(@"Twitter share error: %@", error);
+//        } else {
+//            NSLog(@"Twitter share success");
+//        }
+//    }];
+//}
 
 @end
