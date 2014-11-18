@@ -6,11 +6,15 @@
 //  Copyright (c) 2014 ThinkMobiles. All rights reserved.
 //
 
+#define LIST_VIEW_CONTROLLER 0
+#define ICON_HEIGHT 30.f
+#define ICON_WIDTH 30.f
+
 #import "MainViewController.h"
 #import "ListViewController.h"
 #import "PostViewController.h"
-
-#define LIST_VIEW_CONTROLLER 0
+#import "AutorViewController.h"
+#import "UIImage+ScaleImage.h"
 
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
@@ -73,14 +77,14 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 #pragma mark - Private Methods
 
 - (void)setCustomBarButtons{
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_logo"] style:UIBarButtonItemStylePlain target:self action:nil];
+    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:[UIImage imageNamed:@"ic_logo"] scaleToSize:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_search"] style:UIBarButtonItemStyleDone target:self action:@selector(searchButtonTouchUp:)];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:[UIImage imageNamed:@"ic_search"] scaleToSize:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)] style:UIBarButtonItemStyleDone target:self action:@selector(searchButtonTouchUp:)];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 }
 
 - (void)initializeChildViewControllers{
-    PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([PostViewController class])];
+    AutorViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([AutorViewController class])];
     ListViewController *listViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
     
     [self.childViewControllers addObject: listViewController];
