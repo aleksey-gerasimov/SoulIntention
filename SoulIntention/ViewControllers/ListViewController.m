@@ -8,6 +8,7 @@
 
 #import "ListViewController.h"
 #import "ListTableViewCell.h"
+#import "PostViewController.h"
 
 @interface ListViewController ()
 
@@ -21,7 +22,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.tableView.allowsSelection = NO;
+    //self.tableView.allowsSelection = NO;
 }
 
 #pragma mark - Private Methods
@@ -40,8 +41,10 @@
    return 5;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"row : %d", indexPath.row);
+    PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PostViewController"];
+    [self.navigationController pushViewController:postViewController animated:YES];
 }
 
 @end

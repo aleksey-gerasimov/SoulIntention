@@ -8,6 +8,8 @@
 
 #import "ListTableViewCell.h"
 
+#define SWIPE_OFFSET 107.f
+
 @implementation ListTableViewCell
 
 #pragma mark - Lifecycle
@@ -16,6 +18,18 @@
     // Initialization code
     [self initGestureRecognizer];
 }
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+-(UIEdgeInsets)layoutMargins{
+    return UIEdgeInsetsZero;
+}
+
+#pragma mark - Private Methods
 
 - (void)initGestureRecognizer{
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeToLeftWithGestureRecognizer:)];
@@ -28,32 +42,36 @@
     [self.cellView addGestureRecognizer: swipeRight];
 }
 
+#pragma mark - IBActions
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (IBAction)favoriteButtonTouchUpInside:(id)sender {
+    NSLog(@"favorite button");
 }
 
--(UIEdgeInsets)layoutMargins{
-    return UIEdgeInsetsZero;
+- (IBAction)facebookButtonTouchUpInside:(id)sender {
+    NSLog(@"facebook button");
 }
+
+- (IBAction)twitterButtonTouchUpInside:(id)sender {
+    NSLog(@"twitter button");
+}
+
 
 #pragma mark - Swipe Gesture Recognizer
 
 - (void)swipeToRightWithGestureRecognizer:(UIGestureRecognizer*)gestureRecogniser{
     [UIView animateWithDuration:0.5f animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, 150.f, 0.f);
-        self.socialView.frame = CGRectOffset(self.socialView.frame, 150.f, 0.f);
-        self.likeView.frame = CGRectOffset(self.likeView.frame, 150.f, 0.f);
+        self.cellView.frame = CGRectOffset(self.cellView.frame, SWIPE_OFFSET, 0.f);
+        self.socialView.frame = CGRectOffset(self.socialView.frame, SWIPE_OFFSET, 0.f);
+        self.likeView.frame = CGRectOffset(self.likeView.frame, SWIPE_OFFSET, 0.f);
     }];
 }
 
 - (void)swipeToLeftWithGestureRecognizer:(UIGestureRecognizer*)gestureRecogniser{
     [UIView animateWithDuration:0.5f animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, -150.f, 0.f);
-        self.socialView.frame = CGRectOffset(self.socialView.frame, -150.f, 0.f);
-        self.likeView.frame = CGRectOffset(self.likeView.frame, -150.f, 0.f);
+        self.cellView.frame = CGRectOffset(self.cellView.frame, -SWIPE_OFFSET, 0.f);
+        self.socialView.frame = CGRectOffset(self.socialView.frame, -SWIPE_OFFSET, 0.f);
+        self.likeView.frame = CGRectOffset(self.likeView.frame, -SWIPE_OFFSET, 0.f);
     }];
 }
 

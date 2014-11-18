@@ -10,4 +10,13 @@
 
 @implementation PostViewController
 
+- (IBAction)facebookButtonTouchUpInside:(id)sender {
+    NSLog(@"facebook button");
+}
+
+- (IBAction)twitterButtonTouchUpInside:(id)sender {
+    NSLog(@"twitter button");
+}
+
+
 @end

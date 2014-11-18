@@ -10,6 +10,8 @@
 #import "ListViewController.h"
 #import "PostViewController.h"
 
+#define LIST_VIEW_CONTROLLER 0
+
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
     AutorChildViewController = 1,
@@ -36,7 +38,9 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.childViewControllers = [NSMutableArray new];
     
     [self initializeChildViewControllers];
+    [self setFirstViewController];
     [self setButtonsTarget];
+    [self setCustomBarButtons];
 }
 
 #pragma mark - IBAction
@@ -50,18 +54,15 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     
     switch (button.tag) {
         case SoulsChildViewController:{
-            NSLog(@"SoulsChildViewController");
-            [self displayChildViewControllersWithTag: button.tag];
+            [self displayChildViewControllersWithTag:button.tag];
             break;
         }
         case AutorChildViewController:{
-            NSLog(@"AutorChildViewController");
-            [self displayChildViewControllersWithTag: button.tag];
+            [self displayChildViewControllersWithTag:button.tag];
             break;
         }
         case FavoritesChildViewController:{
-            NSLog(@"FavoritesChildViewController");
-            [self displayChildViewControllersWithTag: 0];
+            [self displayChildViewControllersWithTag:LIST_VIEW_CONTROLLER];
             break;
         }
         default:
@@ -71,12 +72,23 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 #pragma mark - Private Methods
 
+- (void)setCustomBarButtons{
+    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_logo"] style:UIBarButtonItemStylePlain target:self action:nil];
+    self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_search"] style:UIBarButtonItemStyleDone target:self action:@selector(searchButtonTouchUp:)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+}
+
 - (void)initializeChildViewControllers{
     PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([PostViewController class])];
     ListViewController *listViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
     
     [self.childViewControllers addObject: listViewController];
     [self.childViewControllers addObject: postViewController];
+}
+
+- (void)setFirstViewController{
+    [self displayChildViewControllersWithTag:LIST_VIEW_CONTROLLER];
 }
 
 - (void)setButtonsTarget{
