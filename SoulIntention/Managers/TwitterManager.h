@@ -10,4 +10,8 @@
 
 @interface TwitterManager : NSObject
 
++ (instancetype)sharedManager;
+
+- (void)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url;
+
 @end
