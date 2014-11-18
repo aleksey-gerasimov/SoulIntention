@@ -9,11 +9,18 @@
 /* Begin PBXBuildFile section */
 		5B4833C91A1B1B1100CA240D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833C81A1B1B1100CA240D /* main.m */; };
 		5B4833CC1A1B1B1100CA240D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833CB1A1B1B1100CA240D /* AppDelegate.m */; };
-		5B4833CF1A1B1B1100CA240D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833CE1A1B1B1100CA240D /* ViewController.m */; };
 		5B4833D21A1B1B1100CA240D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B4833D01A1B1B1100CA240D /* Main.storyboard */; };
 		5B4833D41A1B1B1100CA240D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B4833D31A1B1B1100CA240D /* Images.xcassets */; };
 		5B4833D71A1B1B1100CA240D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B4833D51A1B1B1100CA240D /* LaunchScreen.xib */; };
 		5B4833E31A1B1B1100CA240D /* SoulIntentionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833E21A1B1B1100CA240D /* SoulIntentionTests.m */; };
+		5B4834001A1B1B5100CA240D /* FacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833EE1A1B1B5100CA240D /* FacebookManager.m */; };
+		5B4834011A1B1B5100CA240D /* SoulIntentionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833F01A1B1B5100CA240D /* SoulIntentionManager.m */; };
+		5B4834021A1B1B5100CA240D /* TwitterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833F21A1B1B5100CA240D /* TwitterManager.m */; };
+		5B4834031A1B1B5100CA240D /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833F51A1B1B5100CA240D /* Post.m */; };
+		5B4834041A1B1B5100CA240D /* ListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833F81A1B1B5100CA240D /* ListTableViewCell.m */; };
+		5B4834051A1B1B5100CA240D /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FB1A1B1B5100CA240D /* ListViewController.m */; };
+		5B4834061A1B1B5100CA240D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FD1A1B1B5100CA240D /* MainViewController.m */; };
+		5B4834071A1B1B5100CA240D /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FF1A1B1B5100CA240D /* PostViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +39,28 @@
 		5B4833C81A1B1B1100CA240D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5B4833CA1A1B1B1100CA240D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5B4833CB1A1B1B1100CA240D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		5B4833CD1A1B1B1100CA240D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		5B4833CE1A1B1B1100CA240D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		5B4833D11A1B1B1100CA240D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B4833D31A1B1B1100CA240D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5B4833D61A1B1B1100CA240D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5B4833DC1A1B1B1100CA240D /* SoulIntentionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulIntentionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4833E11A1B1B1100CA240D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B4833E21A1B1B1100CA240D /* SoulIntentionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoulIntentionTests.m; sourceTree = "<group>"; };
+		5B4833ED1A1B1B5100CA240D /* FacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookManager.h; sourceTree = "<group>"; };
+		5B4833EE1A1B1B5100CA240D /* FacebookManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookManager.m; sourceTree = "<group>"; };
+		5B4833EF1A1B1B5100CA240D /* SoulIntentionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoulIntentionManager.h; sourceTree = "<group>"; };
+		5B4833F01A1B1B5100CA240D /* SoulIntentionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoulIntentionManager.m; sourceTree = "<group>"; };
+		5B4833F11A1B1B5100CA240D /* TwitterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterManager.h; sourceTree = "<group>"; };
+		5B4833F21A1B1B5100CA240D /* TwitterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterManager.m; sourceTree = "<group>"; };
+		5B4833F41A1B1B5100CA240D /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
+		5B4833F51A1B1B5100CA240D /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
+		5B4833F71A1B1B5100CA240D /* ListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewCell.h; sourceTree = "<group>"; };
+		5B4833F81A1B1B5100CA240D /* ListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewCell.m; sourceTree = "<group>"; };
+		5B4833FA1A1B1B5100CA240D /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		5B4833FB1A1B1B5100CA240D /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		5B4833FC1A1B1B5100CA240D /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		5B4833FD1A1B1B5100CA240D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		5B4833FE1A1B1B5100CA240D /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
+		5B4833FF1A1B1B5100CA240D /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +102,12 @@
 		5B4833C51A1B1B1100CA240D /* SoulIntention */ = {
 			isa = PBXGroup;
 			children = (
+				5B4833EC1A1B1B5100CA240D /* Managers */,
+				5B4833F31A1B1B5100CA240D /* Models */,
+				5B4833F61A1B1B5100CA240D /* TableViewCells */,
+				5B4833F91A1B1B5100CA240D /* ViewControllers */,
 				5B4833CA1A1B1B1100CA240D /* AppDelegate.h */,
 				5B4833CB1A1B1B1100CA240D /* AppDelegate.m */,
-				5B4833CD1A1B1B1100CA240D /* ViewController.h */,
-				5B4833CE1A1B1B1100CA240D /* ViewController.m */,
 				5B4833D01A1B1B1100CA240D /* Main.storyboard */,
 				5B4833D31A1B1B1100CA240D /* Images.xcassets */,
 				5B4833D51A1B1B1100CA240D /* LaunchScreen.xib */,
@@ -117,6 +140,50 @@
 				5B4833E11A1B1B1100CA240D /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5B4833EC1A1B1B5100CA240D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5B4833ED1A1B1B5100CA240D /* FacebookManager.h */,
+				5B4833EE1A1B1B5100CA240D /* FacebookManager.m */,
+				5B4833EF1A1B1B5100CA240D /* SoulIntentionManager.h */,
+				5B4833F01A1B1B5100CA240D /* SoulIntentionManager.m */,
+				5B4833F11A1B1B5100CA240D /* TwitterManager.h */,
+				5B4833F21A1B1B5100CA240D /* TwitterManager.m */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		5B4833F31A1B1B5100CA240D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5B4833F41A1B1B5100CA240D /* Post.h */,
+				5B4833F51A1B1B5100CA240D /* Post.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5B4833F61A1B1B5100CA240D /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				5B4833F71A1B1B5100CA240D /* ListTableViewCell.h */,
+				5B4833F81A1B1B5100CA240D /* ListTableViewCell.m */,
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		5B4833F91A1B1B5100CA240D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5B4833FA1A1B1B5100CA240D /* ListViewController.h */,
+				5B4833FB1A1B1B5100CA240D /* ListViewController.m */,
+				5B4833FC1A1B1B5100CA240D /* MainViewController.h */,
+				5B4833FD1A1B1B5100CA240D /* MainViewController.m */,
+				5B4833FE1A1B1B5100CA240D /* PostViewController.h */,
+				5B4833FF1A1B1B5100CA240D /* PostViewController.m */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,9 +286,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B4833CF1A1B1B1100CA240D /* ViewController.m in Sources */,
+				5B4834021A1B1B5100CA240D /* TwitterManager.m in Sources */,
+				5B4834031A1B1B5100CA240D /* Post.m in Sources */,
+				5B4834051A1B1B5100CA240D /* ListViewController.m in Sources */,
 				5B4833CC1A1B1B1100CA240D /* AppDelegate.m in Sources */,
+				5B4834071A1B1B5100CA240D /* PostViewController.m in Sources */,
+				5B4834061A1B1B5100CA240D /* MainViewController.m in Sources */,
+				5B4834001A1B1B5100CA240D /* FacebookManager.m in Sources */,
+				5B4834041A1B1B5100CA240D /* ListTableViewCell.m in Sources */,
 				5B4833C91A1B1B1100CA240D /* main.m in Sources */,
+				5B4834011A1B1B5100CA240D /* SoulIntentionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +486,7 @@
 				5B4833E81A1B1B1100CA240D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5B4833E91A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntentionTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +495,7 @@
 				5B4833EB1A1B1B1100CA240D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
