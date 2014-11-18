@@ -25,9 +25,6 @@
     //self.tableView.allowsSelection = NO;
 }
 
-#pragma mark - Private Methods
-
-
 #pragma mark - TableView DataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -38,11 +35,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 #warning hardcode
-   return 5;
+   return 4;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"row : %d", indexPath.row);
     PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PostViewController"];
     [self.navigationController pushViewController:postViewController animated:YES];
 }

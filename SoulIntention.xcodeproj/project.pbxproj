@@ -24,6 +24,7 @@
 		5B8CAA651A1B579C0056020B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA641A1B579C0056020B /* Social.framework */; };
 		5B8CAA671A1B57A80056020B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA661A1B57A80056020B /* Accounts.framework */; };
 		84CE291B1A1B393300109DC3 /* AutorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE291A1A1B393300109DC3 /* AutorViewController.m */; };
+		84CE29211A1B690C00109DC3 /* UIImage+ScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */; };
 		B5884602BAEE1AFCDF27C19E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 064D9156E3CB37447070654F /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,8 @@
 		84CE29191A1B393300109DC3 /* AutorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutorViewController.h; sourceTree = "<group>"; };
 		84CE291A1A1B393300109DC3 /* AutorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutorViewController.m; sourceTree = "<group>"; };
 		84CE291C1A1B43C600109DC3 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		84CE291F1A1B690C00109DC3 /* UIImage+ScaleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ScaleImage.h"; sourceTree = "<group>"; };
+		84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ScaleImage.m"; sourceTree = "<group>"; };
 		93C806F357FC21F764DB28CC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +122,7 @@
 		5B4833C51A1B1B1100CA240D /* SoulIntention */ = {
 			isa = PBXGroup;
 			children = (
+				84CE291E1A1B68DE00109DC3 /* Categories */,
 				5B4833EC1A1B1B5100CA240D /* Managers */,
 				5B4833F31A1B1B5100CA240D /* Models */,
 				5B4833F61A1B1B5100CA240D /* TableViewCells */,
@@ -203,6 +207,15 @@
 				84CE291A1A1B393300109DC3 /* AutorViewController.m */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		84CE291E1A1B68DE00109DC3 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				84CE291F1A1B690C00109DC3 /* UIImage+ScaleImage.h */,
+				84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		8808F7AE4B21F6B00E5A001D /* Pods */ = {
@@ -370,6 +383,7 @@
 				5B4834001A1B1B5100CA240D /* FacebookManager.m in Sources */,
 				5B4834041A1B1B5100CA240D /* ListTableViewCell.m in Sources */,
 				5B4833C91A1B1B1100CA240D /* main.m in Sources */,
+				84CE29211A1B690C00109DC3 /* UIImage+ScaleImage.m in Sources */,
 				5B4834011A1B1B5100CA240D /* SoulIntentionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
