@@ -12,6 +12,6 @@
 
 + (instancetype)sharedManager;
 
-- (void)presentShareDialogWithName:(NSString *)name caption:(NSString *)caption description:(NSString *)description link:(NSURL *)link picture:(NSURL *)picture;
+- (void)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url;
 
 @end

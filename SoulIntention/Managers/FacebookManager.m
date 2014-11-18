@@ -7,8 +7,10 @@
 //
 
 #import <FacebookSDK/FacebookSDK.h>
+#import <Social/Social.h>
 
 #import "FacebookManager.h"
+#import "AppDelegate.h"
 
 @implementation FacebookManager
 
@@ -25,6 +27,24 @@
 }
 
 #pragma mark - Public
+
+- (void)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
+{
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        SLComposeViewController *viewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        [viewController setInitialText:text];
+        UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
+        [viewController addImage:picture];
+        [viewController addURL:url];
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        [appDelegate.window.rootViewController presentViewController:viewController animated:YES completion:nil];
+    } else {
+        NSLog(@"Facebook is not available on the device");
+        [self presentShareDialogWithName:text caption:nil description:nil link:url picture:image];
+    }
+}
+
+#pragma mark - Private
 
 - (void)presentShareDialogWithName:(NSString *)name caption:(NSString *)caption description:(NSString *)description link:(NSURL *)link picture:(NSURL *)picture
 {
