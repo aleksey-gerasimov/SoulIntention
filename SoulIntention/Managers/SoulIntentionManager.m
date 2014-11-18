@@ -21,6 +21,8 @@ NSString *const kBaseURLString = @"";
 
 @implementation SoulIntentionManager
 
+#pragma mark - Lifecycle
+
 + (instancetype)sharedManager
 {
     static SoulIntentionManager *instance = nil;
@@ -34,6 +36,8 @@ NSString *const kBaseURLString = @"";
     });
     return instance;
 }
+
+#pragma mark - Private
 
 - (void)prepear
 {

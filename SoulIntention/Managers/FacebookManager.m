@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 ThinkMobiles. All rights reserved.
 //
 
+#import <FacebookSDK/FacebookSDK.h>
+
 #import "FacebookManager.h"
 
 @implementation FacebookManager
+
+#pragma mark - Lifecycle
 
 + (instancetype)sharedManager
 {
@@ -20,50 +24,41 @@
     return instance;
 }
 
-- (void)addLoginButtonOnView:(UIView *)parentView
-{
-    FBLoginView *loginView = [FBLoginView new];
-    loginView.center = parentView.center;
-    [parentView addSubview:loginView];
-}
+#pragma mark - Public
 
-- (void)showShareDialogOnViewController:(UIViewController *)viewController text:(NSString *)text image:(UIImage *)image url:(NSURL *)url
+- (void)presentShareDialogWithName:(NSString *)name caption:(NSString *)caption description:(NSString *)description link:(NSURL *)link picture:(NSURL *)picture
 {
-    if (![FBDialogs canPresentOSIntegratedShareDialog]) {
-        NSLog(@"Facebook shareDialog cannot be presented");
-        return;
-    }
-
-    if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
-        NSLog(@"Facebook session state = %lu", FBSession.activeSession.state);
-        BOOL shareDialogShowed = [FBDialogs presentOSIntegratedShareDialogModallyFrom:viewController initialText:text image:image url:url handler:^(FBOSIntegratedShareDialogResult result, NSError *error) {
-            switch (result) {
-                case FBOSIntegratedShareDialogResultSucceeded:
-                    NSLog(@"Facebook shareDialog succeeded");
-                    break;
-                case FBOSIntegratedShareDialogResultCancelled:
-                    NSLog(@"Facebook shareDialog cancelled");
-                    break;
-                case FBOSIntegratedShareDialogResultError:
-                    NSLog(@"Facebook shareDialog error: %@", error);
-                    break;
-            }
-        }];
-        NSLog(@"Facebook shareDialog showed = %i", shareDialogShowed);
-    } else if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        [FBSession openActiveSessionWithPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceFriends allowLoginUI:NO completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+    if ([FBDialogs canPresentShareDialog]) {
+        [FBDialogs presentShareDialogWithLink:link name:name caption:caption description:description picture:picture clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
             if (error) {
-                NSLog(@"Facebook login error: %@", [error localizedDescription]);
+                NSLog(@"Facebook present share dialog error: %@", [error localizedDescription]);
             } else {
-                NSLog(@"Facebook login success");
+                NSLog(@"Facebook present share dialog success");
             }
         }];
     } else {
-        [FBSession openActiveSessionWithPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceFriends allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+        NSMutableDictionary *parameters = [NSMutableDictionary new];
+        if (name) {
+            parameters[@"name"] = name;
+        }
+        if (caption) {
+            parameters[@"caption"] = caption;
+        }
+        if (description) {
+            parameters[@"description"] = description;
+        }
+        if (link) {
+            parameters[@"link"] = link.absoluteString;
+        }
+        if (picture) {
+            parameters[@"picture"] = picture.absoluteString;
+        }
+
+        [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:parameters handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
             if (error) {
-                NSLog(@"Facebook login error: %@", [error localizedDescription]);
+                NSLog(@"Facebook present feed dialog modally error: %@", [error localizedDescription]);
             } else {
-                NSLog(@"Facebook login success");
+                NSLog(@"Facebook present feed dialog modally success");
             }
         }];
     }
