@@ -67,7 +67,7 @@ static CGFloat const ICON_HEIGHT = 22.f;
 - (void)setPost:(Post *)post
 {
     _post = post;
-    if (!_post.images) {
+    if (_post.images) {
         self.postPictureHeightConstraint.constant = 0;
         [self.view layoutIfNeeded];
     }

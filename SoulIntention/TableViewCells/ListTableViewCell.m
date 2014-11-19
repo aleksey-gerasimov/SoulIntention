@@ -75,29 +75,27 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
 - (void)subscribeToNotificationCenter
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged) name:@"Swipe" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:@"Swipe" object:nil];
 }
 
-- (void)cellStateChanged
+- (void)cellStateChanged:(NSNotification *)notification
 {
-    if (self.cellType == CellTypeCenter) {
-        return;
+    if ([notification object] != self.post.postId) {
+        switch (self.cellType) {
+            case CellTypeCenter:
+                break;
+            case CellTypeLeft:
+                [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight];
+                self.cellType = CellTypeCenter;
+                break;
+            case CellTypeRight:
+                [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft];
+                self.cellType = CellTypeCenter;
+                break;
+            default:
+                break;
+        }
     }
-    if (self.cellType == CellTypeRight) {
-        [UIView animateWithDuration:0.5f animations:^{
-            self.cellView.frame = CGRectOffset(self.cellView.frame, -SWIPE_OFFSET, 0.f);
-            self.socialView.frame = CGRectOffset(self.socialView.frame, -SWIPE_OFFSET, 0.f);
-            self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, -SWIPE_OFFSET, 0.f);
-        }];
-    }
-    if (self.cellType == CellTypeLeft) {
-        [UIView animateWithDuration:0.5f animations:^{
-            self.cellView.frame = CGRectOffset(self.cellView.frame, SWIPE_OFFSET, 0.f);
-            self.socialView.frame = CGRectOffset(self.socialView.frame, SWIPE_OFFSET, 0.f);
-            self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, SWIPE_OFFSET, 0.f);
-        }];
-    }
-    self.cellType = CellTypeCenter;
 }
 
 - (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction
@@ -111,7 +109,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
         self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
         self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"Swipe" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Swipe" object:self.post.postId];
     }];
     
 }

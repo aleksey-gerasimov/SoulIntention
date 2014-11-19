@@ -66,7 +66,9 @@ static NSInteger const PostsLimit = 5;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PostViewController class])];
-    postViewController.post = self.posts[indexPath.row];
+    if (self.posts != nil) {
+        postViewController.post = self.posts[indexPath.row];
+    }
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
