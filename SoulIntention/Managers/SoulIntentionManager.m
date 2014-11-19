@@ -11,7 +11,7 @@
 #import "SoulIntentionManager.h"
 #import "Post.h"
 
-NSString *const kBaseURLString = @"http://134.249.164.53:8077/";
+NSString *const kBaseURLString = @"http://134.249.164.53:8077";
 NSString *const kStartSession = @"/startMobile";
 NSString *const kPosts = @"/post";
 NSString *const kFavourites = @"/favourite";
@@ -36,20 +36,28 @@ NSString *const kAuthorDescription = @"/about";
         NSURL *baseURL = [NSURL URLWithString:kBaseURLString];
         AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:baseURL];
         instance.restManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-        [instance prepear];
+        [instance configureManager];
     });
     return instance;
 }
 
 #pragma mark - Private
 
-- (void)prepear
+- (void)configureManager
 {
-    RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
-    [postMapping addAttributeMappingsFromArray:@[@"title", @"text", @"date", @"author", @"pictures"]];
+    NSMutableArray *responseDescriptors = [NSMutableArray new];
+    RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:nil];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:sessionMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
 
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:@"" keyPath:@"" statusCodes:nil];
-    [self.restManager addResponseDescriptor:responseDescriptor];
+    RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
+    [postMapping addAttributeMappingsFromDictionary:@{@"id" : @"postId",
+                                                      @"title" : @"title",
+                                                      @"details" : @"text",
+                                                      @"author.full_name" : @"author",
+                                                      @"images" : @"images"}];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
+
+    [self.restManager addResponseDescriptorsFromArray:responseDescriptors];
 }
 
 #pragma mark - Public

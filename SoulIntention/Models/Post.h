@@ -12,8 +12,8 @@
 
 @property (strong, nonatomic) NSNumber *postId;
 @property (strong, nonatomic) NSString *title;
-@property (strong, nonatomic) NSString *details;
-@property (strong, nonatomic) NSDate *created_at;
+@property (strong, nonatomic) NSString *text;
+@property (strong, nonatomic) NSDate *creationDate;
 @property (strong, nonatomic) NSString *author;
 @property (strong, nonatomic) NSArray *images;
 

@@ -12,6 +12,9 @@
 #import "AutorViewController.h"
 #import "UIImage+ScaleImage.h"
 
+#import "SoulIntentionManager.h"
+#import "Post.h"
+
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static CGFloat const LIST_VIEW_CONTROLLER = 0.f;
@@ -54,6 +57,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (IBAction)searchButtonTouchUp:(id)sender
 {
     NSLog(@"Search Button Press");
+    [[SoulIntentionManager sharedManager] getPostsWithOffset:0 limit:10 completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        NSLog(@"result = %@", result);
+        Post *post = [result lastObject];
+        NSString *url = ((NSDictionary *)[post.images firstObject])[@"image_url"];
+    }];
 }
 
 - (void)menuButtonTouchUpInside:(id)sender
