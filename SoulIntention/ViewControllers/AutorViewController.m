@@ -16,7 +16,8 @@
 
 #pragma mark - Lifecycle
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
 }

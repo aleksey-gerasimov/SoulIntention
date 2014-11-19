@@ -8,7 +8,6 @@
         <!--Main View Controller-->
         <scene sceneID="nOd-I9-Hp6">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kXT-Ty-mgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="ABk-ys-SmN" userLabel="Main View Controller" customClass="MainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8wM-LN-3cL"/>
@@ -100,7 +99,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Soul Intention" id="gAs-Ac-alI">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="ic_logo" width="22" style="plain" id="Krf-4l-aag">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="ic_logo" width="22" id="Krf-4l-aag">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="1ky-oy-UqR" userLabel="SearchBarButton">
@@ -118,13 +117,13 @@
                         <outlet property="soulsButton" destination="lhc-ZF-UEv" id="rRN-xU-hfB"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kXT-Ty-mgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1977" y="570"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="LMc-5T-Pmc">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ScQ-pq-Chd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="ListViewController" id="lnc-Tb-wOR" customClass="ListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PGi-4f-Ybm"/>
@@ -139,7 +138,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" rowHeight="144" id="ZwS-4s-j5U" customClass="ListTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" rowHeight="144" id="ZwS-4s-j5U" customClass="ListTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="ZwS-4s-j5U" id="qiT-gs-Yuv">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -189,6 +188,31 @@
                                                             <exclude reference="bsQ-gg-W9e"/>
                                                         </mask>
                                                     </variation>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LIT-vh-wom" userLabel="leftView">
+                                                    <rect key="frame" x="-107" y="0.0" width="107" height="143"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xnn-4h-NtV" userLabel="favoriteButton">
+                                                            <rect key="frame" x="12" y="56" width="31" height="31"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="31" id="8Ff-iW-HxG"/>
+                                                                <constraint firstAttribute="width" constant="31" id="kIO-Su-r4n"/>
+                                                            </constraints>
+                                                            <state key="normal" image="ic_favorite">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="favoriteButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="F6w-Ua-jJd"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.96470588235294119" green="0.74509803921568629" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="xnn-4h-NtV" firstAttribute="leading" secondItem="LIT-vh-wom" secondAttribute="leading" constant="12" id="X4a-An-GQp"/>
+                                                        <constraint firstAttribute="width" constant="107" id="bZ4-vB-mcY"/>
+                                                        <constraint firstAttribute="height" constant="143" id="cPK-3G-LU0"/>
+                                                        <constraint firstAttribute="centerY" secondItem="xnn-4h-NtV" secondAttribute="centerY" id="eg9-0U-5QI"/>
+                                                    </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGp-DM-fBr" userLabel="centerView">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="143"/>
@@ -265,31 +289,6 @@
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LIT-vh-wom" userLabel="leftView">
-                                                    <rect key="frame" x="-107" y="0.0" width="107" height="143"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xnn-4h-NtV" userLabel="favoriteButton">
-                                                            <rect key="frame" x="12" y="56" width="31" height="31"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="31" id="8Ff-iW-HxG"/>
-                                                                <constraint firstAttribute="width" constant="31" id="kIO-Su-r4n"/>
-                                                            </constraints>
-                                                            <state key="normal" image="ic_favorite">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="favoriteButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="F6w-Ua-jJd"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.96470588235294119" green="0.74509803921568629" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstItem="xnn-4h-NtV" firstAttribute="leading" secondItem="LIT-vh-wom" secondAttribute="leading" constant="12" id="X4a-An-GQp"/>
-                                                        <constraint firstAttribute="width" constant="107" id="bZ4-vB-mcY"/>
-                                                        <constraint firstAttribute="height" constant="143" id="cPK-3G-LU0"/>
-                                                        <constraint firstAttribute="centerY" secondItem="xnn-4h-NtV" secondAttribute="centerY" id="eg9-0U-5QI"/>
-                                                    </constraints>
-                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="P8x-zV-K8h" firstAttribute="leading" secondItem="UGp-DM-fBr" secondAttribute="trailing" id="3K7-fD-b2i"/>
@@ -363,6 +362,7 @@
                         <outlet property="tableView" destination="DVK-AM-EMT" id="AX5-qr-IjN"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ScQ-pq-Chd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2465" y="198"/>
         </scene>
@@ -500,9 +500,9 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="hzy-ae-VBm"/>
                                 <exclude reference="gpz-Pv-vlt"/>
                                 <exclude reference="jmb-4X-01t"/>
-                                <exclude reference="hzy-ae-VBm"/>
                             </mask>
                         </variation>
                     </view>
