@@ -8,10 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TwitterManager : NSObject
+#import "SocialManager.h"
 
-+ (instancetype)sharedManager;
-
-- (void)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url;
+@interface TwitterManager : SocialManager
 
 @end

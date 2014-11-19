@@ -35,27 +35,9 @@ static NSString *const TSTwitterPostRequestURL = @"https://api.twitter.com/1.1/s
     return instance;
 }
 
-- (void)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
+- (BOOL)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
 {
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
-        SLComposeViewController *viewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        if (text) {
-            [viewController setInitialText:text];
-        }
-        if (image) {
-#warning Synhronous load; should be replaced after API released
-            UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
-            [viewController addImage:picture];
-        }
-        if (url) {
-            [viewController addURL:url];
-        }
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        [appDelegate.window.rootViewController presentViewController:viewController animated:YES completion:nil];
-    } else {
-        NSLog(@"Twitter is not available on the device");
-        [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please, setup your twitter account in Settings" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
+    return [super presentShareDialogWithText:text image:image url:url];
 }
 
 //#pragma mark - Private
