@@ -11,6 +11,8 @@
 #define SWIPE_OFFSET 107.f
 
 #import "ListTableViewCell.h"
+#import "FacebookManager.h"
+#import "TwitterManager.h"
 #import "UIImage+ScaleImage.h"
 
 typedef NS_ENUM(NSInteger, ActiveCellType) {
@@ -87,10 +89,12 @@ typedef NS_ENUM(NSInteger, ActiveCellType) {
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {
     NSLog(@"facebook button");
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text image:nil url:nil];
 }
 
 - (IBAction)twitterButtonTouchUpInside:(id)sender {
     NSLog(@"twitter button");
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text image:nil url:nil];
 }
 
 

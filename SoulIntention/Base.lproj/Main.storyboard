@@ -8,7 +8,6 @@
         <!--Main View Controller-->
         <scene sceneID="nOd-I9-Hp6">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kXT-Ty-mgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="ABk-ys-SmN" userLabel="Main View Controller" customClass="MainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8wM-LN-3cL"/>
@@ -118,13 +117,13 @@
                         <outlet property="soulsButton" destination="lhc-ZF-UEv" id="rRN-xU-hfB"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kXT-Ty-mgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1977" y="570"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="LMc-5T-Pmc">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ScQ-pq-Chd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="ListViewController" id="lnc-Tb-wOR" customClass="ListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PGi-4f-Ybm"/>
@@ -363,6 +362,7 @@
                         <outlet property="tableView" destination="DVK-AM-EMT" id="AX5-qr-IjN"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ScQ-pq-Chd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2465" y="198"/>
         </scene>
@@ -500,9 +500,9 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="hzy-ae-VBm"/>
                                 <exclude reference="gpz-Pv-vlt"/>
                                 <exclude reference="jmb-4X-01t"/>
-                                <exclude reference="hzy-ae-VBm"/>
                             </mask>
                         </variation>
                     </view>
