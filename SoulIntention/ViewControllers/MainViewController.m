@@ -12,9 +12,6 @@
 #import "AutorViewController.h"
 #import "UIImage+ScaleImage.h"
 
-#import "SoulIntentionManager.h"
-#import "Post.h"
-
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static CGFloat const LIST_VIEW_CONTROLLER = 0.f;

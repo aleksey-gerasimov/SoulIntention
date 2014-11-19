@@ -10,6 +10,7 @@
 
 #import "SoulIntentionManager.h"
 #import "Post.h"
+#import "Author.h"
 
 NSString *const kBaseURLString = @"http://134.249.164.53:8077";
 NSString *const kStartSession = @"/startMobile";
@@ -46,6 +47,7 @@ NSString *const kAuthorDescription = @"/about";
 - (void)configureManager
 {
     NSMutableArray *responseDescriptors = [NSMutableArray new];
+
     RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:nil];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:sessionMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
 
@@ -56,6 +58,26 @@ NSString *const kAuthorDescription = @"/about";
                                                       @"author.full_name" : @"author",
                                                       @"images" : @"images"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *favouriteMapping = [RKObjectMapping mappingForClass:[Post class]];
+    [favouriteMapping addAttributeMappingsFromDictionary:@{@"post.id" : @"postId",
+                                                           @"post.title" : @"title",
+                                                           @"post.details" : @"text",
+                                                           @"post.author.full_name" : @"author",
+                                                           @"post.images" : @"images"}];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *addToFavouritesMapping = [RKObjectMapping mappingForClass:nil];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:addToFavouritesMapping method:RKRequestMethodPOST pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *removeFromFavouritesMapping = [RKObjectMapping mappingForClass:nil];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:removeFromFavouritesMapping method:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *authorMapping = [RKObjectMapping mappingForClass:[Author class]];
+    [authorMapping addAttributeMappingsFromDictionary:@{@"full_name" : @"name",
+                                                        @"about_info" : @"info",
+                                                        @"image_url" : @"image"}];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:authorMapping method:RKRequestMethodGET pathPattern:kAuthorDescription keyPath:@"" statusCodes:nil]];
 
     [self.restManager addResponseDescriptorsFromArray:responseDescriptors];
 }
@@ -128,7 +150,7 @@ NSString *const kAuthorDescription = @"/about";
     }];
 }
 
-- (void)deleteFromFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
+- (void)removeFromFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
     NSDictionary *parameters = @{@"postId" : postId};
     [self.restManager deleteObject:nil path:kFavourites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -151,7 +173,7 @@ NSString *const kAuthorDescription = @"/about";
     [self.restManager getObjectsAtPath:kAuthorDescription parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get author description success");
         if (handler) {
-            handler(YES, nil, nil);
+            handler(YES, [mappingResult array], nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get author description error: %@", [error localizedDescription]);
