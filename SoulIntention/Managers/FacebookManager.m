@@ -28,27 +28,12 @@
 
 #pragma mark - Public
 
-- (void)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
+- (BOOL)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
 {
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        SLComposeViewController *viewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        if (text) {
-            [viewController setInitialText:text];
-        }
-        if (image) {
-#warning Synhronous load; should be replaced after API released
-            UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
-            [viewController addImage:picture];
-        }
-        if (url) {
-            [viewController addURL:url];
-        }
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        [appDelegate.window.rootViewController presentViewController:viewController animated:YES completion:nil];
-    } else {
-        NSLog(@"Facebook is not available on the device");
+    if (![super presentShareDialogWithText:text image:image url:url]) {
         [self presentShareDialogWithName:text caption:nil description:nil link:url picture:image];
     }
+    return YES;
 }
 
 #pragma mark - Private

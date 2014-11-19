@@ -9,6 +9,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "AppDelegate.h"
+#import "SoulIntentionManager.h"
 
 @interface AppDelegate ()
 
@@ -22,6 +23,10 @@
     [[UINavigationBar appearance] setBarTintColor: [UIColor colorWithRed: 86/255.f green: 58/255.f blue: 97/255.f alpha: 1.f]];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
     [[UINavigationBar appearance] setTranslucent: NO];
+
+    NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+    [[SoulIntentionManager sharedManager] startSessionWithDeviceId:deviceId completitionHandler:nil];
+
     return YES;
 }
 

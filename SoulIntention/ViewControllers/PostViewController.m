@@ -42,12 +42,12 @@
 
 - (void)facebookButtonPressed{
     NSLog(@"facebook button");
-    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.text image:nil url:nil];
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title image:nil url:nil];
 }
 
 - (void)twitterButtonPressed{
     NSLog(@"twitter button");
-    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.text image:nil url:nil];
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title image:nil url:nil];
 }
 
 - (void)favoriteButtonPressed{
@@ -58,7 +58,7 @@
 
 - (void)setPost:(Post *)post{
     _post = post;
-    if (!_post.pictures) {
+    if (!_post.images) {
         self.postPictureHeightConstraint.constant = 0;
         [self.view layoutIfNeeded];
     }
