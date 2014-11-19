@@ -47,14 +47,14 @@ static CGFloat const ICON_HEIGHT = 22.f;
     self.navigationItem.rightBarButtonItems = @[facebookButtonBarItem, twitterButtonBarItem, favoriteButtonBarItem];
 }
 
-- (void)facebookButtonPressed
-{
+- (void)facebookButtonPressed{
     NSLog(@"PostViewController facebook button press");
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.text image:nil url:nil];
 }
 
-- (void)twitterButtonPressed
-{
+- (void)twitterButtonPressed{
     NSLog(@"PostViewController twitter button press");
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.text image:nil url:nil];
 }
 
 - (void)favoriteButtonPressed

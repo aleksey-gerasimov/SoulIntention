@@ -15,15 +15,20 @@ static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static CGFloat const SWIPE_OFFSET = 107.f;
 
-typedef NS_ENUM(NSInteger, ActiveCellType) {
-    ActiveCellTypeLeft = 0,
-    ActiveCellTypeCenter = 1,
-    ActiveCellTypeRight = 2,
+typedef NS_ENUM(NSInteger, CellType) {
+    CellTypeLeft = 0,
+    CellTypeCenter = 1,
+    CellTypeRight = 2,
+};
+
+typedef NS_ENUM(NSInteger, SwipeDirection) {
+    SwipeDirectionLeft = 0,
+    SwipeDirectionRight = 1,
 };
 
 @interface ListTableViewCell ()
 
-@property (assign, nonatomic) ActiveCellType cellType;
+@property (assign, nonatomic) CellType cellType;
 
 @end
 
@@ -35,7 +40,8 @@ typedef NS_ENUM(NSInteger, ActiveCellType) {
 {
     [self initGestureRecognizer];
     [self setButtonImages];
-    self.cellType = ActiveCellTypeCenter;
+    self.cellType = CellTypeCenter;
+    [self subscribeToNotificationCenter];
 }
 
 -(UIEdgeInsets)layoutMargins
@@ -66,6 +72,70 @@ typedef NS_ENUM(NSInteger, ActiveCellType) {
     [self.twitterButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
 }
 
+- (void)subscribeToNotificationCenter
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged) name:@"Swipe" object:nil];
+}
+
+- (void)cellStateChanged
+{
+    if (self.cellType == CellTypeCenter) {
+        return;
+    }
+    if (self.cellType == CellTypeRight) {
+        [UIView animateWithDuration:0.5f animations:^{
+            self.cellView.frame = CGRectOffset(self.cellView.frame, -SWIPE_OFFSET, 0.f);
+            self.socialView.frame = CGRectOffset(self.socialView.frame, -SWIPE_OFFSET, 0.f);
+            self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, -SWIPE_OFFSET, 0.f);
+        }];
+    }
+    if (self.cellType == CellTypeLeft) {
+        [UIView animateWithDuration:0.5f animations:^{
+            self.cellView.frame = CGRectOffset(self.cellView.frame, SWIPE_OFFSET, 0.f);
+            self.socialView.frame = CGRectOffset(self.socialView.frame, SWIPE_OFFSET, 0.f);
+            self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, SWIPE_OFFSET, 0.f);
+        }];
+        
+    }
+    self.cellType = CellTypeCenter;
+}
+
+- (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction
+{
+    if (direction == SwipeDirectionLeft) {
+        offset = -offset;
+    }
+    
+    [UIView animateWithDuration:0.5f animations:^{
+        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
+        self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
+        self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
+       
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Swipe" object:nil];
+    }];
+    
+}
+
+#pragma mark - IBActions
+
+- (IBAction)favoriteButtonTouchUpInside:(id)sender
+{
+    NSLog(@"ListTableViewCell favorite button pressed");
+}
+
+- (IBAction)facebookButtonTouchUpInside:(id)sender {
+    NSLog(@"ListTableViewCell facebook button pressed");
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text image:nil url:nil];
+}
+
+- (IBAction)twitterButtonTouchUpInside:(id)sender {
+    NSLog(@"ListTableViewCell twitter button pressed");
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text image:nil url:nil];
+}
+
+
+#pragma mark - Swipe Gesture Recognizer
+
 - (void)initGestureRecognizer
 {
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToLeftWithGestureRecognizer:)];
@@ -78,56 +148,18 @@ typedef NS_ENUM(NSInteger, ActiveCellType) {
     [self.cellView addGestureRecognizer:swipeRight];
 }
 
-- (void)swipeRightWithOffset:(CGFloat)offset
-{
-    [UIView animateWithDuration:0.5f animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
-        self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
-        self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
-    }];
-}
-
-- (void)swipeLeftWithOffset:(CGFloat)offset
-{
-    [UIView animateWithDuration:0.5f animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, -offset, 0.f);
-        self.socialView.frame = CGRectOffset(self.socialView.frame, -offset, 0.f);
-        self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, -offset, 0.f);
-    }];
-}
-
-#pragma mark - IBActions
-
-- (IBAction)favoriteButtonTouchUpInside:(id)sender
-{
-    NSLog(@"ListTableViewCell favorite button pressed");
-}
-
-- (IBAction)facebookButtonTouchUpInside:(id)sender
-{
-    NSLog(@"ListTableViewCell facebook button pressed");
-}
-
-- (IBAction)twitterButtonTouchUpInside:(id)sender
-{
-    NSLog(@"ListTableViewCell twitter button pressed");
-}
-
-
-#pragma mark - Swipe Gesture Recognizer
-
-- (void)swipeToRightWithGestureRecognizer:(UISwipeGestureRecognizer *)gestureRecogniser
+- (void)swipeToRightWithGestureRecognizer:(UIGestureRecognizer *)gestureRecogniser
 {
     switch (self.cellType) {
-        case ActiveCellTypeRight:
+        case CellTypeRight:
             break;
-        case ActiveCellTypeLeft:
-            [self swipeRightWithOffset:SWIPE_OFFSET];
-            self.cellType = ActiveCellTypeCenter;
+        case CellTypeLeft:
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight];
+            self.cellType = CellTypeCenter;
             break;
-        case ActiveCellTypeCenter:
-            [self swipeRightWithOffset:SWIPE_OFFSET];
-            self.cellType = ActiveCellTypeRight;
+        case CellTypeCenter:
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight];
+            self.cellType = CellTypeRight;
             break;
     }
 }
@@ -135,15 +167,15 @@ typedef NS_ENUM(NSInteger, ActiveCellType) {
 - (void)swipeToLeftWithGestureRecognizer:(UIGestureRecognizer *)gestureRecogniser
 {
     switch (self.cellType) {
-        case ActiveCellTypeRight:
-            [self swipeLeftWithOffset:SWIPE_OFFSET];
-            self.cellType = ActiveCellTypeCenter;
+        case CellTypeRight:
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft];
+            self.cellType = CellTypeCenter;
             break;
-        case ActiveCellTypeLeft:
+        case CellTypeLeft:
             break;
-        case ActiveCellTypeCenter:
-            [self swipeLeftWithOffset:SWIPE_OFFSET];
-            self.cellType = ActiveCellTypeLeft;
+        case CellTypeCenter:
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft];
+            self.cellType = CellTypeLeft;
             break;
     }
 }
