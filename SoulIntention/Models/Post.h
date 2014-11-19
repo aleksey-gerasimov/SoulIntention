@@ -10,7 +10,7 @@
 
 @interface Post : NSObject
 
-@property (strong, nonatomic) NSNumber *postId;
+@property (strong, nonatomic) NSString *postId;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) NSDate *creationDate;

@@ -10,6 +10,7 @@
 #import "FacebookManager.h"
 #import "TwitterManager.h"
 #import "UIImage+ScaleImage.h"
+#import "SoulIntentionManager.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
@@ -95,7 +96,6 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
             self.socialView.frame = CGRectOffset(self.socialView.frame, SWIPE_OFFSET, 0.f);
             self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, SWIPE_OFFSET, 0.f);
         }];
-        
     }
     self.cellType = CellTypeCenter;
 }
@@ -116,11 +116,25 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     
 }
 
+#pragma mark - Custom Setters
+
+- (void)setPost:(Post *)post
+{
+    _post = post;
+    
+    self.titleLabel.text = _post.title;
+    self.descriptionLabel.text = _post.text;
+    self.dateLabel.text = [NSString stringWithFormat:@"%@ %@", _post.creationDate, _post.author];
+}
+
 #pragma mark - IBActions
 
 - (IBAction)favoriteButtonTouchUpInside:(id)sender
 {
     NSLog(@"ListTableViewCell favorite button pressed");
+    [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        
+    }];
 }
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {

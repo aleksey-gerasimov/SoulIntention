@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const kBaseURLString;
+
 typedef void(^CompletitionHandler)(BOOL success, NSArray *result, NSError *error);
 
 @interface SoulIntentionManager : NSObject

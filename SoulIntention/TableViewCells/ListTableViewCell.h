@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Post.h"
 
 @interface ListTableViewCell : UITableViewCell
 
@@ -24,5 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
+
+@property (strong, nonatomic) Post *post;
 
 @end
