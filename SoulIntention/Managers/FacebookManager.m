@@ -36,6 +36,7 @@
             [viewController setInitialText:text];
         }
         if (image) {
+#warning Synhronous load; should be replaced after API released
             UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
             [viewController addImage:picture];
         }

@@ -166,10 +166,10 @@
 		5B4833EC1A1B1B5100CA240D /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				5B4833ED1A1B1B5100CA240D /* FacebookManager.h */,
-				5B4833EE1A1B1B5100CA240D /* FacebookManager.m */,
 				5B4833EF1A1B1B5100CA240D /* SoulIntentionManager.h */,
 				5B4833F01A1B1B5100CA240D /* SoulIntentionManager.m */,
+				5B4833ED1A1B1B5100CA240D /* FacebookManager.h */,
+				5B4833EE1A1B1B5100CA240D /* FacebookManager.m */,
 				5B4833F11A1B1B5100CA240D /* TwitterManager.h */,
 				5B4833F21A1B1B5100CA240D /* TwitterManager.m */,
 			);

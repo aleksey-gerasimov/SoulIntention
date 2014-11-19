@@ -7,6 +7,8 @@
 //
 
 #import "PostViewController.h"
+#import "FacebookManager.h"
+#import "TwitterManager.h"
 #import "UIImage+ScaleImage.h"
 
 static CGFloat const ICON_WIDTH = 22.f;
