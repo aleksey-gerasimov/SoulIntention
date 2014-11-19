@@ -21,6 +21,7 @@
 		5B4834051A1B1B5100CA240D /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FB1A1B1B5100CA240D /* ListViewController.m */; };
 		5B4834061A1B1B5100CA240D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FD1A1B1B5100CA240D /* MainViewController.m */; };
 		5B4834071A1B1B5100CA240D /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FF1A1B1B5100CA240D /* PostViewController.m */; };
+		5B532A581A1CCC4E00D96279 /* Author.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B532A571A1CCC4E00D96279 /* Author.m */; };
 		5B8CAA651A1B579C0056020B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA641A1B579C0056020B /* Social.framework */; };
 		5B8CAA671A1B57A80056020B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA661A1B57A80056020B /* Accounts.framework */; };
 		5BA250FD1A1CA5C200EA2F57 /* SocialManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA250FC1A1CA5C200EA2F57 /* SocialManager.m */; };
@@ -69,6 +70,8 @@
 		5B4833FD1A1B1B5100CA240D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5B4833FE1A1B1B5100CA240D /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		5B4833FF1A1B1B5100CA240D /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
+		5B532A561A1CCC4E00D96279 /* Author.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Author.h; sourceTree = "<group>"; };
+		5B532A571A1CCC4E00D96279 /* Author.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Author.m; sourceTree = "<group>"; };
 		5B8CAA641A1B579C0056020B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		5B8CAA661A1B57A80056020B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		5BA250FB1A1CA5C100EA2F57 /* SocialManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialManager.h; sourceTree = "<group>"; };
@@ -186,6 +189,8 @@
 			children = (
 				5B4833F41A1B1B5100CA240D /* Post.h */,
 				5B4833F51A1B1B5100CA240D /* Post.m */,
+				5B532A561A1CCC4E00D96279 /* Author.h */,
+				5B532A571A1CCC4E00D96279 /* Author.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -380,6 +385,7 @@
 			files = (
 				5B4834021A1B1B5100CA240D /* TwitterManager.m in Sources */,
 				84CE291B1A1B393300109DC3 /* AutorViewController.m in Sources */,
+				5B532A581A1CCC4E00D96279 /* Author.m in Sources */,
 				5B4834031A1B1B5100CA240D /* Post.m in Sources */,
 				5B4834051A1B1B5100CA240D /* ListViewController.m in Sources */,
 				5B4833CC1A1B1B1100CA240D /* AppDelegate.m in Sources */,

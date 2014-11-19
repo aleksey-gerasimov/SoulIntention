@@ -21,7 +21,7 @@ typedef void(^CompletitionHandler)(BOOL success, NSArray *result, NSError *error
 - (void)getPostsWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler;
 - (void)getFavouritesWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler;
 - (void)addToFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler;
-- (void)deleteFromFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler;
+- (void)removeFromFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler;
 
 - (void)getAuthorDescriptionWithCompletitionHandler:(CompletitionHandler)handler;
 
