@@ -20,8 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIView *socialView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidthConstraint;
-@property (nonatomic) BOOL isSwipeRight;
-@property (nonatomic) BOOL isSwipeLeft;
 
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
