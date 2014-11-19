@@ -43,6 +43,7 @@ static NSString *const TSTwitterPostRequestURL = @"https://api.twitter.com/1.1/s
             [viewController setInitialText:text];
         }
         if (image) {
+#warning Synhronous load; should be replaced after API released
             UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
             [viewController addImage:picture];
         }

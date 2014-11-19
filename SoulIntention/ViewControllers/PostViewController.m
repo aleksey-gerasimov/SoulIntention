@@ -10,6 +10,8 @@
 #define ICON_HEIGHT 22.f
 
 #import "PostViewController.h"
+#import "FacebookManager.h"
+#import "TwitterManager.h"
 #import "UIImage+ScaleImage.h"
 
 @interface PostViewController ()
@@ -40,10 +42,12 @@
 
 - (void)facebookButtonPressed{
     NSLog(@"facebook button");
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.text image:nil url:nil];
 }
 
 - (void)twitterButtonPressed{
     NSLog(@"twitter button");
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.text image:nil url:nil];
 }
 
 - (void)favoriteButtonPressed{
