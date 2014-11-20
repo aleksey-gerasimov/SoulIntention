@@ -10,6 +10,7 @@
 
 #import "SoulIntentionManager.h"
 #import "Post.h"
+#import "Favourite.h"
 #import "Author.h"
 
 NSString *const kBaseURLString = @"http://134.249.164.53:8077";
@@ -47,72 +48,71 @@ NSString *const kAuthorDescription = @"/about";
 
 - (void)configureManager
 {
-    //Start session
-    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kStartSession keyPath:@""];
-    //Get Posts
-    NSDictionary *mappingAttributes = @{@"id" : @"postId",
-                                        @"title" : @"title",
-                                        @"details" : @"text",
-                                        @"author.full_name" : @"author",
-                                        @"images" : @"images"};
-    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kPosts keyPath:@""];
-    //Get favourites
-//    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kFavourites keyPath:@"post"];
-    //Get favourites Ids
-    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@""];
-    //Add to favourites
-    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kFavourites keyPath:@""];
-    //Remove from favourites
-    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@""];
-    //Get Author description
-    mappingAttributes = @{@"full_name" : @"name",
-                          @"about_info" : @"info",
-                          @"image_url" : @"imageURL"};
-    [self addResponseDescriptorForMappingClass:[Author class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kAuthorDescription keyPath:@""];
+//    //Start session
+//    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kStartSession keyPath:@""];
+//    //Get Posts
+//    NSDictionary *mappingAttributes = @{@"id" : @"postId",
+//                                        @"title" : @"title",
+//                                        @"details" : @"text",
+//                                        @"author.full_name" : @"author",
+//                                        @"images" : @"images"};
+//    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kPosts keyPath:@""];
+//    //Get favourites
+////    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kFavourites keyPath:@"post"];
+//    //Get favourites Ids
+//    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:@{@"post_id" : @"postId"} requestMethod:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@""];
+//    //Add to favourites
+//    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kFavourites keyPath:@""];
+//    //Remove from favourites
+//    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@""];
+//    //Get Author description
+//    mappingAttributes = @{@"full_name" : @"name",
+//                          @"about_info" : @"info",
+//                          @"image_url" : @"imageURL"};
+//    [self addResponseDescriptorForMappingClass:[Author class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kAuthorDescription keyPath:@""];
 
-//    NSMutableArray *responseDescriptors = [NSMutableArray new];
-//
-//    RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:nil];
-//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:sessionMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
-//
-//    RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
-//    [postMapping addAttributeMappingsFromDictionary:@{@"id" : @"postId",
-//                                                      @"title" : @"title",
-//                                                      @"details" : @"text",
-//                                                      @"author.full_name" : @"author",
-//                                                      @"images" : @"images"}];
-//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
-//
-//    RKObjectMapping *favouriteMapping = [RKObjectMapping mappingForClass:[Post class]];
-//    [favouriteMapping addAttributeMappingsFromDictionary:@{@"id" : @"postId",
-//                                                           @"title" : @"title",
-//                                                           @"details" : @"text",
-//                                                           @"author.full_name" : @"author",
-//                                                           @"images" : @"images"}];
-//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavourites keyPath:@"post" statusCodes:nil]];
-//
-//    RKObjectMapping *addToFavouritesMapping = [RKObjectMapping mappingForClass:nil];
-//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:addToFavouritesMapping method:RKRequestMethodPOST pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
-//
-//    RKObjectMapping *removeFromFavouritesMapping = [RKObjectMapping mappingForClass:nil];
-//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:removeFromFavouritesMapping method:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
-//
-//    RKObjectMapping *authorMapping = [RKObjectMapping mappingForClass:[Author class]];
-//    [authorMapping addAttributeMappingsFromDictionary:@{@"full_name" : @"name",
-//                                                        @"about_info" : @"info",
-//                                                        @"image_url" : @"image"}];
-//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:authorMapping method:RKRequestMethodGET pathPattern:kAuthorDescription keyPath:@"" statusCodes:nil]];
-//
-//    [self.restManager addResponseDescriptorsFromArray:responseDescriptors];
+    NSMutableArray *responseDescriptors = [NSMutableArray new];
+
+    RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:nil];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:sessionMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
+    [postMapping addAttributeMappingsFromDictionary:@{@"id" : @"postId",
+                                                      @"title" : @"title",
+                                                      @"details" : @"text",
+                                                      @"author.full_name" : @"author",
+                                                      @"images" : @"images"}];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *favouriteMapping = [RKObjectMapping mappingForClass:[Favourite class]];
+    [favouriteMapping addAttributeMappingsFromDictionary:@{@"post_id" : @"postId"}];
+    [favouriteMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"post" toKeyPath:@"post" withMapping:postMapping]];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *addToFavouritesMapping = [RKObjectMapping mappingForClass:nil];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:addToFavouritesMapping method:RKRequestMethodPOST pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *removeFromFavouritesMapping = [RKObjectMapping mappingForClass:nil];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:removeFromFavouritesMapping method:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+
+    RKObjectMapping *authorMapping = [RKObjectMapping mappingForClass:[Author class]];
+    [authorMapping addAttributeMappingsFromDictionary:@{@"full_name" : @"name",
+                                                        @"about_info" : @"info",
+                                                        @"image_url" : @"imageURL"}];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:authorMapping method:RKRequestMethodGET pathPattern:kAuthorDescription keyPath:@"" statusCodes:nil]];
+
+    [self.restManager addResponseDescriptorsFromArray:responseDescriptors];
 }
 
-- (void)addResponseDescriptorForMappingClass:(Class)mappingClass mappingAttributes:(NSDictionary *)mappingAttributes requestMethod:(RKRequestMethod)requestMethod pathPattern:(NSString *)pathPattern keyPath:(NSString *)keyPath
-{
-    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:mappingClass];
-    [objectMapping addAttributeMappingsFromDictionary:mappingAttributes];
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:requestMethod pathPattern:pathPattern keyPath:keyPath statusCodes:nil];
-    [self.restManager addResponseDescriptor:responseDescriptor];
-}
+//- (void)addResponseDescriptorForMappingClass:(Class)mappingClass mappingAttributes:(NSDictionary *)mappingAttributes requestMethod:(RKRequestMethod)requestMethod pathPattern:(NSString *)pathPattern keyPath:(NSString *)keyPath
+//{
+//    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:mappingClass];
+//    [objectMapping addAttributeMappingsFromDictionary:mappingAttributes];
+//    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:requestMethod pathPattern:pathPattern keyPath:keyPath statusCodes:nil];
+//    [self.restManager addResponseDescriptor:responseDescriptor];
+//}
 
 #pragma mark - Public
 
@@ -171,7 +171,7 @@ NSString *const kAuthorDescription = @"/about";
     [self.restManager getObjectsAtPath:kFavouritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get favourites Ids success");
         if (handler) {
-            handler(YES, [[mappingResult array] valueForKey:@"post_id"], nil);
+            handler(YES, [mappingResult array], nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get favourites Ids error: %@", [error localizedDescription]);

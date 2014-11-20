@@ -11,6 +11,7 @@
 #import "PostViewController.h"
 #import "SoulIntentionManager.h"
 #import "Post.h"
+#import "AppDelegate.h"
 
 static NSInteger const PostsOffset = 1;
 static NSInteger const PostsLimit = 5;
@@ -24,6 +25,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (strong, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSArray *posts;
 
 @end
@@ -35,13 +37,28 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.appDelegate = [UIApplication sharedApplication].delegate;
     self.posts = [NSArray new];
-    [self getPosts];
+    if (self.appDelegate.sessionStarted) {
+        [self getPosts];
+    }
+
+    __weak ListViewController *weakSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf getPosts];
+    }];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Private Methods
 
-- (void)getPosts{
+- (void)getPosts
+{
     [[SoulIntentionManager sharedManager] getPostsWithOffset:PostsOffset limit:PostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
             return;

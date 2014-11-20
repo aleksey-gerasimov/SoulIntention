@@ -11,6 +11,7 @@
 #import "AutorViewController.h"
 #import "SoulIntentionManager.h"
 #import "Author.h"
+#import "AppDelegate.h"
 
 @interface AutorViewController ()
 
@@ -28,6 +29,19 @@
 {
     [super viewDidLoad];
 
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    if (appDelegate.sessionStarted) {
+        [self getAuthorInfo];
+    }
+
+    __weak AutorViewController *weakSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf getAuthorInfo];
+    }];
+}
+
+- (void)getAuthorInfo
+{
     __weak AutorViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] getAuthorDescriptionWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
@@ -36,8 +50,6 @@
 
         Author *author = [result firstObject];
         weakSelf.authorTextView.text = author.info;
-//        NSString *urlString = [NSString stringWithFormat:@"%@/%@", kBaseURLString, author.imageURL];
-//        urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
         NSURL *url = [NSURL URLWithString:author.imageURL];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [weakSelf.authorImageView setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:@"autor_img.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {

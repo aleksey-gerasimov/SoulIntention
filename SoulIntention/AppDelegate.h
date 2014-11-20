@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const kSessionStartedNotification;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property (assign, nonatomic) BOOL sessionStarted;
+@property (strong, nonatomic) NSArray *favouritesIdsArray;
 
 @end
 

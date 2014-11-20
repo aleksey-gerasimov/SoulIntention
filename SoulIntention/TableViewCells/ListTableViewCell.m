@@ -9,10 +9,10 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import "ListTableViewCell.h"
+#import "SoulIntentionManager.h"
 #import "FacebookManager.h"
 #import "TwitterManager.h"
 #import "UIImage+ScaleImage.h"
-#import "SoulIntentionManager.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
@@ -144,14 +144,8 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     self.titleLabel.text = _post.title;
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ %@", _post.creationDate, _post.author];
-#warning IF !image
-   /* self.imageWidthConstraint.constant = 0;
-    [self layoutIfNeeded];*/
 
     __weak ListTableViewCell *weakSelf = self;
-#warning URL should be changed after custom setter is set in Post model
-//    NSString *urlString = [NSString stringWithFormat:@"%@/%@", kBaseURLString, [_post.images firstObject][@"image_url"]];
-//    urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
     NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.postImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
