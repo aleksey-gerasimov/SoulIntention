@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AutorViewController : UIViewController
+@interface AutorViewController : UIViewController<UIScrollViewDelegate>
 
 @end

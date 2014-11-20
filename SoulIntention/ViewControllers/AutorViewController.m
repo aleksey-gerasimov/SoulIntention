@@ -10,6 +10,8 @@
 
 @interface AutorViewController ()
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 @end
 
 @implementation AutorViewController
@@ -19,7 +21,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 @end

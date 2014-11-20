@@ -85,14 +85,12 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
             case CellTypeCenter:
                 break;
             case CellTypeLeft:
-                [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight];
+                [self swipeToDirection:SwipeDirectionRight];
                 self.cellType = CellTypeCenter;
                 break;
             case CellTypeRight:
-                [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft];
+                [self swipeToDirection:SwipeDirectionLeft];
                 self.cellType = CellTypeCenter;
-                break;
-            default:
                 break;
         }
     }
@@ -114,6 +112,20 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     
 }
 
+- (void)swipeToDirection:(NSInteger)direction
+{
+    CGFloat offset = SWIPE_OFFSET;
+    if (direction == SwipeDirectionLeft) {
+        offset = -offset;
+    }
+    
+    [UIView animateWithDuration:0.5f animations:^{
+        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
+        self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
+        self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
+    }];
+}
+
 #pragma mark - Custom Setters
 
 - (void)setPost:(Post *)post
@@ -123,6 +135,9 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     self.titleLabel.text = _post.title;
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ %@", _post.creationDate, _post.author];
+#warning IF !image
+   /* self.imageWidthConstraint.constant = 0;
+    [self layoutIfNeeded];*/
 }
 
 #pragma mark - IBActions

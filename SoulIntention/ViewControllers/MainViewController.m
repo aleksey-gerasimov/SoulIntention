@@ -14,7 +14,9 @@
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
-static CGFloat const LIST_VIEW_CONTROLLER = 0.f;
+static NSInteger const LIST_VIEW_CONTROLLER = 0;
+static CGFloat const UnderlineStep = 214.f;
+
 
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
@@ -28,6 +30,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 @property (weak, nonatomic) IBOutlet UIButton *soulsButton;
 @property (weak, nonatomic) IBOutlet UIButton *autorButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *underlineLeadingConstraint;
+
 
 @property (strong, nonatomic) NSMutableArray *childViewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
@@ -63,14 +67,27 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     switch (button.tag) {
         case SoulsChildViewController:
             [self displayChildViewControllersWithTag:button.tag];
+            self.underlineLeadingConstraint.constant = -UnderlineStep;
+            [self.view layoutIfNeeded];
             break;
         case AutorChildViewController:
             [self displayChildViewControllersWithTag:button.tag];
+            self.underlineLeadingConstraint.constant = -UnderlineStep/2;
+            [self.view layoutIfNeeded];
             break;
         case FavoritesChildViewController:
-            [self displayChildViewControllersWithTag:LIST_VIEW_CONTROLLER];
+            [self displayChildViewControllersWithTag:button.tag];
+            self.underlineLeadingConstraint.constant = 0;
+            [self.view layoutIfNeeded];
             break;
     }
+}
+
+- (void)moveUnderlineTo
+{
+    [UIView animateWithDuration:0.5f animations:^{
+       
+    }];
 }
 
 #pragma mark - Private Methods
@@ -91,11 +108,14 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)initializeChildViewControllers
 {
-    AutorViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([AutorViewController class])];
-    ListViewController *listViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
+    ListViewController *soulsViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
+    AutorViewController *autorViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([AutorViewController class])];
+    ListViewController *favoritesViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
     
-    [self.childViewControllers addObject:listViewController];
-    [self.childViewControllers addObject:postViewController];
+    
+    [self.childViewControllers addObject:soulsViewController];
+    [self.childViewControllers addObject:autorViewController];
+    [self.childViewControllers addObject:favoritesViewController];
 }
 
 - (void)setFirstViewController

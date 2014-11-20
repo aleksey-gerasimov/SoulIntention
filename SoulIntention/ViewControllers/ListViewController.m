@@ -15,10 +15,15 @@
 static NSInteger const PostsOffset = 1;
 static NSInteger const PostsLimit = 5;
 
+typedef NS_ENUM(NSUInteger, ListViewControllerType) {
+    ListViewControllerTypeSouls = 0,
+    ListViewControllerTypeFavorites = 1,
+};
 
 @interface ListViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @property (strong, nonatomic) NSArray *posts;
 
 @end
@@ -38,8 +43,12 @@ static NSInteger const PostsLimit = 5;
 
 - (void)getPosts{
     [[SoulIntentionManager sharedManager] getPostsWithOffset:PostsOffset limit:PostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        self.posts = result;
-        [self.tableView reloadData];
+        if (error) {
+            return;
+        }else {
+            self.posts = result;
+            [self.tableView reloadData];
+        }
     }];
 }
 
@@ -48,11 +57,7 @@ static NSInteger const PostsLimit = 5;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"listCell"];
-    
-    if (self.posts != nil) {
-        cell.post = self.posts[indexPath.row];
-    }
-    
+    cell.post = self.posts[indexPath.row];
     return cell;
 }
 
@@ -66,9 +71,7 @@ static NSInteger const PostsLimit = 5;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PostViewController class])];
-    if (self.posts != nil) {
-        postViewController.post = self.posts[indexPath.row];
-    }
+    postViewController.post = self.posts[indexPath.row];
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
