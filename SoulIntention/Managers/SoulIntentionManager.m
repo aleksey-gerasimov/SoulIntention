@@ -182,12 +182,12 @@ NSString *const kAuthorDescription = @"/about";
 {
     NSDictionary *parameters = @{@"postId" : postId};
     [self.restManager deleteObject:nil path:kFavourites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager delete from favourites success");
+        NSLog(@"SoulIntentionManager remove from favourites success");
         if (handler) {
             handler(YES, nil, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager delete from favourites error: %@", [error localizedDescription]);
+        NSLog(@"SoulIntentionManager remove from favourites error: %@", [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }
