@@ -7,6 +7,7 @@
 //
 
 #import "PostViewController.h"
+#import "SoulIntentionManager.h"
 #import "FacebookManager.h"
 #import "TwitterManager.h"
 #import "UIImage+ScaleImage.h"
@@ -16,8 +17,9 @@ static CGFloat const ICON_HEIGHT = 22.f;
 
 @interface PostViewController ()
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postPictureHeightConstraint;
-
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postImageViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
+@property (weak, nonatomic) IBOutlet UITextView *postTextView;
 @end
 
 @implementation PostViewController
@@ -60,15 +62,18 @@ static CGFloat const ICON_HEIGHT = 22.f;
 - (void)favoriteButtonPressed
 {
     NSLog(@"PostViewController favorite button press");
+    [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        //
+    }];
 }
 
-#pragma mark - Custom Setters
+#pragma mark - Custom Accessors
 
 - (void)setPost:(Post *)post
 {
     _post = post;
-    if (_post.images) {
-        self.postPictureHeightConstraint.constant = 0;
+    if (!_post.images) {
+        self.postImageViewHeightConstraint.constant = 0;
         [self.view layoutIfNeeded];
     }
 }
