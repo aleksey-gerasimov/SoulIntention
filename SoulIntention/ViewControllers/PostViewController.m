@@ -72,10 +72,12 @@ static CGFloat const ICON_HEIGHT = 22.f;
 - (void)setPost:(Post *)post
 {
     _post = post;
-    if (!_post.images) {
+    if ([_post.images count] == 0) {
         self.postImageViewHeightConstraint.constant = 0;
         [self.view layoutIfNeeded];
     }
+    
+    self.postTextView.text = [NSString stringWithFormat:@"%@ \n%@ \n%@", _post.title, _post.text, _post.creationDate];
 }
 
 @end
