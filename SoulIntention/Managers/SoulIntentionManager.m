@@ -63,7 +63,7 @@ NSString *const kAuthorDescription = @"/about";
     
     mappingAttributes = @{@"full_name" : @"name",
                           @"about_info" : @"info",
-                          @"image_url" : @"image"};
+                          @"image_url" : @"imageURL"};
     [self addResponseDescriptorForMappingClass:[Author class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kAuthorDescription keyPath:@""];
 
 //    NSMutableArray *responseDescriptors = [NSMutableArray new];

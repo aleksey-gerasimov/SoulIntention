@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *info;
-@property (strong, nonatomic) NSString *image;
+@property (strong, nonatomic) NSString *imageURL;
 
 @end

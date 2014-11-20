@@ -150,9 +150,9 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
     __weak ListTableViewCell *weakSelf = self;
 #warning URL should be changed after custom setter is set in Post model
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@", @"http://134.249.164.53:8077", [_post.images firstObject][@"image_url"]];
-    urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
-    NSURL *url = [NSURL URLWithString:urlString];
+//    NSString *urlString = [NSString stringWithFormat:@"%@/%@", kBaseURLString, [_post.images firstObject][@"image_url"]];
+//    urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.postImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         NSLog(@"Post image load success");

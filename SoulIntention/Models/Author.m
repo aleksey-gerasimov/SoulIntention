@@ -7,7 +7,14 @@
 //
 
 #import "Author.h"
+#import "SoulIntentionManager.h"
 
 @implementation Author
+
+- (void)setImageURL:(NSString *)imageURL
+{
+    imageURL = [imageURL stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    _imageURL = [NSString stringWithFormat:@"%@/%@", kBaseURLString, imageURL];
+}
 
 @end
