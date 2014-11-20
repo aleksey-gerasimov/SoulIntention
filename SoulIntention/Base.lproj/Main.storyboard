@@ -127,8 +127,8 @@
                         <outlet property="autorButton" destination="8N8-l4-FJC" id="mGg-e1-eaW"/>
                         <outlet property="containerView" destination="kBo-Ku-gN2" id="npW-Rh-VUa"/>
                         <outlet property="favoritesButton" destination="jUa-ll-2Le" id="qnG-7M-xUk"/>
-                        <outlet property="soulsButton" destination="lhc-ZF-UEv" id="rRN-xU-hfB"/>
-                        <outlet property="soulsButtonWidthConstraint" destination="X7I-3t-if5" id="yVg-rS-faH"/>
+                        <outlet property="postsButton" destination="lhc-ZF-UEv" id="i0t-af-wgy"/>
+                        <outlet property="postsButtonWidthConstraint" destination="X7I-3t-if5" id="TdD-eZ-iCN"/>
                         <outlet property="underlineLeadingConstraint" destination="Hvk-BJ-K1L" id="9pn-xL-O8Q"/>
                         <outlet property="underlineWidthConstraint" destination="1tk-Op-jJn" id="98x-cD-Lgg"/>
                     </connections>
@@ -279,7 +279,7 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="120" id="QBi-8Q-iYp"/>
                                                                 <constraint firstAttribute="width" id="SDZ-Q6-X9v"/>
@@ -415,7 +415,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZF-60-D8J" userLabel="Author Info">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="380" id="gbi-bn-it4"/>
@@ -436,7 +435,7 @@
                                             <constraint firstAttribute="height" id="0ZB-tu-1yn"/>
                                             <constraint firstAttribute="width" constant="320" id="Zjk-G9-agw"/>
                                             <constraint firstAttribute="height" constant="180" id="mrB-yI-u7V"/>
-                                            <constraint firstAttribute="width" constant="320" id="y5b-x3-QOG"/>
+                                            <constraint firstAttribute="width" id="y5b-x3-QOG"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">

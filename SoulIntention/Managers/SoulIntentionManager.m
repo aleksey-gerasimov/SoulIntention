@@ -48,29 +48,6 @@ NSString *const kAuthorDescription = @"/about";
 
 - (void)configureManager
 {
-//    //Start session
-//    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kStartSession keyPath:@""];
-//    //Get Posts
-//    NSDictionary *mappingAttributes = @{@"id" : @"postId",
-//                                        @"title" : @"title",
-//                                        @"details" : @"text",
-//                                        @"author.full_name" : @"author",
-//                                        @"images" : @"images"};
-//    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kPosts keyPath:@""];
-//    //Get favourites
-////    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kFavourites keyPath:@"post"];
-//    //Get favourites Ids
-//    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:@{@"post_id" : @"postId"} requestMethod:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@""];
-//    //Add to favourites
-//    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kFavourites keyPath:@""];
-//    //Remove from favourites
-//    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@""];
-//    //Get Author description
-//    mappingAttributes = @{@"full_name" : @"name",
-//                          @"about_info" : @"info",
-//                          @"image_url" : @"imageURL"};
-//    [self addResponseDescriptorForMappingClass:[Author class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kAuthorDescription keyPath:@""];
-
     NSMutableArray *responseDescriptors = [NSMutableArray new];
 
     RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:nil];
@@ -105,14 +82,6 @@ NSString *const kAuthorDescription = @"/about";
 
     [self.restManager addResponseDescriptorsFromArray:responseDescriptors];
 }
-
-//- (void)addResponseDescriptorForMappingClass:(Class)mappingClass mappingAttributes:(NSDictionary *)mappingAttributes requestMethod:(RKRequestMethod)requestMethod pathPattern:(NSString *)pathPattern keyPath:(NSString *)keyPath
-//{
-//    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:mappingClass];
-//    [objectMapping addAttributeMappingsFromDictionary:mappingAttributes];
-//    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:requestMethod pathPattern:pathPattern keyPath:keyPath statusCodes:nil];
-//    [self.restManager addResponseDescriptor:responseDescriptor];
-//}
 
 #pragma mark - Public
 

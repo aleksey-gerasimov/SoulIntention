@@ -11,6 +11,7 @@
 #import "PostViewController.h"
 #import "SoulIntentionManager.h"
 #import "Post.h"
+#import "Favourite.h"
 #import "AppDelegate.h"
 
 static NSInteger const PostsOffset = 1;
@@ -21,7 +22,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     ListViewControllerTypeFavorites = 1,
 };
 
-@interface ListViewController ()
+@interface ListViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

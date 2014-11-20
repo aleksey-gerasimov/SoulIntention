@@ -26,10 +26,10 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 @interface MainViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet UIButton *soulsButton;
+@property (weak, nonatomic) IBOutlet UIButton *postsButton;
 @property (weak, nonatomic) IBOutlet UIButton *autorButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *soulsButtonWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postsButtonWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *underlineLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *underlineWidthConstraint;
 
@@ -53,9 +53,9 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [self setCustomBarButtons];
 
     NSInteger screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
-    self.soulsButtonWidthConstraint.constant = screenWidth/3;
+    self.postsButtonWidthConstraint.constant = screenWidth/3;
     self.underlineWidthConstraint.constant = screenWidth + screenWidth*2/3;
-    self.underlineLeadingConstraint.constant = -2*self.soulsButtonWidthConstraint.constant;
+    self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
     [self.view layoutIfNeeded];
 
 }
@@ -74,12 +74,12 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     switch (button.tag) {
         case SoulsChildViewController:
             [self displayChildViewControllersWithTag:button.tag];
-            self.underlineLeadingConstraint.constant = -2*self.soulsButtonWidthConstraint.constant;
+            self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
             [self.view layoutIfNeeded];
             break;
         case AutorChildViewController:
             [self displayChildViewControllersWithTag:button.tag];
-            self.underlineLeadingConstraint.constant = -self.soulsButtonWidthConstraint.constant;
+            self.underlineLeadingConstraint.constant = -self.postsButtonWidthConstraint.constant;
             [self.view layoutIfNeeded];
             break;
         case FavoritesChildViewController:
@@ -124,8 +124,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)setButtonsTarget
 {
-    [self.soulsButton addTarget:self action:@selector(menuButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-    self.soulsButton.tag = SoulsChildViewController;
+    [self.postsButton addTarget:self action:@selector(menuButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+    self.postsButton.tag = SoulsChildViewController;
     [self.autorButton addTarget:self action:@selector(menuButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     self.autorButton.tag = AutorChildViewController;
     [self.favoritesButton addTarget:self action:@selector(menuButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];

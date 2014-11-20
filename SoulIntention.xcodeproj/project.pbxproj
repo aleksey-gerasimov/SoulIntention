@@ -212,10 +212,10 @@
 		5B4833F91A1B1B5100CA240D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				5B4833FA1A1B1B5100CA240D /* ListViewController.h */,
-				5B4833FB1A1B1B5100CA240D /* ListViewController.m */,
 				5B4833FC1A1B1B5100CA240D /* MainViewController.h */,
 				5B4833FD1A1B1B5100CA240D /* MainViewController.m */,
+				5B4833FA1A1B1B5100CA240D /* ListViewController.h */,
+				5B4833FB1A1B1B5100CA240D /* ListViewController.m */,
 				5B4833FE1A1B1B5100CA240D /* PostViewController.h */,
 				5B4833FF1A1B1B5100CA240D /* PostViewController.m */,
 				84CE29191A1B393300109DC3 /* AutorViewController.h */,

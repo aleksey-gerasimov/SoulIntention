@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Post.h"
+@class Post;
 
 @interface Favourite : NSObject
 

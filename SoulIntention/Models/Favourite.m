@@ -7,6 +7,7 @@
 //
 
 #import "Favourite.h"
+#import "Post.h"
 
 @implementation Favourite
 
