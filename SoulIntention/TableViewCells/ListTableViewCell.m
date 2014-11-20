@@ -31,6 +31,21 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
 @interface ListTableViewCell ()
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
+
+@property (weak, nonatomic) IBOutlet UIView *cellView;
+@property (weak, nonatomic) IBOutlet UIView *favoriteView;
+@property (weak, nonatomic) IBOutlet UIView *socialView;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidthConstraint;
+
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *facebookButton;
+@property (weak, nonatomic) IBOutlet UIButton *twitterButton;
+
 @property (assign, nonatomic) CellType cellType;
 
 @end
@@ -51,6 +66,8 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+    self.imageWidthConstraint.constant = 0;
+    [self layoutIfNeeded];
     [self.postImageView cancelImageRequestOperation];
 }
 
@@ -89,7 +106,8 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
 - (void)cellStateChanged:(NSNotification *)notification
 {
-    if ([notification object] != self.post.postId) {
+    NSDictionary *userInfo = notification.userInfo;
+    if ([userInfo valueForKey:@"id"]!= self.post.postId) {
         switch (self.cellType) {
             case CellTypeCenter:
                 break;
@@ -116,7 +134,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
         self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
         self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"Swipe" object:self.post.postId];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Swipe" object:nil userInfo:@{@"id":self.post.postId}];
     }];
     
 }

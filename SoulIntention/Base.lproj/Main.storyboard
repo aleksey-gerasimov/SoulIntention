@@ -117,6 +117,7 @@
                         <outlet property="favoritesButton" destination="jUa-ll-2Le" id="qnG-7M-xUk"/>
                         <outlet property="soulsButton" destination="lhc-ZF-UEv" id="rRN-xU-hfB"/>
                         <outlet property="underlineLeadingConstraint" destination="Hvk-BJ-K1L" id="9pn-xL-O8Q"/>
+                        <outlet property="underlineWidthConstraint" destination="1tk-Op-jJn" id="98x-cD-Lgg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXT-Ty-mgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -265,9 +266,8 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
                                                             <rect key="frame" x="7" y="19" width="120" height="112"/>
-                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="120" id="QBi-8Q-iYp"/>
                                                                 <constraint firstAttribute="width" constant="120" id="SDZ-Q6-X9v"/>

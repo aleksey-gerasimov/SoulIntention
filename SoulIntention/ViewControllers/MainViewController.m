@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 @property (weak, nonatomic) IBOutlet UIButton *autorButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *underlineLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *underlineWidthConstraint;
 
 
 @property (strong, nonatomic) NSMutableArray *childViewControllers;
