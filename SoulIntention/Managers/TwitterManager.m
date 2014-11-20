@@ -35,9 +35,9 @@ static NSString *const TSTwitterPostRequestURL = @"https://api.twitter.com/1.1/s
     return instance;
 }
 
-- (BOOL)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
+- (BOOL)presentShareDialogWithText:(NSString *)text url:(NSURL *)url
 {
-    return [super presentShareDialogWithText:text image:image url:url];
+    return [super presentShareDialogWithText:text url:url];
 }
 
 //#pragma mark - Private

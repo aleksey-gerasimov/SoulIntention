@@ -51,12 +51,12 @@ static CGFloat const ICON_HEIGHT = 22.f;
 
 - (void)facebookButtonPressed{
     NSLog(@"PostViewController facebook button press");
-    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title image:nil url:nil];
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title url:nil];
 }
 
 - (void)twitterButtonPressed{
     NSLog(@"PostViewController twitter button press");
-    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title image:nil url:nil];
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title url:nil];
 }
 
 - (void)favoriteButtonPressed

@@ -196,12 +196,12 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {
     NSLog(@"ListTableViewCell facebook button pressed");
-    [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text image:nil url:nil];
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:nil];
 }
 
 - (IBAction)twitterButtonTouchUpInside:(id)sender {
     NSLog(@"ListTableViewCell twitter button pressed");
-    [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text image:nil url:nil];
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:nil];
 }
 
 

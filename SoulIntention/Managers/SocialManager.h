@@ -12,6 +12,6 @@
 
 + (instancetype)sharedManager;
 
-- (BOOL)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url;
+- (BOOL)presentShareDialogWithText:(NSString *)text url:(NSURL *)url;
 
 @end

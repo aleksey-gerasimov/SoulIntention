@@ -16,6 +16,7 @@ NSString *const kBaseURLString = @"http://134.249.164.53:8077";
 NSString *const kStartSession = @"/startMobile";
 NSString *const kPosts = @"/post";
 NSString *const kFavourites = @"/favourite";
+NSString *const kFavouritesIds = @"/favouriteId";
 NSString *const kAuthorDescription = @"/about";
 
 @interface SoulIntentionManager ()
@@ -46,21 +47,24 @@ NSString *const kAuthorDescription = @"/about";
 
 - (void)configureManager
 {
+    //Start session
     [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kStartSession keyPath:@""];
-
+    //Get Posts
     NSDictionary *mappingAttributes = @{@"id" : @"postId",
                                         @"title" : @"title",
                                         @"details" : @"text",
                                         @"author.full_name" : @"author",
                                         @"images" : @"images"};
     [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kPosts keyPath:@""];
-
-    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kFavourites keyPath:@"post"];
-
+    //Get favourites
+//    [self addResponseDescriptorForMappingClass:[Post class] mappingAttributes:mappingAttributes requestMethod:RKRequestMethodGET pathPattern:kFavourites keyPath:@"post"];
+    //Get favourites Ids
+    [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@""];
+    //Add to favourites
     [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodPOST pathPattern:kFavourites keyPath:@""];
-
+    //Remove from favourites
     [self addResponseDescriptorForMappingClass:nil mappingAttributes:nil requestMethod:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@""];
-    
+    //Get Author description
     mappingAttributes = @{@"full_name" : @"name",
                           @"about_info" : @"info",
                           @"image_url" : @"imageURL"};
@@ -156,6 +160,21 @@ NSString *const kAuthorDescription = @"/about";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get favourites error: %@", [error localizedDescription]);
+        if (handler) {
+            handler(NO, nil, error);
+        }
+    }];
+}
+
+- (void)getFavouritesIdsWithCompletitionHandler:(CompletitionHandler)handler
+{
+    [self.restManager getObjectsAtPath:kFavouritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager get favourites Ids success");
+        if (handler) {
+            handler(YES, [[mappingResult array] valueForKey:@"post_id"], nil);
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"SoulIntentionManager get favourites Ids error: %@", [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }

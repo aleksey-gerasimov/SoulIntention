@@ -507,6 +507,11 @@
                                     <constraint firstAttribute="height" constant="180" id="6iK-St-pXd"/>
                                     <constraint firstAttribute="width" constant="320" id="THQ-kH-dEt"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="THQ-kH-dEt"/>
+                                    </mask>
+                                </variation>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FOA-CD-PXA">
                                 <rect key="frame" x="0.0" y="180" width="320" height="300"/>
