@@ -53,9 +53,14 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="MmH-IC-S88"/>
+                                            </mask>
+                                        </variation>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jUa-ll-2Le" userLabel="favoritesButton">
-                                        <rect key="frame" x="214" y="14" width="106" height="30"/>
+                                        <rect key="frame" x="213" y="14" width="107" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="106" id="Vq9-jB-Kbi"/>
                                             <constraint firstAttribute="height" constant="30" id="Xrt-Fa-QVS"/>
@@ -65,17 +70,24 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="Vq9-jB-Kbi"/>
+                                            </mask>
+                                        </variation>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.33725490196078434" green="0.22745098039215686" blue="0.38039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerY" secondItem="8N8-l4-FJC" secondAttribute="centerY" id="0zv-55-F09"/>
+                                    <constraint firstItem="8N8-l4-FJC" firstAttribute="width" secondItem="jUa-ll-2Le" secondAttribute="width" id="276-TJ-LjK"/>
                                     <constraint firstAttribute="trailing" secondItem="jUa-ll-2Le" secondAttribute="trailing" id="452-hW-ghy"/>
                                     <constraint firstAttribute="bottom" secondItem="luT-hb-22s" secondAttribute="bottom" id="EgV-Co-JrM"/>
                                     <constraint firstItem="jUa-ll-2Le" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="top" constant="14" id="FgV-rh-WHj"/>
                                     <constraint firstItem="luT-hb-22s" firstAttribute="leading" secondItem="gxc-T7-AYW" secondAttribute="leading" constant="-107" id="Hvk-BJ-K1L"/>
                                     <constraint firstItem="luT-hb-22s" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="top" constant="18" id="L61-un-kf5"/>
                                     <constraint firstAttribute="centerX" secondItem="8N8-l4-FJC" secondAttribute="centerX" id="NDE-3W-U8u"/>
+                                    <constraint firstItem="8N8-l4-FJC" firstAttribute="width" secondItem="lhc-ZF-UEv" secondAttribute="width" id="WJH-Pc-lTb"/>
                                     <constraint firstItem="lhc-ZF-UEv" firstAttribute="leading" secondItem="gxc-T7-AYW" secondAttribute="leading" id="p7A-zb-Cil"/>
                                     <constraint firstItem="lhc-ZF-UEv" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="top" constant="14" id="rPb-qc-5Di"/>
                                     <constraint firstAttribute="height" constant="48" id="yzr-Mn-LKC"/>
@@ -116,6 +128,7 @@
                         <outlet property="containerView" destination="kBo-Ku-gN2" id="npW-Rh-VUa"/>
                         <outlet property="favoritesButton" destination="jUa-ll-2Le" id="qnG-7M-xUk"/>
                         <outlet property="soulsButton" destination="lhc-ZF-UEv" id="rRN-xU-hfB"/>
+                        <outlet property="soulsButtonWidthConstraint" destination="X7I-3t-if5" id="yVg-rS-faH"/>
                         <outlet property="underlineLeadingConstraint" destination="Hvk-BJ-K1L" id="9pn-xL-O8Q"/>
                         <outlet property="underlineWidthConstraint" destination="1tk-Op-jJn" id="98x-cD-Lgg"/>
                     </connections>
@@ -266,7 +279,7 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
                                                             <rect key="frame" x="7" y="19" width="120" height="112"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="120" id="QBi-8Q-iYp"/>
@@ -418,7 +431,7 @@
                                             </mask>
                                         </variation>
                                     </textView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="autor_img" translatesAutoresizingMaskIntoConstraints="NO" id="XTE-Cd-cFg">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="autor_img" translatesAutoresizingMaskIntoConstraints="NO" id="XTE-Cd-cFg">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="180" id="0ZB-tu-1yn"/>
