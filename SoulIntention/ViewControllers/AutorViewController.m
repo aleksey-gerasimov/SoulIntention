@@ -36,9 +36,9 @@
 
         Author *author = [result firstObject];
         weakSelf.authorTextView.text = author.info;
-        NSString *urlString = [NSString stringWithFormat:@"%@/%@", kBaseURLString, author.imageURL];
-        urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
-        NSURL *url = [NSURL URLWithString:urlString];
+//        NSString *urlString = [NSString stringWithFormat:@"%@/%@", kBaseURLString, author.imageURL];
+//        urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+        NSURL *url = [NSURL URLWithString:author.imageURL];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [weakSelf.authorImageView setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:@"autor_img.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             NSLog(@"AuthorViewController image load success");
