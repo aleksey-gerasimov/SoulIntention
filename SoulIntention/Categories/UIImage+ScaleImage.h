@@ -10,6 +10,6 @@
 
 @interface UIImage (ScaleImage)
 
-+ (UIImage*)imageWithImage:(UIImage*)image scaleToSize:(CGSize)size;
++ (UIImage *)imageWithImage:(UIImage*)image scaleToSize:(CGSize)size;
 
 @end
