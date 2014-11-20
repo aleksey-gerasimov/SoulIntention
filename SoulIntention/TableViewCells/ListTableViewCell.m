@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 ThinkMobiles. All rights reserved.
 //
 
+#import <AFNetworking/AFNetworking.h>
+
 #import "ListTableViewCell.h"
 #import "FacebookManager.h"
 #import "TwitterManager.h"
@@ -39,13 +41,20 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     [self initGestureRecognizer];
     [self setButtonImages];
     self.cellType = CellTypeCenter;
     [self subscribeToNotificationCenter];
 }
 
--(UIEdgeInsets)layoutMargins
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    [self.postImageView cancelImageRequestOperation];
+}
+
+- (UIEdgeInsets)layoutMargins
 {
     return UIEdgeInsetsZero;
 }
@@ -138,6 +147,23 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 #warning IF !image
    /* self.imageWidthConstraint.constant = 0;
     [self layoutIfNeeded];*/
+
+    __weak ListTableViewCell *weakSelf = self;
+#warning URL should be changed after custom setter is set in Post model
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@", @"http://134.249.164.53:8077", [_post.images firstObject][@"image_url"]];
+    urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [self.postImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        NSLog(@"Post image load success");
+        weakSelf.postImageView.image = image;
+        weakSelf.imageWidthConstraint.constant = 120;
+        [weakSelf layoutIfNeeded];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        NSLog(@"Post image load error: %@", [error localizedDescription]);
+        weakSelf.imageWidthConstraint.constant = 0;
+        [weakSelf layoutIfNeeded];
+    }];
 }
 
 #pragma mark - IBActions
