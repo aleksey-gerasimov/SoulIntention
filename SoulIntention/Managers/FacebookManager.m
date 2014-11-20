@@ -28,10 +28,10 @@
 
 #pragma mark - Public
 
-- (BOOL)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
+- (BOOL)presentShareDialogWithText:(NSString *)text url:(NSURL *)url
 {
-    if (![super presentShareDialogWithText:text image:image url:url]) {
-        [self presentShareDialogWithName:text caption:nil description:nil link:url picture:image];
+    if (![super presentShareDialogWithText:text url:url]) {
+        [self presentShareDialogWithName:text caption:nil description:nil link:url picture:nil];
     }
     return YES;
 }

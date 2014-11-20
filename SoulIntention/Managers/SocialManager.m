@@ -29,18 +29,13 @@
 
 #pragma mark - Public
 
-- (BOOL)presentShareDialogWithText:(NSString *)text image:(NSURL *)image url:(NSURL *)url
+- (BOOL)presentShareDialogWithText:(NSString *)text url:(NSURL *)url
 {
     BOOL success = NO;
     if ([SLComposeViewController isAvailableForServiceType:[self isKindOfClass:[FacebookManager class]] ? SLServiceTypeFacebook : SLServiceTypeTwitter]) {
         SLComposeViewController *viewController = [SLComposeViewController composeViewControllerForServiceType:[self isKindOfClass:[FacebookManager class]] ? SLServiceTypeFacebook : SLServiceTypeTwitter];
         if (text) {
             [viewController setInitialText:text];
-        }
-        if (image) {
-#warning Synhronous load; should be replaced after API released
-            UIImage *picture = [UIImage imageWithData:[NSData dataWithContentsOfURL:image]];
-            [viewController addImage:picture];
         }
         if (url) {
             [viewController addURL:url];

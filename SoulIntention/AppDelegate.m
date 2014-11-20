@@ -25,7 +25,14 @@
     [[UINavigationBar appearance] setTranslucent: NO];
 
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-    [[SoulIntentionManager sharedManager] startSessionWithDeviceId:deviceId completitionHandler:nil];
+    [[SoulIntentionManager sharedManager] startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [[SoulIntentionManager sharedManager] getFavouritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            if (error) {
+                return;
+            }
+            NSLog(@"result = %@", result);
+        }];
+    }];
 
     return YES;
 }
