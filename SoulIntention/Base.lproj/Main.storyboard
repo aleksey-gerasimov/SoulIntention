@@ -234,7 +234,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="143"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0PW-38-zs2" userLabel="titleLabel">
-                                                            <rect key="frame" x="134" y="19" width="178" height="22"/>
+                                                            <rect key="frame" x="14" y="19" width="298" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="kC0-mL-RyI"/>
                                                             </constraints>
@@ -248,7 +248,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NgL-Kw-YuH" userLabel="descriptionLabel">
-                                                            <rect key="frame" x="135" y="55" width="178" height="51"/>
+                                                            <rect key="frame" x="15" y="55" width="298" height="51"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="51" id="Qep-QJ-e9I"/>
                                                                 <constraint firstAttribute="height" constant="51" id="Z4o-T5-qff"/>
@@ -265,7 +265,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luy-Iw-tnI" userLabel="dateLabel">
-                                                            <rect key="frame" x="135" y="115" width="178" height="15"/>
+                                                            <rect key="frame" x="15" y="115" width="298" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="9" id="waO-5e-dm1"/>
                                                             </constraints>
@@ -280,10 +280,9 @@
                                                             </variation>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
-                                                            <rect key="frame" x="7" y="19" width="120" height="112"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="120" id="QBi-8Q-iYp"/>
-                                                                <constraint firstAttribute="width" constant="120" id="SDZ-Q6-X9v"/>
+                                                                <constraint firstAttribute="width" id="SDZ-Q6-X9v"/>
                                                                 <constraint firstAttribute="height" constant="112" id="V3n-op-E5x"/>
                                                             </constraints>
                                                             <variation key="default">
@@ -415,8 +414,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="vdh-8U-Keb">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZF-60-D8J" userLabel="aboutAutor">
-                                        <rect key="frame" x="0.0" y="180" width="320" height="300"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZF-60-D8J" userLabel="Author Info">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="380" id="gbi-bn-it4"/>
@@ -431,10 +430,10 @@
                                             </mask>
                                         </variation>
                                     </textView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="autor_img" translatesAutoresizingMaskIntoConstraints="NO" id="XTE-Cd-cFg">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XTE-Cd-cFg" userLabel="Author Image">
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="180" id="0ZB-tu-1yn"/>
+                                            <constraint firstAttribute="height" id="0ZB-tu-1yn"/>
                                             <constraint firstAttribute="width" constant="320" id="Zjk-G9-agw"/>
                                             <constraint firstAttribute="height" constant="180" id="mrB-yI-u7V"/>
                                             <constraint firstAttribute="width" constant="320" id="y5b-x3-QOG"/>
@@ -493,6 +492,8 @@
                     <size key="freeformSize" width="320" height="480"/>
                     <connections>
                         <outlet property="authorImageView" destination="XTE-Cd-cFg" id="Zl8-ii-EXs"/>
+                        <outlet property="authorImageViewHeightConstraint" destination="0ZB-tu-1yn" id="2h1-NH-BdU"/>
+                        <outlet property="authorImageViewWidthConstraint" destination="y5b-x3-QOG" id="sCK-Jj-x7Z"/>
                         <outlet property="authorTextView" destination="PZF-60-D8J" id="GzP-6Q-ca9"/>
                         <outlet property="scrollView" destination="vdh-8U-Keb" id="pzi-iO-Z0L"/>
                     </connections>
@@ -595,7 +596,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="autor_img" width="320" height="144"/>
         <image name="ic_facebook_share" width="22" height="22"/>
         <image name="ic_favorite" width="20" height="20"/>
         <image name="ic_logo" width="15" height="15"/>
