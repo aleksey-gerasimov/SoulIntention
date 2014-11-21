@@ -12,12 +12,13 @@
 #import "PostViewController.h"
 #import "AutorViewController.h"
 
+#import "SoulIntentionManager.h"
+
 #import "UIImage+ScaleImage.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static NSInteger const LIST_VIEW_CONTROLLER = 0;
-
 
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
@@ -67,6 +68,15 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (IBAction)searchButtonTouchUp:(id)sender
 {
     NSLog(@"Search Button Press");
+    __weak MainViewController *weakSelf = self;
+    [[SoulIntentionManager sharedManager] searchForPostsWithTitle:@"test" offset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        if (error) {
+            return;
+        }
+        NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"text", (long)kPostsOffset, (long)kPostsLimit);
+        [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
+    }];
 }
 
 - (void)menuButtonTouchUpInside:(id)sender

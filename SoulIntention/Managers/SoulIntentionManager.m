@@ -19,6 +19,7 @@ NSString *const kStartSession = @"/startMobile";
 NSString *const kPosts = @"/post";
 NSString *const kFavourites = @"/favourite";
 NSString *const kFavouritesIds = @"/favouriteId";
+NSString *const kSearchPosts = @"/searchPost";
 NSString *const kAuthorDescription = @"/about";
 
 @interface SoulIntentionManager ()
@@ -50,10 +51,11 @@ NSString *const kAuthorDescription = @"/about";
 - (void)configureManager
 {
     NSMutableArray *responseDescriptors = [NSMutableArray new];
-
+    //Start session
     RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:nil];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:sessionMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
 
+    //Get posts
     RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
     [postMapping addAttributeMappingsFromDictionary:@{@"id" : @"postId",
                                                       @"title" : @"title",
@@ -61,20 +63,25 @@ NSString *const kAuthorDescription = @"/about";
                                                       @"author.full_name" : @"author",
                                                       @"images" : @"images"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
-
+    //Get favourite posts
     RKObjectMapping *favouriteMapping = [RKObjectMapping mappingForClass:[Favourite class]];
     [favouriteMapping addAttributeMappingsFromDictionary:@{@"post_id" : @"postId"}];
     [favouriteMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"post" toKeyPath:@"post" withMapping:postMapping]];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
-
+    //Get favourite posts ids
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@"" statusCodes:nil]];
-
+    //Add post to favourites
     RKObjectMapping *addToFavouritesMapping = [RKObjectMapping mappingForClass:nil];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:addToFavouritesMapping method:RKRequestMethodPOST pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
-
+    //Remove post from favourites
     RKObjectMapping *removeFromFavouritesMapping = [RKObjectMapping mappingForClass:nil];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:removeFromFavouritesMapping method:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
 
+    //Search for posts
+    RKObjectMapping *searchMapping = [RKObjectMapping mappingForClass:[Post class]];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:searchMapping method:RKRequestMethodGET pathPattern:kSearchPosts keyPath:@"" statusCodes:nil]];
+
+    //Get author description
     RKObjectMapping *authorMapping = [RKObjectMapping mappingForClass:[Author class]];
     [authorMapping addAttributeMappingsFromDictionary:@{@"full_name" : @"name",
                                                         @"about_info" : @"info",
@@ -85,6 +92,8 @@ NSString *const kAuthorDescription = @"/about";
 }
 
 #pragma mark - Public
+
+#pragma mark - Start Session
 
 - (void)startSessionWithDeviceId:(NSString *)deviceId completitionHandler:(CompletitionHandler)handler
 {
@@ -102,7 +111,7 @@ NSString *const kAuthorDescription = @"/about";
     }];
 }
 
-#pragma mark -
+#pragma mark - Posts methods
 
 - (void)getPostsWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
@@ -183,7 +192,32 @@ NSString *const kAuthorDescription = @"/about";
     }];
 }
 
-#pragma mark -
+#pragma mark Search
+
+- (void)searchForPostsWithTitle:(NSString *)title offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    parameters[@"title"] = title;
+    if (offset) {
+        parameters[@"offset"] = @(offset);
+    }
+    if (limit) {
+        parameters[@"limit"] = @(limit);
+    }
+    [self.restManager getObjectsAtPath:kSearchPosts parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager search for posts with title \"%@\" success", title);
+        if (handler) {
+            handler(YES, [mappingResult array], nil);
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"SoulIntentionManager search for posts with title \"%@\" error: %@", title, [error localizedDescription]);
+        if (handler) {
+            handler(NO, nil, error);
+        }
+    }];
+}
+
+#pragma mark - Author
 
 - (void)getAuthorDescriptionWithCompletitionHandler:(CompletitionHandler)handler
 {

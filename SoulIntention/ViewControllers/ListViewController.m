@@ -17,8 +17,9 @@
 #import "Post.h"
 #import "Favourite.h"
 
-static NSInteger const PostsOffset = 0;
-static NSInteger const PostsLimit = 5;
+NSInteger const kPostsOffset = 0;
+NSInteger const kPostsLimit = 20;
+NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
 
 typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     ListViewControllerTypeSouls = 0,
@@ -52,6 +53,9 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [weakSelf getPosts];
     }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf showPosts:note.userInfo[@"result"]];
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -70,18 +74,23 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 - (void)getPosts
 {
     __weak ListViewController *weakSelf = self;
-    [[SoulIntentionManager sharedManager] getPostsWithOffset:PostsOffset limit:PostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+    [[SoulIntentionManager sharedManager] getPostsWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
             return;
         } else {
-            weakSelf.posts = result;
-            for (NSInteger i=0; i<[weakSelf.posts count]; i++) {
-                Post *post = weakSelf.posts[i];
-                post.isFavourite = [weakSelf.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
-            }
-            [weakSelf.tableView reloadData];
+            [weakSelf showPosts:result];
         }
     }];
+}
+
+- (void)showPosts:(NSArray *)posts
+{
+    self.posts = posts;
+    for (NSInteger i=0; i<[self.posts count]; i++) {
+        Post *post = self.posts[i];
+        post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - TableView DataSource

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSInteger const kPostsOffset;
+extern NSInteger const kPostsLimit;
+extern NSString *const kSearchForPostsNotification;
+
 @interface ListViewController : UIViewController
 
 @end
