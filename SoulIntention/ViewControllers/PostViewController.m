@@ -31,10 +31,46 @@ static CGFloat const ICON_HEIGHT = 22.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self fillData];
     [self setCustomBarButtonItems];
 }
 
 #pragma mark - Private Methods
+
+- (void)fillData
+{
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n%@\n%@", self.post.title, self.post.text, self.post.creationDate]];
+
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.firstLineHeadIndent = 10;
+    paragraphStyle.headIndent = 10;
+    paragraphStyle.tailIndent = -10;
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-bold" size:18];
+    NSDictionary *attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};
+    [text setAttributes:attributes range:NSMakeRange(0, self.post.title.length)];
+
+    paragraphStyle = [paragraphStyle mutableCopy];
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};
+    [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2, self.post.text.length)];
+
+    font = [UIFont fontWithName:@"HelveticaNeue-italic" size:12];
+    attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor lightGrayColor]};
+    [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2+self.post.text.length+1, self.post.creationDate.length)];
+
+    self.postTextView.attributedText = text;
+    
+    self.postImageView.image = self.postImage;
+    if (self.postImage) {
+        self.postImageViewHeightConstraint.constant = 180;
+    } else {
+        self.postImageViewHeightConstraint.constant = 0;
+    }
+    [self.view layoutIfNeeded];
+}
 
 - (void)setCustomBarButtonItems
 {
@@ -67,19 +103,6 @@ static CGFloat const ICON_HEIGHT = 22.f;
     [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         //
     }];
-}
-
-#pragma mark - Custom Accessors
-
-- (void)setPost:(Post *)post
-{
-    _post = post;
-    if ([_post.images count] == 0) {
-        self.postImageViewHeightConstraint.constant = 0;
-        [self.view layoutIfNeeded];
-    }
-    
-    self.postTextView.text = [NSString stringWithFormat:@"%@ \n%@ \n%@", _post.title, _post.text, _post.creationDate];
 }
 
 @end

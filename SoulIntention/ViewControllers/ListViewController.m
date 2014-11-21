@@ -104,6 +104,8 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 {
     PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PostViewController class])];
     postViewController.post = self.posts[indexPath.row];
+    ListTableViewCell *cell = (ListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    postViewController.postImage = cell.postImageView.image;
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
