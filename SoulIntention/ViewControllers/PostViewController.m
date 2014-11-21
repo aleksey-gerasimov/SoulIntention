@@ -40,7 +40,7 @@ static CGFloat const ICON_HEIGHT = 22.f;
 
 - (void)fillData
 {
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n%@\n%@", self.post.title, self.post.text, self.post.creationDate]];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n%@\n%@ By %@", self.post.title, self.post.text, self.post.updateDate, self.post.author]];
 
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.alignment = NSTextAlignmentCenter;
@@ -58,8 +58,8 @@ static CGFloat const ICON_HEIGHT = 22.f;
     [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2, self.post.text.length)];
 
     font = [UIFont fontWithName:@"HelveticaNeue-italic" size:12];
-    attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor lightGrayColor]};
-    [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2+self.post.text.length+1, self.post.creationDate.length)];
+    attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor grayColor]};
+    [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2+self.post.text.length+1, self.post.updateDate.length+4+self.post.author.length)];
 
     self.postTextView.attributedText = text;
     

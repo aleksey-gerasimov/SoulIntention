@@ -175,7 +175,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     
     self.titleLabel.text = _post.title;
     self.descriptionLabel.text = _post.text;
-    self.dateLabel.text = [NSString stringWithFormat:@"%@ %@", _post.creationDate, _post.author];
+    self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
 
     UIImage *normalImage = [UIImage imageNamed:@"ic_favorite_nawbar"];
     UIImage *highlightedImage = [UIImage imageNamed:@"ic_favorite_nawbar_select"];

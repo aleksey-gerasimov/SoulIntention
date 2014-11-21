@@ -53,14 +53,15 @@ NSString *const kAuthorDescription = @"/about";
 {
     NSMutableArray *responseDescriptors = [NSMutableArray new];
     //Start session
-    RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:nil];
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:sessionMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
+    RKObjectMapping *emptyMapping = [RKObjectMapping mappingForClass:nil];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
 
     //Get posts
     RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
     [postMapping addAttributeMappingsFromDictionary:@{@"id" : @"postId",
                                                       @"title" : @"title",
                                                       @"details" : @"text",
+                                                      @"updated_at" : @"updateDate",
                                                       @"author.full_name" : @"author",
                                                       @"images" : @"images"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
@@ -72,15 +73,12 @@ NSString *const kAuthorDescription = @"/about";
     //Get favourite posts ids
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@"" statusCodes:nil]];
     //Add post to favourites
-    RKObjectMapping *addToFavouritesMapping = [RKObjectMapping mappingForClass:nil];
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:addToFavouritesMapping method:RKRequestMethodPOST pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
     //Remove post from favourites
-    RKObjectMapping *removeFromFavouritesMapping = [RKObjectMapping mappingForClass:nil];
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:removeFromFavouritesMapping method:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
 
     //Search for posts
-    RKObjectMapping *searchMapping = [RKObjectMapping mappingForClass:[Post class]];
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:searchMapping method:RKRequestMethodGET pathPattern:kSearchPosts keyPath:@"" statusCodes:nil]];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kSearchPosts keyPath:@"" statusCodes:nil]];
 
     //Get author description
     RKObjectMapping *authorMapping = [RKObjectMapping mappingForClass:[Author class]];

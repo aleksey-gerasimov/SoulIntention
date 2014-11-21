@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
         if (error) {
             return;
         }
-        NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"text", (long)kPostsOffset, (long)kPostsLimit);
+        NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"test", (long)kPostsOffset, (long)kPostsLimit);
         [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
         [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
     }];
@@ -86,21 +86,18 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     
     switch (button.tag) {
         case SoulsChildViewController:
-            [self displayChildViewControllersWithTag:button.tag];
             self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
-            [self.view layoutIfNeeded];
             break;
         case AutorChildViewController:
-            [self displayChildViewControllersWithTag:button.tag];
             self.underlineLeadingConstraint.constant = -self.postsButtonWidthConstraint.constant;
-            [self.view layoutIfNeeded];
             break;
         case FavoritesChildViewController:
-            [self displayChildViewControllersWithTag:button.tag];
             self.underlineLeadingConstraint.constant = 0;
-            [self.view layoutIfNeeded];
             break;
     }
+    [self displayChildViewControllersWithTag:button.tag];
+    self.navigationItem.rightBarButtonItem.enabled = button.tag != AutorChildViewController;
+    [self.view layoutIfNeeded];
 }
 
 #pragma mark - Private Methods

@@ -12,6 +12,17 @@
 
 @implementation Post
 
+- (void)setUpdateDate:(NSString *)updateDate
+{
+    NSString *shortDate = [updateDate substringToIndex:10];
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"yyyy-MM-dd";
+    NSDate *date = [dateFormatter dateFromString:shortDate];
+    dateFormatter.dateFormat = @"MMMM dd, yyyy";
+    shortDate = [dateFormatter stringFromDate:date];
+    _updateDate = shortDate;
+}
+
 - (void)setImages:(NSArray *)images
 {
     NSMutableArray *urlsArray = [[images valueForKey:@"image_url"] mutableCopy];
