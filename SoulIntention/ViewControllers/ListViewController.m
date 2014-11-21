@@ -7,14 +7,17 @@
 //
 
 #import "ListViewController.h"
+
 #import "ListTableViewCell.h"
 #import "PostViewController.h"
+
 #import "SoulIntentionManager.h"
-#import "Post.h"
-#import "Favourite.h"
 #import "AppDelegate.h"
 
-static NSInteger const PostsOffset = 1;
+#import "Post.h"
+#import "Favourite.h"
+
+static NSInteger const PostsOffset = 0;
 static NSInteger const PostsLimit = 5;
 
 typedef NS_ENUM(NSUInteger, ListViewControllerType) {
@@ -60,12 +63,17 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 
 - (void)getPosts
 {
+    __weak ListViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] getPostsWithOffset:PostsOffset limit:PostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
             return;
-        }else {
-            self.posts = result;
-            [self.tableView reloadData];
+        } else {
+            weakSelf.posts = result;
+            for (NSInteger i=0; i<[weakSelf.posts count]; i++) {
+                Post *post = weakSelf.posts[i];
+                post.isFavourite = [weakSelf.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
+            }
+            [weakSelf.tableView reloadData];
         }
     }];
 }

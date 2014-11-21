@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B31A45E1A1F17C700629C09 /* UIButton+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B31A45D1A1F17C700629C09 /* UIButton+Image.m */; };
 		5B4833C91A1B1B1100CA240D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833C81A1B1B1100CA240D /* main.m */; };
 		5B4833CC1A1B1B1100CA240D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833CB1A1B1B1100CA240D /* AppDelegate.m */; };
 		5B4833D21A1B1B1100CA240D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B4833D01A1B1B1100CA240D /* Main.storyboard */; };
@@ -44,6 +45,8 @@
 /* Begin PBXFileReference section */
 		064D9156E3CB37447070654F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		25DBFB504AFE52C4B16713B9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		5B31A45C1A1F17C700629C09 /* UIButton+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Image.h"; sourceTree = "<group>"; };
+		5B31A45D1A1F17C700629C09 /* UIButton+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Image.m"; sourceTree = "<group>"; };
 		5B4833C31A1B1B1100CA240D /* SoulIntention.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoulIntention.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4833C71A1B1B1100CA240D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B4833C81A1B1B1100CA240D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -229,6 +232,8 @@
 			children = (
 				84CE291F1A1B690C00109DC3 /* UIImage+ScaleImage.h */,
 				84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */,
+				5B31A45C1A1F17C700629C09 /* UIButton+Image.h */,
+				5B31A45D1A1F17C700629C09 /* UIButton+Image.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -391,6 +396,7 @@
 				5B4834021A1B1B5100CA240D /* TwitterManager.m in Sources */,
 				84CE291B1A1B393300109DC3 /* AutorViewController.m in Sources */,
 				5B532A581A1CCC4E00D96279 /* Author.m in Sources */,
+				5B31A45E1A1F17C700629C09 /* UIButton+Image.m in Sources */,
 				5B4834031A1B1B5100CA240D /* Post.m in Sources */,
 				5B4834051A1B1B5100CA240D /* ListViewController.m in Sources */,
 				5B4833CC1A1B1B1100CA240D /* AppDelegate.m in Sources */,

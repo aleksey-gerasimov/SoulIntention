@@ -7,6 +7,7 @@
 //
 
 #import "Post.h"
+
 #import "SoulIntentionManager.h"
 
 @implementation Post

@@ -7,10 +7,8 @@
 //
 
 #import <FacebookSDK/FacebookSDK.h>
-#import <Social/Social.h>
 
 #import "FacebookManager.h"
-#import "AppDelegate.h"
 
 @implementation FacebookManager
 

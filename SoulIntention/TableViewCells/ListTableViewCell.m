@@ -9,10 +9,12 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import "ListTableViewCell.h"
+
 #import "SoulIntentionManager.h"
 #import "FacebookManager.h"
 #import "TwitterManager.h"
-#import "UIImage+ScaleImage.h"
+
+#import "UIButton+Image.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
@@ -60,7 +62,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     [self initGestureRecognizer];
     [self setButtonImages];
     self.cellType = CellTypeCenter;
-    [self subscribeToNotificationCenter];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:@"Swipe" object:nil];
 }
 
 - (void)prepareForReuse
@@ -69,6 +71,11 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     self.imageWidthConstraint.constant = 0;
     [self layoutIfNeeded];
     [self.postImageView cancelImageRequestOperation];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (UIEdgeInsets)layoutMargins
@@ -80,28 +87,30 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
 - (void)setButtonImages
 {
-    UIImage *image = [UIImage new];
-    CGSize size = CGSizeMake(ICON_WIDTH, ICON_HEIGHT);
-    
-    image = [UIImage imageNamed:@"ic_favorite_nawbar"];
-    [self.favoriteButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
-    image = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
-    [self.favoriteButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
-    
-    image = [UIImage imageNamed:@"ic_facebook_share"];
-    [self.facebookButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
-    image = [UIImage imageNamed:@"ic_facebook_share_select"];
-    [self.facebookButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
-    
-    image = [UIImage imageNamed:@"ic_twitter_share"];
-    [self.twitterButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
-    image = [UIImage imageNamed:@"ic_twitter_share_select"];
-    [self.twitterButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
-}
+    [self.facebookButton setNormalImage:[UIImage imageNamed:@"ic_facebook_share"]
+                       highlightedImage:[UIImage imageNamed:@"ic_facebook_share_select"]
+                                   size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+    [self.twitterButton setNormalImage:[UIImage imageNamed:@"ic_twitter_share"]
+                      highlightedImage:[UIImage imageNamed:@"ic_twitter_share_select"]
+                                  size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
 
-- (void)subscribeToNotificationCenter
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:@"Swipe" object:nil];
+//    UIImage *image = [UIImage new];
+//    CGSize size = CGSizeMake(ICON_WIDTH, ICON_HEIGHT);
+
+//    image = [UIImage imageNamed:@"ic_favorite_nawbar"];
+//    [self.favoriteButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
+//    image = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
+//    [self.favoriteButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
+//    
+//    image = [UIImage imageNamed:@"ic_facebook_share"];
+//    [self.facebookButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
+//    image = [UIImage imageNamed:@"ic_facebook_share_select"];
+//    [self.facebookButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
+//    
+//    image = [UIImage imageNamed:@"ic_twitter_share"];
+//    [self.twitterButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
+//    image = [UIImage imageNamed:@"ic_twitter_share_select"];
+//    [self.twitterButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
 }
 
 - (void)cellStateChanged:(NSNotification *)notification
@@ -163,6 +172,12 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ %@", _post.creationDate, _post.author];
 
+    UIImage *normalImage = [UIImage imageNamed:@"ic_favorite_nawbar"];
+    UIImage *highlightedImage = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
+    [self.favoriteButton setNormalImage:_post.isFavourite ? normalImage : highlightedImage
+                       highlightedImage:_post.isFavourite ? highlightedImage : normalImage
+                                   size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+
     __weak ListTableViewCell *weakSelf = self;
     NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -183,8 +198,14 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 - (IBAction)favoriteButtonTouchUpInside:(id)sender
 {
     NSLog(@"ListTableViewCell favorite button pressed");
+    __weak ListTableViewCell *weakSelf = self;
     [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        
+        if (error) {
+            return;
+        }
+        [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
+                               highlightedImage:weakSelf.favoriteButton.imageView.image
+                                           size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
     }];
 }
 

@@ -9,6 +9,7 @@
 #import <RestKit/RestKit.h>
 
 #import "SoulIntentionManager.h"
+
 #import "Post.h"
 #import "Favourite.h"
 #import "Author.h"

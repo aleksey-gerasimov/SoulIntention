@@ -9,9 +9,11 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import "AutorViewController.h"
+
 #import "SoulIntentionManager.h"
-#import "Author.h"
 #import "AppDelegate.h"
+
+#import "Author.h"
 
 NSInteger const kAuthorImageViewHeight = 180;
 
@@ -45,6 +47,13 @@ NSInteger const kAuthorImageViewHeight = 180;
         [weakSelf getAuthorInfo];
     }];
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Private
 
 - (void)getAuthorInfo
 {

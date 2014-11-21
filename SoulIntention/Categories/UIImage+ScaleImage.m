@@ -10,7 +10,7 @@
 
 @implementation UIImage (ScaleImage)
 
-+ (UIImage *)imageWithImage:(UIImage*)image scaleToSize:(CGSize)size
++ (UIImage *)imageWithImage:(UIImage *)image scaleToSize:(CGSize)size
 {
     UIGraphicsBeginImageContext(size);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];

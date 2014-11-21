@@ -7,6 +7,7 @@
 //
 
 #import "Author.h"
+
 #import "SoulIntentionManager.h"
 
 @implementation Author
