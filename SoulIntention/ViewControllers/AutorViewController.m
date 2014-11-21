@@ -12,6 +12,7 @@
 
 #import "SoulIntentionManager.h"
 #import "AppDelegate.h"
+#import "Constants.h"
 
 #import "Author.h"
 

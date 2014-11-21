@@ -11,8 +11,7 @@
 #import "AppDelegate.h"
 
 #import "SoulIntentionManager.h"
-
-NSString *const kSessionStartedNotification = @"SessionStartedNotification";
+#import "Constants.h"
 
 @interface AppDelegate ()
 

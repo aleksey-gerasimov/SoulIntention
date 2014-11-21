@@ -13,13 +13,10 @@
 
 #import "SoulIntentionManager.h"
 #import "AppDelegate.h"
+#import "Constants.h"
 
 #import "Post.h"
 #import "Favourite.h"
-
-NSInteger const kPostsOffset = 0;
-NSInteger const kPostsLimit = 20;
-NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
 
 typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     ListViewControllerTypeSouls = 0,

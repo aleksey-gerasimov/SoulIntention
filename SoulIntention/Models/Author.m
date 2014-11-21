@@ -8,7 +8,7 @@
 
 #import "Author.h"
 
-#import "SoulIntentionManager.h"
+#import "Constants.h"
 
 @implementation Author
 

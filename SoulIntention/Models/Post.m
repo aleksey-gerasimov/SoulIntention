@@ -8,7 +8,7 @@
 
 #import "Post.h"
 
-#import "SoulIntentionManager.h"
+#import "Constants.h"
 
 @implementation Post
 

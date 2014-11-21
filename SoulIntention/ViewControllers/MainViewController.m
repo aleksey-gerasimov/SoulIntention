@@ -13,6 +13,7 @@
 #import "AutorViewController.h"
 
 #import "SoulIntentionManager.h"
+#import "Constants.h"
 
 #import "UIImage+ScaleImage.h"
 

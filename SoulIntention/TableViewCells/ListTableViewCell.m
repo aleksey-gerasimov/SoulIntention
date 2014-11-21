@@ -14,6 +14,7 @@
 #import "FacebookManager.h"
 #import "TwitterManager.h"
 #import "AppDelegate.h"
+#import "Constants.h"
 
 #import "Post.h"
 
@@ -22,7 +23,6 @@
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static CGFloat const SWIPE_OFFSET = 107.f;
-NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 
 typedef NS_ENUM(NSInteger, CellType) {
     CellTypeLeft = 0,

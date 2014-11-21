@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kListCellSwipeNotification;
-
 @class Post;
 
 @interface ListTableViewCell : UITableViewCell

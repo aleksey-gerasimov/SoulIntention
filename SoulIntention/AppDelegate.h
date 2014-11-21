@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kSessionStartedNotification;
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

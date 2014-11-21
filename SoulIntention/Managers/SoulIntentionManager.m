@@ -10,11 +10,12 @@
 
 #import "SoulIntentionManager.h"
 
+#import "Constants.h"
+
 #import "Post.h"
 #import "Favourite.h"
 #import "Author.h"
 
-NSString *const kBaseURLString = @"http://134.249.164.53:8077";
 NSString *const kStartSession = @"/startMobile";
 NSString *const kPosts = @"/post";
 NSString *const kFavourites = @"/favourite";
