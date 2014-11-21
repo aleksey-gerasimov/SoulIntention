@@ -159,78 +159,84 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="ZwS-4s-j5U" id="qiT-gs-Yuv">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P8x-zV-K8h" userLabel="rightView">
-                                                    <rect key="frame" x="320" y="0.0" width="107" height="143"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZXU-t9-DoW" userLabel="Actions View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="143"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibb-gk-Ywt" userLabel="facebookButton">
-                                                            <rect key="frame" x="64" y="19" width="31" height="31"/>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ju2-GD-2sg" userLabel="Left View">
+                                                            <rect key="frame" x="0.0" y="0.0" width="160" height="143"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kV0-UO-WLK" userLabel="favoriteButton">
+                                                                    <rect key="frame" x="12" y="56" width="31" height="31"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="31" id="1nN-Tg-9vN"/>
+                                                                        <constraint firstAttribute="height" constant="31" id="LSX-xT-W96"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="ic_favorite">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="favoriteButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="jce-XJ-guv"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.96470588235294119" green="0.74509803921568629" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="31" id="Oi9-Oo-yLs"/>
-                                                                <constraint firstAttribute="width" constant="31" id="rRN-hl-m8U"/>
+                                                                <constraint firstAttribute="centerY" secondItem="kV0-UO-WLK" secondAttribute="centerY" id="Gnj-HA-O7a"/>
+                                                                <constraint firstItem="kV0-UO-WLK" firstAttribute="leading" secondItem="Ju2-GD-2sg" secondAttribute="leading" constant="12" id="bKT-J2-VI5"/>
                                                             </constraints>
-                                                            <state key="normal" image="ic_facebook_share">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="facebookButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="pq4-o0-krf"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A3d-0S-zmY" userLabel="twitterButton">
-                                                            <rect key="frame" x="64" y="93" width="31" height="31"/>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zK1-wI-G0e" userLabel="Right View">
+                                                            <rect key="frame" x="160" y="0.0" width="160" height="143"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYD-18-bEq" userLabel="facebookButton">
+                                                                    <rect key="frame" x="117" y="19" width="31" height="31"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="31" id="hFU-lC-rsz"/>
+                                                                        <constraint firstAttribute="width" constant="31" id="ji3-6k-SOl"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="ic_facebook_share">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="facebookButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="bR4-5Q-SDe"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sAj-Kg-Rvt" userLabel="twitterButton">
+                                                                    <rect key="frame" x="117" y="93" width="31" height="31"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="31" id="0Yl-86-lGw"/>
+                                                                        <constraint firstAttribute="height" constant="31" id="2qu-rK-cgK"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="ic_twitter">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="twitterButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="3tN-2H-h9q"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.10980392156862745" green="0.76862745098039209" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="31" id="VpZ-n0-ubv"/>
-                                                                <constraint firstAttribute="height" constant="31" id="bsE-L5-syF"/>
+                                                                <constraint firstAttribute="trailing" secondItem="aYD-18-bEq" secondAttribute="trailing" constant="12" id="Grn-Nb-b23"/>
+                                                                <constraint firstAttribute="bottom" secondItem="sAj-Kg-Rvt" secondAttribute="bottom" constant="19" id="I4F-yh-hDr"/>
+                                                                <constraint firstItem="aYD-18-bEq" firstAttribute="top" secondItem="zK1-wI-G0e" secondAttribute="top" constant="19" id="Zpb-2x-S54"/>
+                                                                <constraint firstAttribute="trailing" secondItem="sAj-Kg-Rvt" secondAttribute="trailing" constant="12" id="rDc-me-V59"/>
                                                             </constraints>
-                                                            <state key="normal" image="ic_twitter">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="twitterButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="3rm-kI-qvB"/>
-                                                            </connections>
-                                                        </button>
+                                                        </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.10980392156862745" green="0.76862745098039209" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="A3d-0S-zmY" secondAttribute="bottom" constant="19" id="6PF-s9-nhN"/>
-                                                        <constraint firstAttribute="trailing" secondItem="A3d-0S-zmY" secondAttribute="trailing" constant="12" id="JF9-b6-eLc"/>
-                                                        <constraint firstAttribute="trailing" secondItem="ibb-gk-Ywt" secondAttribute="trailing" constant="12" id="Wuq-jU-QZF"/>
-                                                        <constraint firstAttribute="width" constant="320" id="bsQ-gg-W9e"/>
-                                                        <constraint firstItem="ibb-gk-Ywt" firstAttribute="top" secondItem="P8x-zV-K8h" secondAttribute="top" constant="19" id="pZN-QW-L8x"/>
-                                                        <constraint firstAttribute="width" constant="107" id="tte-Fy-Kn0"/>
-                                                        <constraint firstAttribute="height" constant="143" id="wx5-Ti-BbA"/>
-                                                    </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="bsQ-gg-W9e"/>
-                                                        </mask>
-                                                    </variation>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LIT-vh-wom" userLabel="leftView">
-                                                    <rect key="frame" x="-107" y="0.0" width="107" height="143"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xnn-4h-NtV" userLabel="favoriteButton">
-                                                            <rect key="frame" x="12" y="56" width="31" height="31"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="31" id="8Ff-iW-HxG"/>
-                                                                <constraint firstAttribute="width" constant="31" id="kIO-Su-r4n"/>
-                                                            </constraints>
-                                                            <state key="normal" image="ic_favorite">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="favoriteButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="F6w-Ua-jJd"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.96470588235294119" green="0.74509803921568629" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstItem="xnn-4h-NtV" firstAttribute="leading" secondItem="LIT-vh-wom" secondAttribute="leading" constant="12" id="X4a-An-GQp"/>
-                                                        <constraint firstAttribute="width" constant="107" id="bZ4-vB-mcY"/>
-                                                        <constraint firstAttribute="height" constant="143" id="cPK-3G-LU0"/>
-                                                        <constraint firstAttribute="centerY" secondItem="xnn-4h-NtV" secondAttribute="centerY" id="eg9-0U-5QI"/>
+                                                        <constraint firstAttribute="trailing" secondItem="zK1-wI-G0e" secondAttribute="trailing" id="1e0-bc-Ovb"/>
+                                                        <constraint firstItem="Ju2-GD-2sg" firstAttribute="width" secondItem="zK1-wI-G0e" secondAttribute="width" id="BPz-qW-hHB"/>
+                                                        <constraint firstItem="zK1-wI-G0e" firstAttribute="top" secondItem="ZXU-t9-DoW" secondAttribute="top" id="Itu-x2-YVV"/>
+                                                        <constraint firstAttribute="bottom" secondItem="zK1-wI-G0e" secondAttribute="bottom" id="K7S-NA-S9k"/>
+                                                        <constraint firstItem="Ju2-GD-2sg" firstAttribute="top" secondItem="ZXU-t9-DoW" secondAttribute="top" id="MuK-7o-WLU"/>
+                                                        <constraint firstItem="Ju2-GD-2sg" firstAttribute="leading" secondItem="ZXU-t9-DoW" secondAttribute="leading" id="O9d-Nf-LwK"/>
+                                                        <constraint firstItem="zK1-wI-G0e" firstAttribute="leading" secondItem="Ju2-GD-2sg" secondAttribute="trailing" id="Xqq-Vj-YKu"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Ju2-GD-2sg" secondAttribute="bottom" id="qeq-TN-i9Q"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGp-DM-fBr" userLabel="centerView">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGp-DM-fBr" userLabel="Info View">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="143"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0PW-38-zs2" userLabel="titleLabel">
@@ -279,7 +285,7 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="120" id="QBi-8Q-iYp"/>
                                                                 <constraint firstAttribute="width" id="SDZ-Q6-X9v"/>
@@ -324,46 +330,26 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="P8x-zV-K8h" firstAttribute="leading" secondItem="UGp-DM-fBr" secondAttribute="trailing" id="3K7-fD-b2i"/>
-                                                <constraint firstItem="UGp-DM-fBr" firstAttribute="leading" secondItem="LIT-vh-wom" secondAttribute="trailing" id="4ua-lU-HaG"/>
+                                                <constraint firstItem="ZXU-t9-DoW" firstAttribute="leading" secondItem="qiT-gs-Yuv" secondAttribute="leading" id="1AB-XM-vHw"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZXU-t9-DoW" secondAttribute="trailing" id="2v3-jM-nc2"/>
                                                 <constraint firstAttribute="trailing" secondItem="UGp-DM-fBr" secondAttribute="trailing" id="5VG-ef-QQx"/>
-                                                <constraint firstItem="LIT-vh-wom" firstAttribute="leading" secondItem="qiT-gs-Yuv" secondAttribute="leading" constant="-107" id="5ki-XS-E0y"/>
                                                 <constraint firstAttribute="bottom" secondItem="UGp-DM-fBr" secondAttribute="bottom" id="FQP-vK-QSW"/>
-                                                <constraint firstItem="P8x-zV-K8h" firstAttribute="top" secondItem="qiT-gs-Yuv" secondAttribute="top" id="LhJ-AR-ou1"/>
-                                                <constraint firstItem="P8x-zV-K8h" firstAttribute="leading" secondItem="UGp-DM-fBr" secondAttribute="trailing" id="PGd-vn-oZ2"/>
-                                                <constraint firstItem="P8x-zV-K8h" firstAttribute="leading" secondItem="UGp-DM-fBr" secondAttribute="trailing" id="U1S-UZ-llo"/>
+                                                <constraint firstItem="ZXU-t9-DoW" firstAttribute="top" secondItem="qiT-gs-Yuv" secondAttribute="top" id="Sz5-O0-h2n"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZXU-t9-DoW" secondAttribute="bottom" id="Xqw-fJ-Fiy"/>
                                                 <constraint firstItem="UGp-DM-fBr" firstAttribute="leading" secondItem="qiT-gs-Yuv" secondAttribute="leading" id="YNn-ZS-Jcs"/>
                                                 <constraint firstItem="UGp-DM-fBr" firstAttribute="top" secondItem="qiT-gs-Yuv" secondAttribute="top" id="aSl-UQ-a2x"/>
-                                                <constraint firstItem="LIT-vh-wom" firstAttribute="top" secondItem="qiT-gs-Yuv" secondAttribute="top" id="dRH-FC-aag"/>
-                                                <constraint firstAttribute="trailing" secondItem="P8x-zV-K8h" secondAttribute="trailing" constant="320" id="jQk-VP-Rwa"/>
-                                                <constraint firstAttribute="trailing" secondItem="P8x-zV-K8h" secondAttribute="trailing" constant="320" id="rgi-l5-rg6"/>
-                                                <constraint firstAttribute="bottom" secondItem="P8x-zV-K8h" secondAttribute="bottom" id="tzB-4N-Afa"/>
-                                                <constraint firstItem="P8x-zV-K8h" firstAttribute="top" secondItem="qiT-gs-Yuv" secondAttribute="top" id="yOj-Mx-cTc"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="4ua-lU-HaG"/>
-                                                    <exclude reference="PGd-vn-oZ2"/>
-                                                    <exclude reference="U1S-UZ-llo"/>
-                                                    <exclude reference="jQk-VP-Rwa"/>
-                                                    <exclude reference="rgi-l5-rg6"/>
-                                                    <exclude reference="tzB-4N-Afa"/>
-                                                    <exclude reference="yOj-Mx-cTc"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellView" destination="UGp-DM-fBr" id="akN-lK-Ype"/>
                                             <outlet property="dateLabel" destination="luy-Iw-tnI" id="IZj-2H-568"/>
                                             <outlet property="descriptionLabel" destination="NgL-Kw-YuH" id="LRa-gb-4BY"/>
-                                            <outlet property="facebookButton" destination="ibb-gk-Ywt" id="pgc-4k-jJS"/>
-                                            <outlet property="favoriteButton" destination="xnn-4h-NtV" id="QgT-eC-175"/>
-                                            <outlet property="favoriteView" destination="LIT-vh-wom" id="063-MJ-cgJ"/>
+                                            <outlet property="facebookButton" destination="aYD-18-bEq" id="u3X-Ed-jKA"/>
+                                            <outlet property="favoriteButton" destination="kV0-UO-WLK" id="Tl5-Qu-Fi1"/>
                                             <outlet property="imageWidthConstraint" destination="SDZ-Q6-X9v" id="kl9-Pp-rcZ"/>
                                             <outlet property="postImageView" destination="sE2-7y-lP0" id="feV-5a-0FV"/>
-                                            <outlet property="socialView" destination="P8x-zV-K8h" id="liA-FJ-YWf"/>
                                             <outlet property="titleLabel" destination="0PW-38-zs2" id="4bY-2v-2fc"/>
-                                            <outlet property="twitterButton" destination="A3d-0S-zmY" id="maq-5q-Kfv"/>
+                                            <outlet property="twitterButton" destination="sAj-Kg-Rvt" id="dKc-tH-1DX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

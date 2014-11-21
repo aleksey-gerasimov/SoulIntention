@@ -13,12 +13,16 @@
 #import "SoulIntentionManager.h"
 #import "FacebookManager.h"
 #import "TwitterManager.h"
+#import "AppDelegate.h"
+
+#import "Post.h"
 
 #import "UIButton+Image.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static CGFloat const SWIPE_OFFSET = 107.f;
+NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 
 typedef NS_ENUM(NSInteger, CellType) {
     CellTypeLeft = 0,
@@ -62,7 +66,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     [self initGestureRecognizer];
     [self setButtonImages];
     self.cellType = CellTypeCenter;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:@"Swipe" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:kListCellSwipeNotification object:nil];
 }
 
 - (void)prepareForReuse
@@ -116,19 +120,21 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 - (void)cellStateChanged:(NSNotification *)notification
 {
     NSDictionary *userInfo = notification.userInfo;
-    if ([userInfo valueForKey:@"id"]!= self.post.postId) {
-        switch (self.cellType) {
-            case CellTypeCenter:
-                break;
-            case CellTypeLeft:
-                [self swipeToDirection:SwipeDirectionRight];
-                self.cellType = CellTypeCenter;
-                break;
-            case CellTypeRight:
-                [self swipeToDirection:SwipeDirectionLeft];
-                self.cellType = CellTypeCenter;
-                break;
-        }
+    if ([userInfo valueForKey:@"postId"] == self.post.postId) {
+        return;
+    }
+
+    switch (self.cellType) {
+        case CellTypeCenter:
+            break;
+        case CellTypeLeft:
+            [self swipeToDirection:SwipeDirectionRight];
+            self.cellType = CellTypeCenter;
+            break;
+        case CellTypeRight:
+            [self swipeToDirection:SwipeDirectionLeft];
+            self.cellType = CellTypeCenter;
+            break;
     }
 }
 
@@ -143,7 +149,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
         self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
         self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"Swipe" object:nil userInfo:@{@"id":self.post.postId}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId}];
     }];
     
 }
@@ -174,8 +180,8 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 
     UIImage *normalImage = [UIImage imageNamed:@"ic_favorite_nawbar"];
     UIImage *highlightedImage = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
-    [self.favoriteButton setNormalImage:_post.isFavourite ? normalImage : highlightedImage
-                       highlightedImage:_post.isFavourite ? highlightedImage : normalImage
+    [self.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
+                       highlightedImage:_post.isFavourite ? normalImage : highlightedImage
                                    size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
 
     __weak ListTableViewCell *weakSelf = self;
@@ -199,14 +205,30 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 {
     NSLog(@"ListTableViewCell favorite button pressed");
     __weak ListTableViewCell *weakSelf = self;
-    [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        if (error) {
-            return;
-        }
-        [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
-                               highlightedImage:weakSelf.favoriteButton.imageView.image
-                                           size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
-    }];
+    __block AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    if (self.post.isFavourite) {
+        [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            if (error) {
+                return;
+            }
+            [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
+                                   highlightedImage:weakSelf.favoriteButton.imageView.image
+                                               size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+            weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
+            [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
+        }];
+    } else {
+        [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            if (error) {
+                return;
+            }
+            [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
+                                   highlightedImage:weakSelf.favoriteButton.imageView.image
+                                               size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+            weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
+            [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
+        }];
+    }
 }
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {

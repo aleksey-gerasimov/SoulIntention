@@ -28,7 +28,7 @@ NSString *const kSessionStartedNotification = @"SessionStartedNotification";
     [[UINavigationBar appearance] setTranslucent: NO];
     
     self.sessionStarted = NO;
-    self.favouritesIdsArray = [NSArray new];
+    self.favouritesIdsArray = [NSMutableArray new];
     __weak AppDelegate *weakSelf = self;
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
     NSLog(@"Device ID = %@", deviceId);
@@ -42,9 +42,9 @@ NSString *const kSessionStartedNotification = @"SessionStartedNotification";
                 return;
             }
             weakSelf.sessionStarted = YES;
-            weakSelf.favouritesIdsArray = [result valueForKey:@"postId"];
+            weakSelf.favouritesIdsArray = [[result valueForKey:@"postId"] mutableCopy];
             [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
-            NSLog(@"Favourites Ids: \n%@", [result valueForKey:@"postId"]);
+            NSLog(@"Favourites Ids: \n%@", weakSelf.favouritesIdsArray);
         }];
     }];
 

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Post.h"
+
+extern NSString *const kListCellSwipeNotification;
+
+@class Post;
 
 @interface ListTableViewCell : UITableViewCell
 

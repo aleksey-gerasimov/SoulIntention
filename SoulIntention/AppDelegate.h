@@ -15,7 +15,7 @@ extern NSString *const kSessionStartedNotification;
 @property (strong, nonatomic) UIWindow *window;
 
 @property (assign, nonatomic) BOOL sessionStarted;
-@property (strong, nonatomic) NSArray *favouritesIdsArray;
+@property (strong, nonatomic) NSMutableArray *favouritesIdsArray;
 
 @end
 

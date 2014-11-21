@@ -155,12 +155,12 @@ NSString *const kAuthorDescription = @"/about";
 {
     NSDictionary *parameters = @{@"postId" : postId};
     [self.restManager postObject:nil path:kFavourites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager add to favourites success");
+        NSLog(@"SoulIntentionManager add to favourites post with id %@ success", postId);
         if (handler) {
             handler(YES, nil, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager add to favourites error: %@", [error localizedDescription]);
+        NSLog(@"SoulIntentionManager add to favourites post with id %@ error: %@", postId, [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }
@@ -171,12 +171,12 @@ NSString *const kAuthorDescription = @"/about";
 {
     NSDictionary *parameters = @{@"postId" : postId};
     [self.restManager deleteObject:nil path:kFavourites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager remove from favourites success");
+        NSLog(@"SoulIntentionManager remove from favourites post with id %@ success", postId);
         if (handler) {
             handler(YES, nil, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager remove from favourites error: %@", [error localizedDescription]);
+        NSLog(@"SoulIntentionManager remove from favourites post with id %@ error: %@", postId, [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }
