@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, ListStyle) {
+    ListStyleAll,
+    ListStyleFavourite
+};
+
 @interface ListViewController : UIViewController
+
+@property (assign, nonatomic) ListStyle listStyle;
 
 @end

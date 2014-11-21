@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) NSArray *allPosts;
+@property (strong, nonatomic) NSArray *favouritePosts;
 @property (strong, nonatomic) NSArray *posts;
 
 @end
@@ -41,14 +43,17 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     [super viewDidLoad];
 
     self.appDelegate = [UIApplication sharedApplication].delegate;
+    self.allPosts = [NSArray new];
+    self.favouritePosts = [NSArray new];
     self.posts = [NSArray new];
+
     if (self.appDelegate.sessionStarted) {
-        [self getPosts];
+        self.listStyle == ListStyleAll ? [self getAllPosts] : [self getFavouritePosts];
     }
 
     __weak ListViewController *weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [weakSelf getPosts];
+        self.listStyle == ListStyleAll ? [self getAllPosts] : [self getFavouritePosts];
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [weakSelf showPosts:note.userInfo[@"result"]];
@@ -68,7 +73,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 
 #pragma mark - Private Methods
 
-- (void)getPosts
+- (void)getAllPosts
 {
     __weak ListViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] getPostsWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
@@ -80,13 +85,37 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     }];
 }
 
+- (void)getFavouritePosts
+{
+    __weak ListViewController *weakSelf = self;
+    [[SoulIntentionManager sharedManager] getFavouritesWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        if (error) {
+            return;
+        } else {
+            [weakSelf showFavouritePosts:[result valueForKey:@"post"]];
+        }
+    }];
+}
+
 - (void)showPosts:(NSArray *)posts
 {
-    self.posts = posts;
+    self.allPosts = posts;
     for (NSInteger i=0; i<[self.posts count]; i++) {
         Post *post = self.posts[i];
         post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
     }
+    self.posts = self.allPosts;
+    [self.tableView reloadData];
+}
+
+- (void)showFavouritePosts:(NSArray *)posts
+{
+    self.favouritePosts = posts;
+    for (NSInteger i=0; i<[self.posts count]; i++) {
+        Post *post = self.posts[i];
+        post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
+    }
+    self.posts = self.favouritePosts;
     [self.tableView reloadData];
 }
 

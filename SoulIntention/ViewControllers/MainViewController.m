@@ -119,8 +119,10 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)initializeChildViewControllers
 {
     ListViewController *soulsViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
+    soulsViewController.listStyle = ListStyleAll;
     AutorViewController *autorViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([AutorViewController class])];
     ListViewController *favoritesViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
+    favoritesViewController.listStyle = ListStyleFavourite;
     
     [self.childViewControllers addObject:soulsViewController];
     [self.childViewControllers addObject:autorViewController];

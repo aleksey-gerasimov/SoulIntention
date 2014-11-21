@@ -173,7 +173,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 {
     _post = post;
     
-    self.titleLabel.text = _post.title;
+    self.titleLabel.text = _post.title.uppercaseString;
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
 
