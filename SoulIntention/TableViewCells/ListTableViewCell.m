@@ -23,6 +23,7 @@
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static CGFloat const SWIPE_OFFSET = 107.f;
+CGFloat const AnimationDuration = 0.5;
 
 typedef NS_ENUM(NSInteger, CellType) {
     CellTypeLeft = 0,
@@ -35,6 +36,8 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     SwipeDirectionRight = 1,
 };
 
+typedef void(^CellSwipeHandler)(void);
+
 @interface ListTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -42,8 +45,6 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *cellView;
-@property (weak, nonatomic) IBOutlet UIView *favoriteView;
-@property (weak, nonatomic) IBOutlet UIView *socialView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidthConstraint;
 
@@ -86,93 +87,12 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     return UIEdgeInsetsZero;
 }
 
-#pragma mark - Private Methods
-
-- (void)setButtonImages
-{
-    [self.facebookButton setNormalImage:[UIImage imageNamed:@"ic_facebook_share"]
-                       highlightedImage:[UIImage imageNamed:@"ic_facebook_share_select"]
-                                   size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
-    [self.twitterButton setNormalImage:[UIImage imageNamed:@"ic_twitter_share"]
-                      highlightedImage:[UIImage imageNamed:@"ic_twitter_share_select"]
-                                  size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
-
-//    UIImage *image = [UIImage new];
-//    CGSize size = CGSizeMake(ICON_WIDTH, ICON_HEIGHT);
-
-//    image = [UIImage imageNamed:@"ic_favorite_nawbar"];
-//    [self.favoriteButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
-//    image = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
-//    [self.favoriteButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
-//    
-//    image = [UIImage imageNamed:@"ic_facebook_share"];
-//    [self.facebookButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
-//    image = [UIImage imageNamed:@"ic_facebook_share_select"];
-//    [self.facebookButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
-//    
-//    image = [UIImage imageNamed:@"ic_twitter_share"];
-//    [self.twitterButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateNormal];
-//    image = [UIImage imageNamed:@"ic_twitter_share_select"];
-//    [self.twitterButton setImage:[UIImage imageWithImage:image scaleToSize:size] forState:UIControlStateHighlighted];
-}
-
-- (void)cellStateChanged:(NSNotification *)notification
-{
-    NSDictionary *userInfo = notification.userInfo;
-    if ([userInfo valueForKey:@"postId"] == self.post.postId) {
-        return;
-    }
-
-    switch (self.cellType) {
-        case CellTypeCenter:
-            break;
-        case CellTypeLeft:
-            [self swipeToDirection:SwipeDirectionRight];
-            self.cellType = CellTypeCenter;
-            break;
-        case CellTypeRight:
-            [self swipeToDirection:SwipeDirectionLeft];
-            self.cellType = CellTypeCenter;
-            break;
-    }
-}
-
-- (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction
-{
-    if (direction == SwipeDirectionLeft) {
-        offset = -offset;
-    }
-    
-    [UIView animateWithDuration:0.5f animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
-        self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
-        self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
-       
-        [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId}];
-    }];
-    
-}
-
-- (void)swipeToDirection:(NSInteger)direction
-{
-    CGFloat offset = SWIPE_OFFSET;
-    if (direction == SwipeDirectionLeft) {
-        offset = -offset;
-    }
-    
-    [UIView animateWithDuration:0.5f animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
-        self.socialView.frame = CGRectOffset(self.socialView.frame, offset, 0.f);
-        self.favoriteView.frame = CGRectOffset(self.favoriteView.frame, offset, 0.f);
-    }];
-}
-
 #pragma mark - Custom Setters
 
 - (void)setPost:(Post *)post
 {
     _post = post;
-    
+
     self.titleLabel.text = _post.title.uppercaseString;
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
@@ -200,6 +120,54 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     }];
 }
 
+#pragma mark - Private Methods
+
+- (void)setButtonImages
+{
+    [self.facebookButton setNormalImage:[UIImage imageNamed:@"ic_facebook_share"]
+                       highlightedImage:[UIImage imageNamed:@"ic_facebook_share_select"]
+                                   size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+    [self.twitterButton setNormalImage:[UIImage imageNamed:@"ic_twitter_share"]
+                      highlightedImage:[UIImage imageNamed:@"ic_twitter_share_select"]
+                                  size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+}
+
+- (void)cellStateChanged:(NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    if ([userInfo valueForKey:@"postId"] == self.post.postId) {
+        return;
+    }
+
+    switch (self.cellType) {
+        case CellTypeCenter:
+            break;
+        case CellTypeLeft:
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight completitionHandler:nil];
+            break;
+        case CellTypeRight:
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:nil];
+            break;
+    }
+    self.cellType = CellTypeCenter;
+}
+
+- (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction completitionHandler:(CellSwipeHandler)handler
+{
+    if (direction == SwipeDirectionLeft) {
+        offset = -offset;
+    }
+
+    [UIView animateWithDuration:AnimationDuration animations:^{
+        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
+    } completion:^(BOOL finished) {
+        if (handler) {
+            handler();
+        }
+    }];
+    
+}
+
 #pragma mark - IBActions
 
 - (IBAction)favoriteButtonTouchUpInside:(id)sender
@@ -208,10 +176,15 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     __weak ListTableViewCell *weakSelf = self;
     __block AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     void(^favouriteSwitchHandler)(void) = ^{
-        [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
-                               highlightedImage:weakSelf.favoriteButton.imageView.image
-                                           size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
         weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
+        [weakSelf swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:^{
+            UIImage *normalImage = [UIImage imageNamed:@"ic_favorite_nawbar"];
+            UIImage *highlightedImage = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
+            [weakSelf.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
+                               highlightedImage:_post.isFavourite ? normalImage : highlightedImage
+                                           size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+        }];
+        weakSelf.cellType = CellTypeCenter;
     };
     if (self.post.isFavourite) {
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
@@ -257,36 +230,38 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     [self.cellView addGestureRecognizer:swipeRight];
 }
 
-- (void)swipeToRightWithGestureRecognizer:(UIGestureRecognizer *)gestureRecogniser
+- (void)swipeToRightWithGestureRecognizer:(UISwipeGestureRecognizer *)gestureRecogniser
 {
     switch (self.cellType) {
         case CellTypeRight:
-            break;
+            return; //no need to post notification
         case CellTypeLeft:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight];
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight completitionHandler:nil];
             self.cellType = CellTypeCenter;
             break;
         case CellTypeCenter:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight];
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight completitionHandler:nil];
             self.cellType = CellTypeRight;
             break;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId}];
 }
 
-- (void)swipeToLeftWithGestureRecognizer:(UIGestureRecognizer *)gestureRecogniser
+- (void)swipeToLeftWithGestureRecognizer:(UISwipeGestureRecognizer *)gestureRecogniser
 {
     switch (self.cellType) {
         case CellTypeRight:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft];
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:nil];
             self.cellType = CellTypeCenter;
             break;
         case CellTypeLeft:
-            break;
+            return; //no need to post notification
         case CellTypeCenter:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft];
+            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:nil];
             self.cellType = CellTypeLeft;
             break;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId}];
 }
 
 @end

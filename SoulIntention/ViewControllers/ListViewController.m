@@ -106,8 +106,8 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 - (void)showPosts:(NSArray *)posts
 {
     self.allPosts = posts;
-    for (NSInteger i=0; i<[self.posts count]; i++) {
-        Post *post = self.posts[i];
+    for (NSInteger i=0; i<[self.allPosts count]; i++) {
+        Post *post = self.allPosts[i];
         post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
     }
     self.posts = self.allPosts;
@@ -117,8 +117,8 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 - (void)showFavouritePosts:(NSArray *)posts
 {
     self.favouritePosts = posts;
-    for (NSInteger i=0; i<[self.posts count]; i++) {
-        Post *post = self.posts[i];
+    for (NSInteger i=0; i<[self.favouritePosts count]; i++) {
+        Post *post = self.favouritePosts[i];
         post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
     }
     self.posts = self.favouritePosts;
