@@ -15,15 +15,16 @@ NSInteger const kLoadingIndicatorViewTag = 215;
 
 @interface UIView ()
 
-@property (strong, nonatomic, readonly) AppDelegate *appDelegate;
+@property (strong, nonatomic, readonly) UIView *rootView;
 
 @end
 
 @implementation UIView (LoadingIndicator)
 
-- (AppDelegate *)appDelegate
+- (UIView *)rootView
 {
-    return [UIApplication sharedApplication].delegate;
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    return appDelegate.window.rootViewController.view;
 }
 
 - (void)showLoadingIndicator
@@ -35,17 +36,17 @@ NSInteger const kLoadingIndicatorViewTag = 215;
 
     UIView *backgroundView = [UIView new];
     backgroundView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
-    backgroundView.frame = self.bounds;
+    backgroundView.frame = self.rootView.bounds;
     backgroundView.tag = kLoadingIndicatorBackgroundViewTag;
 
     [backgroundView addSubview:loadingIndicator];
     loadingIndicator.center = backgroundView.center;
-    [self.appDelegate.window.rootViewController.view addSubview:backgroundView];
+    [self.rootView addSubview:backgroundView];
 }
 
 - (void)hideLoadingIndicator
 {
-    UIView *backgroundView = [self.appDelegate.window.rootViewController.view viewWithTag:kLoadingIndicatorBackgroundViewTag];
+    UIView *backgroundView = [self.rootView viewWithTag:kLoadingIndicatorBackgroundViewTag];
     UIActivityIndicatorView *loadingIndicator = (UIActivityIndicatorView *)[backgroundView viewWithTag:kLoadingIndicatorViewTag];
     [loadingIndicator stopAnimating];
     [loadingIndicator removeFromSuperview];

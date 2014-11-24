@@ -29,6 +29,8 @@ NSInteger const kAuthorImageViewHeight = 180;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *authorImageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *authorTextViewHeightConstraint;
 
+@property (strong, nonatomic) AppDelegate *appDelegate;
+
 @end
 
 @implementation AutorViewController
@@ -42,8 +44,8 @@ NSInteger const kAuthorImageViewHeight = 180;
     self.authorImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
     [self.view layoutIfNeeded];
 
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    if (appDelegate.sessionStarted) {
+    self.appDelegate = [UIApplication sharedApplication].delegate;
+    if (self.appDelegate.sessionStarted) {
         [self getAuthorInfo];
     }
 
@@ -67,6 +69,7 @@ NSInteger const kAuthorImageViewHeight = 180;
     [[SoulIntentionManager sharedManager] getAuthorDescriptionWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
+            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to get author info"];
             return;
         }
         Author *author = [result firstObject];

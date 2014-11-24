@@ -10,6 +10,8 @@
 
 #import "FacebookManager.h"
 
+#import "AppDelegate.h"
+
 @implementation FacebookManager
 
 #pragma mark - Lifecycle
@@ -38,15 +40,17 @@
 
 - (void)presentShareDialogWithName:(NSString *)name caption:(NSString *)caption description:(NSString *)description link:(NSURL *)link picture:(NSURL *)picture
 {
-    if ([FBDialogs canPresentShareDialog]) {
-        [FBDialogs presentShareDialogWithLink:link name:name caption:caption description:description picture:picture clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-            if (error) {
-                NSLog(@"Facebook present share dialog error: %@", [error localizedDescription]);
-            } else {
-                NSLog(@"Facebook present share dialog success");
-            }
-        }];
-    } else {
+    __weak AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+//    if ([FBDialogs canPresentShareDialog]) {
+//        [FBDialogs presentShareDialogWithLink:link name:name caption:caption description:description picture:picture clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+//            if (error) {
+//                NSLog(@"Facebook present share dialog error: %@", [error localizedDescription]);
+//                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to present facebook share dialog"];
+//            } else {
+//                NSLog(@"Facebook present share dialog success");
+//            }
+//        }];
+//    } else {
         NSMutableDictionary *parameters = [NSMutableDictionary new];
         if (name) {
             parameters[@"name"] = name;
@@ -67,11 +71,12 @@
         [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:parameters handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
             if (error) {
                 NSLog(@"Facebook present feed dialog modally error: %@", [error localizedDescription]);
+                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to present facebook feed dialog"];
             } else {
                 NSLog(@"Facebook present feed dialog modally success");
             }
         }];
-    }
+//    }
 }
 
 @end

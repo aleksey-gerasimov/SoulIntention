@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *const kBaseURLString;
+extern NSString *const kMainPageURLString;
 
 extern NSString *const kSessionStartedNotification;
 

@@ -9,6 +9,7 @@
 #import "Constants.h"
 
 NSString *const kBaseURLString = @"http://134.249.164.53:8077";
+NSString *const kMainPageURLString = @"http://www.maryjorapini.com";
 
 NSString *const kSessionStartedNotification = @"SessionStartedNotification";
 

@@ -13,6 +13,7 @@
 #import "AutorViewController.h"
 
 #import "SoulIntentionManager.h"
+#import "AppDelegate.h"
 #import "Constants.h"
 
 #import "UIImage+ScaleImage.h"
@@ -192,9 +193,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [searchBar resignFirstResponder];
     [self.view showLoadingIndicator];
     __weak MainViewController *weakSelf = self;
+    __weak AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     [[SoulIntentionManager sharedManager] searchForPostsWithTitle:searchBar.text offset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
+            [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to make search"];
             return;
         } else {
             NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"test", (long)kPostsOffset, (long)kPostsLimit);

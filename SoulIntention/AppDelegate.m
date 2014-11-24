@@ -21,7 +21,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [[UINavigationBar appearance] setBarTintColor: [UIColor colorWithRed: 86/255.f green: 58/255.f blue: 97/255.f alpha: 1.f]];
@@ -37,12 +36,14 @@
     [[SoulIntentionManager sharedManager] startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
             [weakSelf.window.rootViewController.view hideLoadingIndicator];
+            [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to connect to the server"];
             return;
         }
 
         [[SoulIntentionManager sharedManager] getFavouritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf.window.rootViewController.view hideLoadingIndicator];
             if (error) {
+                [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to get favourites indexes"];
                 return;
             }
             weakSelf.sessionStarted = YES;
@@ -63,6 +64,12 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+}
+
+- (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
 }
 
 @end

@@ -88,6 +88,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     [[SoulIntentionManager sharedManager] getPostsWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
+            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load posts"];
             return;
         } else {
             [weakSelf showPosts:result];
@@ -102,6 +103,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     [[SoulIntentionManager sharedManager] getFavouritesWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
+            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favourite posts"];
             return;
         } else {
             [weakSelf showFavouritePosts:[result valueForKey:@"post"]];

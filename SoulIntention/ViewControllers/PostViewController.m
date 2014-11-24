@@ -11,6 +11,7 @@
 #import "SoulIntentionManager.h"
 #import "FacebookManager.h"
 #import "TwitterManager.h"
+#import "Constants.h"
 
 #import "UIImage+ScaleImage.h"
 #import "UIView+LoadingIndicator.h"
@@ -102,12 +103,12 @@ static CGFloat const ICON_HEIGHT = 22.f;
 
 - (void)facebookButtonPressed{
     NSLog(@"PostViewController facebook button press");
-    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title url:nil];
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
 
 - (void)twitterButtonPressed{
     NSLog(@"PostViewController twitter button press");
-    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title url:nil];
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
 
 - (void)favoriteButtonPressed

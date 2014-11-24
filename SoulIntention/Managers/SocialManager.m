@@ -12,7 +12,6 @@
 
 #import "FacebookManager.h"
 #import "TwitterManager.h"
-
 #import "AppDelegate.h"
 
 @implementation SocialManager

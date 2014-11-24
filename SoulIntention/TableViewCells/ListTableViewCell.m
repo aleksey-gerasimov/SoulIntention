@@ -53,6 +53,7 @@ typedef void(^CellSwipeHandler)(void);
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 
 @property (assign, nonatomic) CellType cellType;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 @end
 
@@ -174,7 +175,6 @@ typedef void(^CellSwipeHandler)(void);
 {
     NSLog(@"ListTableViewCell favorite button pressed");
     __weak ListTableViewCell *weakSelf = self;
-    __block AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     void(^favouriteSwitchHandler)(void) = ^{
         weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
         [weakSelf swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:^{
@@ -189,19 +189,21 @@ typedef void(^CellSwipeHandler)(void);
     if (self.post.isFavourite) {
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             if (error) {
+                [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favourites"];
                 return;
             } else {
                 favouriteSwitchHandler();
-                [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
+                [weakSelf.appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
             }
         }];
     } else {
         [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             if (error) {
+                [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favourites"];
                 return;
             } else {
                 favouriteSwitchHandler();
-                [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
+                [weakSelf.appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
             }
         }];
     }
@@ -209,12 +211,12 @@ typedef void(^CellSwipeHandler)(void);
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {
     NSLog(@"ListTableViewCell facebook button pressed");
-    [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:nil];
+    [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:[NSURL URLWithString:kMainPageURLString]];
 }
 
 - (IBAction)twitterButtonTouchUpInside:(id)sender {
     NSLog(@"ListTableViewCell twitter button pressed");
-    [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:nil];
+    [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:[NSURL URLWithString:kMainPageURLString]];
 }
 
 

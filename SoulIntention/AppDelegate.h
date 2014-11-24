@@ -15,5 +15,7 @@
 @property (assign, nonatomic) BOOL sessionStarted;
 @property (strong, nonatomic) NSMutableArray *favouritesIdsArray;
 
+- (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message;
+
 @end
 
