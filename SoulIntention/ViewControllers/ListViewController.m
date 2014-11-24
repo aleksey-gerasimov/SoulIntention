@@ -24,7 +24,6 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 };
 
 @interface ListViewController () <UITableViewDataSource, UITableViewDelegate>
-
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;

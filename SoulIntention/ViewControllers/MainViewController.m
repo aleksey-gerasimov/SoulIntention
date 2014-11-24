@@ -27,8 +27,10 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     FavoritesChildViewController = 2,
 };
 
-@interface MainViewController ()
+@interface MainViewController () <UISearchBarDelegate>
 
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarTopConstraint;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIButton *postsButton;
 @property (weak, nonatomic) IBOutlet UIButton *autorButton;
@@ -39,6 +41,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 @property (strong, nonatomic) NSMutableArray *childViewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
+@property (assign, nonatomic) BOOL searchBarIsShown;
 
 @end
 
@@ -49,7 +52,9 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     self.childViewControllers = [NSMutableArray new];
+    _searchBarIsShown = NO;
     
     [self initializeChildViewControllers];
     [self setFirstViewController];
@@ -61,7 +66,27 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.underlineWidthConstraint.constant = screenWidth + screenWidth*2/3;
     self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
     [self.view layoutIfNeeded];
+}
 
+#pragma mark - Custom Accessors
+
+- (void)setSearchBarIsShown:(BOOL)searchBarIsShown
+{
+    _searchBarIsShown = searchBarIsShown;
+    __weak MainViewController *weakSelf = self;
+    [UIView animateWithDuration:0.5 animations:^{
+        weakSelf.searchBarTopConstraint.constant = _searchBarIsShown ? 0 : -CGRectGetHeight(weakSelf.searchBar.frame);
+        [weakSelf.view layoutIfNeeded];
+//        CGFloat yPosision = _searchBarIsShown ? CGRectGetMinY(weakSelf.containerView.frame) : CGRectGetMinY(weakSelf.containerView.frame) - CGRectGetHeight(weakSelf.searchBar.frame);
+//        weakSelf.searchBar.frame = CGRectMake(CGRectGetMinX(weakSelf.searchBar.frame), yPosision, CGRectGetWidth(weakSelf.searchBar.frame), CGRectGetHeight(weakSelf.searchBar.frame));
+    } completion:^(BOOL finished) {
+        if (_searchBarIsShown) {
+            [weakSelf.searchBar becomeFirstResponder];
+        } else {
+            [weakSelf.searchBar resignFirstResponder];
+            weakSelf.searchBar.text = @"";
+        }
+    }];
 }
 
 #pragma mark - IBAction
@@ -69,21 +94,12 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (IBAction)searchButtonTouchUp:(id)sender
 {
     NSLog(@"Search Button Press");
-    __weak MainViewController *weakSelf = self;
-    [[SoulIntentionManager sharedManager] searchForPostsWithTitle:@"test" offset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        if (error) {
-            return;
-        }
-        NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"test", (long)kPostsOffset, (long)kPostsLimit);
-        [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
-    }];
+    self.searchBarIsShown = !self.searchBarIsShown;
 }
 
 - (void)menuButtonTouchUpInside:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    
     switch (button.tag) {
         case SoulsChildViewController:
             self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
@@ -95,9 +111,9 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
             self.underlineLeadingConstraint.constant = 0;
             break;
     }
-    [self displayChildViewControllersWithTag:button.tag];
     self.navigationItem.rightBarButtonItem.enabled = button.tag != AutorChildViewController;
     [self.view layoutIfNeeded];
+    [self displayChildViewControllersWithTag:button.tag];
 }
 
 #pragma mark - Private Methods
@@ -157,6 +173,31 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [self addChildViewController:self.currentViewController];
     self.currentViewController.view.frame = self.containerView.bounds;
     [self.containerView addSubview:self.currentViewController.view];
+
+    if (self.searchBarIsShown) {
+        self.searchBarIsShown = NO;
+    }
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.searchBarIsShown = NO;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    __weak MainViewController *weakSelf = self;
+    [[SoulIntentionManager sharedManager] searchForPostsWithTitle:searchBar.text offset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        if (error) {
+            return;
+        }
+        NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"test", (long)kPostsOffset, (long)kPostsLimit);
+        [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
+    }];
 }
 
 @end

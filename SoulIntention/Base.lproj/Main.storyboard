@@ -21,7 +21,17 @@
                                 <rect key="frame" x="0.0" y="48" width="320" height="368"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gxc-T7-AYW">
+                            <searchBar contentMode="redraw" placeholder="Enter text to search" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LyS-uz-y9x">
+                                <rect key="frame" x="0.0" y="4" width="320" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Rbo-2f-Wcg"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ABk-ys-SmN" id="3cT-GL-PvF"/>
+                                </connections>
+                            </searchBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gxc-T7-AYW" userLabel="Menu View">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="segmented_control" translatesAutoresizingMaskIntoConstraints="NO" id="luT-hb-22s" userLabel="underline">
@@ -104,12 +114,21 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="kBo-Ku-gN2" secondAttribute="trailing" id="0a1-Yn-JmO"/>
                             <constraint firstAttribute="trailing" secondItem="gxc-T7-AYW" secondAttribute="trailing" id="4ja-vg-uh6"/>
+                            <constraint firstItem="kBo-Ku-gN2" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" id="77c-pJ-Bd7"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="top" constant="-48" id="BeH-27-jtz"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="8wM-LN-3cL" secondAttribute="bottom" id="D2U-ig-GYE"/>
                             <constraint firstItem="qia-Ki-LSh" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="bottom" id="I2g-ZB-OSN"/>
                             <constraint firstItem="kBo-Ku-gN2" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="IyJ-pH-kXL"/>
+                            <constraint firstItem="LyS-uz-y9x" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="jqF-Lp-xxQ"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="mBt-dx-3pj"/>
+                            <constraint firstItem="LyS-uz-y9x" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" constant="-44" id="ngJ-6T-5yc"/>
+                            <constraint firstAttribute="trailing" secondItem="LyS-uz-y9x" secondAttribute="trailing" id="tRh-hN-FLk"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="BeH-27-jtz"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Soul Intention" id="gAs-Ac-alI">
                         <barButtonItem key="leftBarButtonItem" enabled="NO" title="Item" image="ic_logo" width="22" id="Krf-4l-aag" userLabel="Icon">
@@ -129,6 +148,8 @@
                         <outlet property="favoritesButton" destination="jUa-ll-2Le" id="qnG-7M-xUk"/>
                         <outlet property="postsButton" destination="lhc-ZF-UEv" id="i0t-af-wgy"/>
                         <outlet property="postsButtonWidthConstraint" destination="X7I-3t-if5" id="TdD-eZ-iCN"/>
+                        <outlet property="searchBar" destination="LyS-uz-y9x" id="iTb-w4-ope"/>
+                        <outlet property="searchBarTopConstraint" destination="ngJ-6T-5yc" id="QTw-5K-ld8"/>
                         <outlet property="underlineLeadingConstraint" destination="Hvk-BJ-K1L" id="9pn-xL-O8Q"/>
                         <outlet property="underlineWidthConstraint" destination="1tk-Op-jJn" id="98x-cD-Lgg"/>
                     </connections>
@@ -358,17 +379,30 @@
                                     <outlet property="delegate" destination="lnc-Tb-wOR" id="QK7-B1-S2R"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" placeholder="Enter text to search" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mW1-ao-g0Z">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="xH9-4g-bcI"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="2Rm-sx-XXG"/>
+                            <constraint firstItem="mW1-ao-g0Z" firstAttribute="top" secondItem="PGi-4f-Ybm" secondAttribute="bottom" id="7Wb-KV-slO"/>
+                            <constraint firstItem="mW1-ao-g0Z" firstAttribute="leading" secondItem="2oA-Rl-jMk" secondAttribute="leading" id="9vr-a1-GwQ"/>
                             <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="E7W-td-i7e"/>
+                            <constraint firstAttribute="trailing" secondItem="mW1-ao-g0Z" secondAttribute="trailing" id="Lhq-5e-Pdh"/>
                             <constraint firstItem="DVK-AM-EMT" firstAttribute="leading" secondItem="2oA-Rl-jMk" secondAttribute="leading" id="ayK-zA-LSj"/>
                             <constraint firstItem="DVK-AM-EMT" firstAttribute="top" secondItem="2oA-Rl-jMk" secondAttribute="top" id="nfz-72-M8O"/>
                             <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="sdE-Rp-gc8"/>
                             <constraint firstAttribute="trailing" secondItem="DVK-AM-EMT" secondAttribute="trailing" id="ssC-wm-x7n"/>
                         </constraints>
                         <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="mW1-ao-g0Z"/>
+                            </mask>
                             <mask key="constraints">
                                 <exclude reference="2Rm-sx-XXG"/>
                                 <exclude reference="E7W-td-i7e"/>

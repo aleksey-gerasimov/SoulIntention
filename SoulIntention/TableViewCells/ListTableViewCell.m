@@ -184,17 +184,19 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
                                    size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
 
     __weak ListTableViewCell *weakSelf = self;
+    void(^loadImageHandler)(UIImage*, NSInteger) = ^(UIImage *image, NSInteger width){
+        weakSelf.postImageView.image = image;
+        weakSelf.imageWidthConstraint.constant = width;
+        [weakSelf layoutIfNeeded];
+    };
     NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.postImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         NSLog(@"Post image load success");
-        weakSelf.postImageView.image = image;
-        weakSelf.imageWidthConstraint.constant = 120;
-        [weakSelf layoutIfNeeded];
+        loadImageHandler(image, 120);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         NSLog(@"Post image load error: %@", [error localizedDescription]);
-        weakSelf.imageWidthConstraint.constant = 0;
-        [weakSelf layoutIfNeeded];
+        loadImageHandler(nil, 0);
     }];
 }
 
@@ -205,15 +207,18 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
     NSLog(@"ListTableViewCell favorite button pressed");
     __weak ListTableViewCell *weakSelf = self;
     __block AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    void(^favouriteSwitchHandler)(void) = ^{
+        [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
+                               highlightedImage:weakSelf.favoriteButton.imageView.image
+                                           size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+        weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
+    };
     if (self.post.isFavourite) {
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             if (error) {
                 return;
             }
-            [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
-                                   highlightedImage:weakSelf.favoriteButton.imageView.image
-                                               size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
-            weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
+            favouriteSwitchHandler();
             [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
         }];
     } else {
@@ -221,10 +226,7 @@ typedef NS_ENUM(NSInteger, SwipeDirection) {
             if (error) {
                 return;
             }
-            [weakSelf.favoriteButton setNormalImage:weakSelf.favoriteButton.imageView.highlightedImage
-                                   highlightedImage:weakSelf.favoriteButton.imageView.image
-                                               size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
-            weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
+            favouriteSwitchHandler();
             [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
         }];
     }
