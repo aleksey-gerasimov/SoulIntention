@@ -18,6 +18,8 @@
 #import "Post.h"
 #import "Favourite.h"
 
+#import "UIView+LoadingIndicator.h"
+
 typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     ListViewControllerTypeSouls = 0,
     ListViewControllerTypeFavorites = 1,
@@ -81,8 +83,10 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 
 - (void)getAllPosts
 {
+    [self.view showLoadingIndicator];
     __weak ListViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] getPostsWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [weakSelf.view hideLoadingIndicator];
         if (error) {
             return;
         } else {
@@ -93,8 +97,10 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 
 - (void)getFavouritePosts
 {
+    [self.view showLoadingIndicator];
     __weak ListViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] getFavouritesWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [weakSelf.view hideLoadingIndicator];
         if (error) {
             return;
         } else {

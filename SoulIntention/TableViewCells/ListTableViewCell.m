@@ -190,17 +190,19 @@ typedef void(^CellSwipeHandler)(void);
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             if (error) {
                 return;
+            } else {
+                favouriteSwitchHandler();
+                [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
             }
-            favouriteSwitchHandler();
-            [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
         }];
     } else {
         [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             if (error) {
                 return;
+            } else {
+                favouriteSwitchHandler();
+                [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
             }
-            favouriteSwitchHandler();
-            [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
         }];
     }
 }

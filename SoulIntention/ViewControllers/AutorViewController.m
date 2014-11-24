@@ -16,6 +16,8 @@
 
 #import "Author.h"
 
+#import "UIView+LoadingIndicator.h"
+
 NSInteger const kAuthorImageViewHeight = 180;
 
 @interface AutorViewController ()
@@ -60,8 +62,10 @@ NSInteger const kAuthorImageViewHeight = 180;
 
 - (void)getAuthorInfo
 {
+    [self.view showLoadingIndicator];
     __weak AutorViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] getAuthorDescriptionWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [weakSelf.view hideLoadingIndicator];
         if (error) {
             return;
         }

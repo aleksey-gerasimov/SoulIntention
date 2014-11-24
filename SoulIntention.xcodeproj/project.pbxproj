@@ -28,6 +28,7 @@
 		5B8CAA651A1B579C0056020B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA641A1B579C0056020B /* Social.framework */; };
 		5B8CAA671A1B57A80056020B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA661A1B57A80056020B /* Accounts.framework */; };
 		5BA250FD1A1CA5C200EA2F57 /* SocialManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA250FC1A1CA5C200EA2F57 /* SocialManager.m */; };
+		5BB622F11A2364BD003797D3 /* UIView+LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB622F01A2364BD003797D3 /* UIView+LoadingIndicator.m */; };
 		84CE291B1A1B393300109DC3 /* AutorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE291A1A1B393300109DC3 /* AutorViewController.m */; };
 		84CE29211A1B690C00109DC3 /* UIImage+ScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */; };
 		B5884602BAEE1AFCDF27C19E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 064D9156E3CB37447070654F /* libPods.a */; };
@@ -85,6 +86,8 @@
 		5B8CAA661A1B57A80056020B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		5BA250FB1A1CA5C100EA2F57 /* SocialManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialManager.h; sourceTree = "<group>"; };
 		5BA250FC1A1CA5C200EA2F57 /* SocialManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialManager.m; sourceTree = "<group>"; };
+		5BB622EF1A2364BD003797D3 /* UIView+LoadingIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LoadingIndicator.h"; sourceTree = "<group>"; };
+		5BB622F01A2364BD003797D3 /* UIView+LoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LoadingIndicator.m"; sourceTree = "<group>"; };
 		84CE29191A1B393300109DC3 /* AutorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutorViewController.h; sourceTree = "<group>"; };
 		84CE291A1A1B393300109DC3 /* AutorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutorViewController.m; sourceTree = "<group>"; };
 		84CE291C1A1B43C600109DC3 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -247,6 +250,8 @@
 				84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */,
 				5B31A45C1A1F17C700629C09 /* UIButton+Image.h */,
 				5B31A45D1A1F17C700629C09 /* UIButton+Image.m */,
+				5BB622EF1A2364BD003797D3 /* UIView+LoadingIndicator.h */,
+				5BB622F01A2364BD003797D3 /* UIView+LoadingIndicator.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				5B532A581A1CCC4E00D96279 /* Author.m in Sources */,
 				5B31A45E1A1F17C700629C09 /* UIButton+Image.m in Sources */,
 				5B4834031A1B1B5100CA240D /* Post.m in Sources */,
+				5BB622F11A2364BD003797D3 /* UIView+LoadingIndicator.m in Sources */,
 				5B4834051A1B1B5100CA240D /* ListViewController.m in Sources */,
 				5B4833CC1A1B1B1100CA240D /* AppDelegate.m in Sources */,
 				5B4834071A1B1B5100CA240D /* PostViewController.m in Sources */,

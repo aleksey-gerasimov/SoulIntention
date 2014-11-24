@@ -13,6 +13,8 @@
 #import "SoulIntentionManager.h"
 #import "Constants.h"
 
+#import "UIView+LoadingIndicator.h"
+
 @interface AppDelegate ()
 
 @end
@@ -28,15 +30,18 @@
     
     self.sessionStarted = NO;
     self.favouritesIdsArray = [NSMutableArray new];
-    __weak AppDelegate *weakSelf = self;
+    [self.window.rootViewController.view showLoadingIndicator];
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
     NSLog(@"Device ID = %@", deviceId);
+    __weak AppDelegate *weakSelf = self;
     [[SoulIntentionManager sharedManager] startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
+            [weakSelf.window.rootViewController.view hideLoadingIndicator];
             return;
         }
 
         [[SoulIntentionManager sharedManager] getFavouritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf.window.rootViewController.view hideLoadingIndicator];
             if (error) {
                 return;
             }

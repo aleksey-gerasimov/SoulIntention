@@ -13,6 +13,7 @@
 #import "TwitterManager.h"
 
 #import "UIImage+ScaleImage.h"
+#import "UIView+LoadingIndicator.h"
 
 static CGFloat const ICON_WIDTH = 22.f;
 static CGFloat const ICON_HEIGHT = 22.f;
@@ -112,8 +113,10 @@ static CGFloat const ICON_HEIGHT = 22.f;
 - (void)favoriteButtonPressed
 {
     NSLog(@"PostViewController favorite button press");
+    [self.view showLoadingIndicator];
+    __weak PostViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        //
+        [weakSelf.view hideLoadingIndicator];
     }];
 }
 

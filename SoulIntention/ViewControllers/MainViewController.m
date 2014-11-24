@@ -16,6 +16,7 @@
 #import "Constants.h"
 
 #import "UIImage+ScaleImage.h"
+#import "UIView+LoadingIndicator.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
@@ -189,14 +190,17 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+    [self.view showLoadingIndicator];
     __weak MainViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] searchForPostsWithTitle:searchBar.text offset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [weakSelf.view hideLoadingIndicator];
         if (error) {
             return;
+        } else {
+            NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"test", (long)kPostsOffset, (long)kPostsLimit);
+//            [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
         }
-        NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"test", (long)kPostsOffset, (long)kPostsLimit);
-        [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
     }];
 }
 
