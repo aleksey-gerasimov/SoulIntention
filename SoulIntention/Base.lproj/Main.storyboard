@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="48" width="320" height="368"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <searchBar contentMode="redraw" placeholder="Enter text to search" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LyS-uz-y9x">
+                            <searchBar contentMode="redraw" placeholder="Enter text to search" translatesAutoresizingMaskIntoConstraints="NO" id="LyS-uz-y9x">
                                 <rect key="frame" x="0.0" y="4" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Rbo-2f-Wcg"/>
@@ -114,11 +114,11 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="kBo-Ku-gN2" secondAttribute="trailing" id="0a1-Yn-JmO"/>
                             <constraint firstAttribute="trailing" secondItem="gxc-T7-AYW" secondAttribute="trailing" id="4ja-vg-uh6"/>
-                            <constraint firstItem="kBo-Ku-gN2" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" id="77c-pJ-Bd7"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="top" constant="-48" id="BeH-27-jtz"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="8wM-LN-3cL" secondAttribute="bottom" id="D2U-ig-GYE"/>
                             <constraint firstItem="qia-Ki-LSh" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="bottom" id="I2g-ZB-OSN"/>
                             <constraint firstItem="kBo-Ku-gN2" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="IyJ-pH-kXL"/>
+                            <constraint firstItem="kBo-Ku-gN2" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" id="Y1J-Or-nhN"/>
                             <constraint firstItem="LyS-uz-y9x" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="jqF-Lp-xxQ"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="mBt-dx-3pj"/>
                             <constraint firstItem="LyS-uz-y9x" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" constant="-44" id="ngJ-6T-5yc"/>

@@ -46,10 +46,6 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     self.favouritePosts = [NSArray new];
     self.posts = [NSArray new];
 
-    if (self.appDelegate.sessionStarted) {
-        self.listStyle == ListStyleAll ? [self getAllPosts] : [self getFavouritePosts];
-    }
-
     __weak ListViewController *weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         self.listStyle == ListStyleAll ? [self getAllPosts] : [self getFavouritePosts];
@@ -59,9 +55,20 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([self.posts count] == 0 && self.appDelegate.sessionStarted) {
+        self.listStyle == ListStyleAll ? [self getAllPosts] : [self getFavouritePosts];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    if ([self.navigationController.viewControllers count] < 2) {
+        self.posts = [NSArray new];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
 }
 
