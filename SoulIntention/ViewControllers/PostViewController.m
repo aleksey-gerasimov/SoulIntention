@@ -19,9 +19,11 @@ static CGFloat const ICON_HEIGHT = 22.f;
 
 @interface PostViewController ()
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postImageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *postImageView;
 @property (weak, nonatomic) IBOutlet UITextView *postTextView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postImageViewWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postImageViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewHeightConstraint;
 @end
 
 @implementation PostViewController
@@ -35,6 +37,9 @@ static CGFloat const ICON_HEIGHT = 22.f;
     [self showText];
     [self showImage];
     [self setCustomBarButtonItems];
+
+    self.postImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
+    [self.view layoutIfNeeded];
 }
 
 #pragma mark - Private Methods
@@ -63,6 +68,9 @@ static CGFloat const ICON_HEIGHT = 22.f;
     [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2+self.post.text.length+2, self.post.updateDate.length+4+self.post.author.length)];
 
     self.postTextView.attributedText = text;
+    [self.postTextView sizeToFit];
+    self.postTextViewHeightConstraint.constant = CGRectGetHeight(self.postTextView.frame);
+    [self.view layoutIfNeeded];
 }
 
 - (void)showImage
