@@ -23,6 +23,8 @@ NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 NSString *const kFavouriteRemovedNotification = @"FavouriteRemovedNotification";
 NSString *const kFavouriteAddedNotification = @"FavouriteAddedNotification";
 
+NSString *const kLogoButtonImage = @"ic_logo";
+NSString *const kSearchButtonImage = @"ic_search";
 NSString *const kFacebookButtonImage = @"ic_facebook";
 NSString *const kFacebookButtonHighlightedImage = @"ic_facebook_select";
 NSString *const kTwitterButtonImage = @"ic_twitter";

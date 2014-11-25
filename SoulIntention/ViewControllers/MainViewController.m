@@ -16,12 +16,11 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 
-#import "UIImage+ScaleImage.h"
+#import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
-static NSInteger const LIST_VIEW_CONTROLLER = 0;
 
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
@@ -59,7 +58,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     _searchBarIsShown = NO;
     
     [self initializeChildViewControllers];
-    [self setFirstViewController];
     [self setButtonsTarget];
     [self setCustomBarButtons];
 
@@ -122,16 +120,15 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)setCustomBarButtons
 {
-    UIImage *image = [UIImage new];
     CGSize size = CGSizeMake(ICON_WIDTH, ICON_HEIGHT);
-    
-    image = [UIImage imageNamed:@"ic_logo"];
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStylePlain target:self action:nil];
-    self.navigationItem.leftBarButtonItem = leftBarButtonItem;
-    
-    image = [UIImage imageNamed:@"ic_search"];
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStyleDone target:self action:@selector(searchButtonTouchUp:)];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+
+    UIImage *normalImage = [UIImage imageNamed:kLogoButtonImage];
+    UIBarButtonItem *logoBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:nil selector:nil];
+    self.navigationItem.leftBarButtonItem = logoBarButtonItem;
+
+    normalImage = [UIImage imageNamed:kSearchButtonImage];
+    UIBarButtonItem *searchBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(searchButtonTouchUp:)];
+    self.navigationItem.rightBarButtonItem = searchBarButtonItem;
 }
 
 - (void)initializeChildViewControllers
@@ -145,11 +142,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [self.childViewControllers addObject:soulsViewController];
     [self.childViewControllers addObject:autorViewController];
     [self.childViewControllers addObject:favoritesViewController];
-}
 
-- (void)setFirstViewController
-{
-    [self displayChildViewControllersWithTag:LIST_VIEW_CONTROLLER];
+    [self displayChildViewControllersWithTag:[self.childViewControllers indexOfObject:soulsViewController]];
 }
 
 - (void)setButtonsTarget
@@ -201,7 +195,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
             return;
         } else {
             NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], searchBar.text, (long)kPostsOffset, (long)kPostsLimit);
-//            [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
             [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
         }
     }];

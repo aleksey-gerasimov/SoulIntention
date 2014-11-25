@@ -24,6 +24,8 @@ extern NSString *const kListCellSwipeNotification;
 extern NSString *const kFavouriteRemovedNotification;
 extern NSString *const kFavouriteAddedNotification;
 
+extern NSString *const kLogoButtonImage;
+extern NSString *const kSearchButtonImage;
 extern NSString *const kFacebookButtonImage;
 extern NSString *const kFacebookButtonHighlightedImage;
 extern NSString *const kTwitterButtonImage;

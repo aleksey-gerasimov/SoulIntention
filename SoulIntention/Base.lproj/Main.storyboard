@@ -131,14 +131,11 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Soul Intention" id="gAs-Ac-alI">
-                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Item" image="ic_logo" width="22" id="Krf-4l-aag" userLabel="Icon">
+                        <barButtonItem key="leftBarButtonItem" image="ic_logo" width="22" id="Krf-4l-aag" userLabel="Icon">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="1ky-oy-UqR" userLabel="SearchBarButton">
+                        <barButtonItem key="rightBarButtonItem" image="ic_search" width="22" id="1ky-oy-UqR" userLabel="SearchBarButton">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="searchButtonTouchUp:" destination="ABk-ys-SmN" id="Bz4-ku-BZO"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
@@ -624,6 +621,7 @@
         <image name="ic_facebook_share" width="22" height="22"/>
         <image name="ic_favorite" width="20" height="20"/>
         <image name="ic_logo" width="15" height="15"/>
+        <image name="ic_search" width="15" height="15"/>
         <image name="ic_twitter" width="20" height="20"/>
         <image name="segmented_control" width="534" height="30"/>
     </resources>

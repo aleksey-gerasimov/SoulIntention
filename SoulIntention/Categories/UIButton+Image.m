@@ -19,7 +19,9 @@
           highlightedImage:isHighlighted ? normalImage : highlightedImage
                       size:size];
     [button sizeToFit];
-    [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    if (target && selector) {
+        [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    }
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)button];
     return barButtonItem;
 }

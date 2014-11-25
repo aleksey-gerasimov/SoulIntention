@@ -149,19 +149,6 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
-
-//    ListTableViewCell *cell = note.userInfo[@"cell"];
-//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//    if (!indexPath) {
-//        return;
-//    }
-//
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postId != %@", cell.post.postId];
-//    self.favouritePosts = [self.favouritePosts filteredArrayUsingPredicate:predicate];
-//    self.posts = self.favouritePosts;
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-//    });
 }
 
 #pragma mark - TableView DataSource
