@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 };
 
 @interface ListViewController () <UITableViewDataSource, UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;
@@ -55,6 +56,12 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [weakSelf showPosts:note.userInfo[@"result"]];
     }];
+    if (self.listStyle == ListStyleFavourite) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavouritePosts:) name:kFavouriteRemovedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserverForName:kFavouriteAddedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            weakSelf.posts = [NSArray new];
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -133,11 +140,35 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     [self.tableView reloadData];
 }
 
+- (void)updateFavouritePosts:(NSNotification *)note
+{
+    NSString *postId = note.userInfo[@"postId"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postId != %@", postId];
+    self.favouritePosts = [self.favouritePosts filteredArrayUsingPredicate:predicate];
+    self.posts = self.favouritePosts;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    });
+
+//    ListTableViewCell *cell = note.userInfo[@"cell"];
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    if (!indexPath) {
+//        return;
+//    }
+//
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postId != %@", cell.post.postId];
+//    self.favouritePosts = [self.favouritePosts filteredArrayUsingPredicate:predicate];
+//    self.posts = self.favouritePosts;
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+//    });
+}
+
 #pragma mark - TableView DataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"listCell"];
+    ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];
     cell.post = self.posts[indexPath.row];
     return cell;
 }

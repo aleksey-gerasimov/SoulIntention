@@ -23,6 +23,18 @@ NSString *const kFavouritesIds = @"/favouriteId";
 NSString *const kSearchPosts = @"/searchPost";
 NSString *const kAuthorDescription = @"/about";
 
+@interface PostId : NSObject
+
+@property (strong, nonatomic) NSString *postId;
+
+@end
+
+@implementation PostId
+
+//
+
+@end
+
 @interface SoulIntentionManager ()
 
 @property (strong, nonatomic) RKObjectManager *restManager;
@@ -51,6 +63,14 @@ NSString *const kAuthorDescription = @"/about";
 
 - (void)configureManager
 {
+
+//    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:[PostId class]];
+//    [objectMapping addAttributeMappingsFromDictionary:@{@"postId" : @"postId"}];
+//    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:[objectMapping inverseMapping] objectClass:[NSMutableDictionary class] rootKeyPath:nil method:RKRequestMethodDELETE];
+//    [self.restManager addRequestDescriptor:requestDescriptor];
+//    self.restManager.requestSerializationMIMEType = RKMIMETypeJSON;
+//    [self.restManager.HTTPClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+
     NSMutableArray *responseDescriptors = [NSMutableArray new];
     //Start session
     RKObjectMapping *emptyMapping = [RKObjectMapping mappingForClass:nil];
@@ -175,10 +195,92 @@ NSString *const kAuthorDescription = @"/about";
     }];
 }
 
+- (NSURLRequest *)createUrlRequestWithUrlAddress:(NSString *)_stringUrlAddress bodyData:(NSData *)_bodyData requestType:(NSString *)_requestType
+{
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+
+    NSURL *urlAddress = [NSURL URLWithString:_stringUrlAddress];
+    [request setURL:urlAddress];
+    [request setHTTPMethod:_requestType];
+    [request setHTTPBody:_bodyData];
+    [request setValue:@"must-revalidate" forHTTPHeaderField:@"Cashe-Control"];
+    [request setTimeoutInterval:30.0f];
+    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
+    if ([_requestType isEqualToString:@"PATCH"]){
+        [request setValue:@"PATCH" forHTTPHeaderField:@"X-HTTP-Method-Override"];
+    }
+    return request;
+}
+
+
 - (void)removeFromFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
-    NSDictionary *parameters = @{@"postId" : postId};
-    [self.restManager deleteObject:nil path:kFavourites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//    NSDictionary *parameters = @{@"postId" : postId};
+
+//    NSString *string = [NSString stringWithFormat:@"%@%@", kBaseURLString, kFavourites];
+//    NSURL *url = [[NSURL alloc] initWithString:string];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+//    [request setHTTPMethod:@"DELETE"];
+////    [request setValue:@"Basic: someValue" forHTTPHeaderField:@"Authorization"];
+//    [request setValue:postId forHTTPHeaderField:@"postId"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    NSString *body = [NSString stringWithFormat:@"postId=%@", postId];
+//    [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+//    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+////    op.responseSerializer = [AFJSONResponseSerializer serializer];
+//    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ success", postId);
+//        if (handler) {
+//            handler(YES, nil, nil);
+//        }
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ error: %@", postId, [error localizedDescription]);
+//        if (handler) {
+//            handler(NO, nil, error);
+//        }
+//    }];
+//    [op start];
+
+//    NSString *urlString = [NSString stringWithFormat:@"%@%@", kBaseURLString, kFavourites];
+//    NSData *requestBody = [NSKeyedArchiver archivedDataWithRootObject:parameters];
+//    NSURLRequest *request = [self createUrlRequestWithUrlAddress:urlString bodyData:requestBody requestType:@"DELETE"];
+//    RKObjectMapping * scrapedDataMapping = [RKObjectMapping mappingForClass:nil];
+//    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:scrapedDataMapping
+//                                                                                            method:RKRequestMethodDELETE
+//                                                                                       pathPattern:kFavourites
+//                                                                                           keyPath:@""
+//                                                                                       statusCodes:nil];
+//    NSLog(@"request = %@", request);
+//    RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
+//    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ success", postId);
+//        if (handler) {
+//            handler(YES, nil, nil);
+//        }
+//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ error: %@", postId, [error localizedDescription]);
+//        if (handler) {
+//            handler(NO, nil, error);
+//        }
+//    }];
+//    [operation start];
+
+//    PostId *post = [PostId new];
+//    post.postId = postId;
+//    [self.restManager.HTTPClient deletePath:kFavourites parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ success", postId);
+//        if (handler) {
+//            handler(YES, nil, nil);
+//        }
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ error: %@", postId, [error localizedDescription]);
+//        if (handler) {
+//            handler(NO, nil, error);
+//        }
+//    }];
+
+    [self.restManager deleteObject:nil path:[NSString stringWithFormat:@"%@/%@", kFavourites, postId] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager remove from favourites post with id %@ success", postId);
         if (handler) {
             handler(YES, nil, nil);
@@ -189,6 +291,30 @@ NSString *const kAuthorDescription = @"/about";
             handler(NO, nil, error);
         }
     }];
+
+//    NSString *string = [NSString stringWithFormat:@"%@%@", kBaseURLString, kFavourites];
+//    NSURL *url = [[NSURL alloc] initWithString:string];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+//    request.HTTPMethod = @"DELETE";
+////    request.allHTTPHeaderFields = parameters;
+////    NSLog(@"request body = %@", request.allHTTPHeaderFields);
+//    request.HTTPBody = [NSKeyedArchiver archivedDataWithRootObject:parameters];
+////    NSLog(@"request body = %@", [NSKeyedUnarchiver unarchiveObjectWithData:request.HTTPBody]);
+//    NSLog(@"request %@", request);
+//    [NSURLConnection connectionWithRequest:request delegate:nil];
+
+//    RKObjectRequestOperation *operation = [self.restManager objectRequestOperationWithRequest:request success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ success", postId);
+//        if (handler) {
+//            handler(YES, nil, nil);
+//        }
+//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//        NSLog(@"SoulIntentionManager remove from favourites post with id %@ error: %@", postId, [error localizedDescription]);
+//        if (handler) {
+//            handler(NO, nil, error);
+//        }
+//    }];
+//    [self.restManager enqueueObjectRequestOperation:operation];
 }
 
 #pragma mark Search

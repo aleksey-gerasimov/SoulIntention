@@ -19,11 +19,11 @@
 #import "Post.h"
 
 #import "UIButton+Image.h"
+#import "UIView+LoadingIndicator.h"
 
 static CGFloat const ICON_WIDTH = 30.f;
 static CGFloat const ICON_HEIGHT = 30.f;
 static CGFloat const SWIPE_OFFSET = 107.f;
-CGFloat const AnimationDuration = 0.5;
 
 typedef NS_ENUM(NSInteger, CellType) {
     CellTypeLeft = 0,
@@ -67,6 +67,7 @@ typedef void(^CellSwipeHandler)(void);
     [self initGestureRecognizer];
     [self setButtonImages];
     self.cellType = CellTypeCenter;
+    self.appDelegate = [UIApplication sharedApplication].delegate;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:kListCellSwipeNotification object:nil];
 }
 
@@ -98,8 +99,8 @@ typedef void(^CellSwipeHandler)(void);
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
 
-    UIImage *normalImage = [UIImage imageNamed:@"ic_favorite_nawbar"];
-    UIImage *highlightedImage = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
+    UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
     [self.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
                        highlightedImage:_post.isFavourite ? normalImage : highlightedImage
                                    size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
@@ -125,11 +126,11 @@ typedef void(^CellSwipeHandler)(void);
 
 - (void)setButtonImages
 {
-    [self.facebookButton setNormalImage:[UIImage imageNamed:@"ic_facebook_share"]
-                       highlightedImage:[UIImage imageNamed:@"ic_facebook_share_select"]
+    [self.facebookButton setNormalImage:[UIImage imageNamed:kFacebookButtonImage]
+                       highlightedImage:[UIImage imageNamed:kFacebookButtonHighlightedImage]
                                    size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
-    [self.twitterButton setNormalImage:[UIImage imageNamed:@"ic_twitter_share"]
-                      highlightedImage:[UIImage imageNamed:@"ic_twitter_share_select"]
+    [self.twitterButton setNormalImage:[UIImage imageNamed:kTwitterButtonImage]
+                      highlightedImage:[UIImage imageNamed:kTwitterButtonHighlightedImage]
                                   size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
 }
 
@@ -159,7 +160,7 @@ typedef void(^CellSwipeHandler)(void);
         offset = -offset;
     }
 
-    [UIView animateWithDuration:AnimationDuration animations:^{
+    [UIView animateWithDuration:kAnimationDuration animations:^{
         self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
     } completion:^(BOOL finished) {
         if (handler) {
@@ -174,12 +175,13 @@ typedef void(^CellSwipeHandler)(void);
 - (IBAction)favoriteButtonTouchUpInside:(id)sender
 {
     NSLog(@"ListTableViewCell favorite button pressed");
+    [self showLoadingIndicator];
     __weak ListTableViewCell *weakSelf = self;
     void(^favouriteSwitchHandler)(void) = ^{
         weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
         [weakSelf swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:^{
-            UIImage *normalImage = [UIImage imageNamed:@"ic_favorite_nawbar"];
-            UIImage *highlightedImage = [UIImage imageNamed:@"ic_favorite_nawbar_select"];
+            UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
+            UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
             [weakSelf.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
                                highlightedImage:_post.isFavourite ? normalImage : highlightedImage
                                            size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
@@ -188,16 +190,19 @@ typedef void(^CellSwipeHandler)(void);
     };
     if (self.post.isFavourite) {
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf hideLoadingIndicator];
             if (error) {
                 [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favourites"];
                 return;
             } else {
                 favouriteSwitchHandler();
                 [weakSelf.appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteRemovedNotification object:[weakSelf class] userInfo:@{@"postId" : weakSelf.post.postId}];
             }
         }];
     } else {
         [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf hideLoadingIndicator];
             if (error) {
                 [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favourites"];
                 return;

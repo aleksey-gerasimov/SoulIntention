@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 extern NSString *const kBaseURLString;
 extern NSString *const kMainPageURLString;
@@ -17,7 +18,18 @@ extern NSInteger const kPostsOffset;
 extern NSInteger const kPostsLimit;
 extern NSString *const kSearchForPostsNotification;
 
+extern CGFloat const kAnimationDuration;
 extern NSString *const kListCellSwipeNotification;
+
+extern NSString *const kFavouriteRemovedNotification;
+extern NSString *const kFavouriteAddedNotification;
+
+extern NSString *const kFacebookButtonImage;
+extern NSString *const kFacebookButtonHighlightedImage;
+extern NSString *const kTwitterButtonImage;
+extern NSString *const kTwitterButtonHighlightedImage;
+extern NSString *const kFavouriteButtonImage;
+extern NSString *const kFavouriteButtonHighlightedImage;
 
 @interface Constants : NSObject
 

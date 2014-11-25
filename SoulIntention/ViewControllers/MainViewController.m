@@ -200,7 +200,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
             [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to make search"];
             return;
         } else {
-            NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], @"test", (long)kPostsOffset, (long)kPostsLimit);
+            NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], searchBar.text, (long)kPostsOffset, (long)kPostsLimit);
 //            [weakSelf menuButtonTouchUpInside:weakSelf.postsButton];
             [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
         }

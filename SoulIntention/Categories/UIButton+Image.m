@@ -12,6 +12,18 @@
 
 @implementation UIButton (Image)
 
++ (UIBarButtonItem *)createBarButtonItemWithNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage size:(CGSize)size isHighlighted:(BOOL)isHighlighted actionTarget:(id)target selector:(SEL)selector
+{
+    UIButton *button = [UIButton new];
+    [button setNormalImage:isHighlighted ? highlightedImage : normalImage
+          highlightedImage:isHighlighted ? normalImage : highlightedImage
+                      size:size];
+    [button sizeToFit];
+    [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)button];
+    return barButtonItem;
+}
+
 - (void)setNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage size:(CGSize)size
 {
     [self setImage:[UIImage imageWithImage:normalImage scaleToSize:size] forState:UIControlStateNormal];

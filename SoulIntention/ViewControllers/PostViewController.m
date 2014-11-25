@@ -11,9 +11,11 @@
 #import "SoulIntentionManager.h"
 #import "FacebookManager.h"
 #import "TwitterManager.h"
+#import "AppDelegate.h"
 #import "Constants.h"
 
-#import "UIImage+ScaleImage.h"
+//#import "UIImage+ScaleImage.h"
+#import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
 static CGFloat const ICON_WIDTH = 22.f;
@@ -88,25 +90,58 @@ static CGFloat const ICON_HEIGHT = 22.f;
 
 - (void)setCustomBarButtonItems
 {
-    UIImage *image = [UIImage new];
+//    UIImage *image = [UIImage new];
     CGSize size = CGSizeMake(ICON_WIDTH, ICON_HEIGHT);
-    
-    image = [UIImage imageNamed:@"ic_facebook"];
-    UIBarButtonItem *facebookButtonBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStyleDone target:self action:@selector(facebookButtonPressed)];
-    image = [UIImage imageNamed:@"ic_twitter"];
-    UIBarButtonItem *twitterButtonBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStyleDone target:self action:@selector(twitterButtonPressed)];
-    image = [UIImage imageNamed:@"ic_favorite"];
-    UIBarButtonItem *favoriteButtonBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStyleDone target:self action:@selector(favoriteButtonPressed)];
-    
+    UIImage *normalImage = [UIImage imageNamed:kFacebookButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFacebookButtonHighlightedImage];
+    UIBarButtonItem *facebookButtonBarItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(facebookButtonPressed)];
+
+//    UIButton *button = [UIButton new];
+//    [button setNormalImage:normalImage highlightedImage:highlightedImage size:size];
+//    [button sizeToFit];
+//    [button addTarget:self action:@selector(facebookButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *facebookButtonBarItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)button];
+
+    normalImage = [UIImage imageNamed:kTwitterButtonImage];
+    highlightedImage = [UIImage imageNamed:kTwitterButtonHighlightedImage];
+    UIBarButtonItem *twitterButtonBarItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(twitterButtonPressed)];
+
+//    button = [UIButton new];
+//    [button setNormalImage:normalImage highlightedImage:highlightedImage size:size];
+//    [button sizeToFit];
+//    [button addTarget:self action:@selector(twitterButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *twitterButtonBarItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)button];
+
+    normalImage = [UIImage imageNamed:kFavouriteButtonImage];
+    highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
+    UIBarButtonItem *favoriteButtonBarItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavourite actionTarget:self selector:@selector(favoriteButtonPressed)];
+
+//    button = [UIButton new];
+//    [button setNormalImage:_post.isFavourite ? highlightedImage : normalImage
+//          highlightedImage:_post.isFavourite ? normalImage : highlightedImage
+//                      size:size];
+//    [button sizeToFit];
+//    [button addTarget:self action:@selector(favoriteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *favoriteButtonBarItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)button];
+
+//    image = [UIImage imageNamed:kFacebookButtonImage];
+//    UIBarButtonItem *facebookButtonBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStyleDone target:self action:@selector(facebookButtonPressed)];
+//    image = [UIImage imageNamed:kTwitterButtonImage];
+//    UIBarButtonItem *twitterButtonBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStyleDone target:self action:@selector(twitterButtonPressed)];
+//    image = self.post.isFavourite ? [UIImage imageNamed:kFavouriteButtonHighlightedImage] : [UIImage imageNamed:kFavouriteButtonImage];
+//    UIBarButtonItem *favoriteButtonBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithImage:image scaleToSize:size] style:UIBarButtonItemStyleDone target:self action:@selector(favoriteButtonPressed)];
+
     self.navigationItem.rightBarButtonItems = @[facebookButtonBarItem, twitterButtonBarItem, favoriteButtonBarItem];
 }
 
-- (void)facebookButtonPressed{
+- (void)facebookButtonPressed
+{
     NSLog(@"PostViewController facebook button press");
     [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
 
-- (void)twitterButtonPressed{
+- (void)twitterButtonPressed
+{
     NSLog(@"PostViewController twitter button press");
     [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
@@ -115,10 +150,46 @@ static CGFloat const ICON_HEIGHT = 22.f;
 {
     NSLog(@"PostViewController favorite button press");
     [self.view showLoadingIndicator];
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     __weak PostViewController *weakSelf = self;
-    [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        [weakSelf.view hideLoadingIndicator];
-    }];
+    void(^favouriteSwitchHandler)(void) = ^{
+        weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
+        UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
+        UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
+        UIBarButtonItem *barButtonItem = [weakSelf.navigationItem.rightBarButtonItems lastObject];
+        UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
+        [favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
+                      highlightedImage:_post.isFavourite ? normalImage : highlightedImage
+                                  size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+    };
+    if (self.post.isFavourite) {
+        [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf.view hideLoadingIndicator];
+            if (error) {
+                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favourites"];
+                return;
+            } else {
+                favouriteSwitchHandler();
+                [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteRemovedNotification object:[weakSelf class] userInfo:@{@"postId" : weakSelf.post.postId}];
+            }
+        }];
+    } else {
+        [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf.view hideLoadingIndicator];
+            if (error) {
+                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favourites"];
+                return;
+            } else {
+                favouriteSwitchHandler();
+                [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteAddedNotification object:[weakSelf class]];
+            }
+        }];
+    }
+//    [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+//        [weakSelf.view hideLoadingIndicator];
+//    }];
 }
 
 @end
