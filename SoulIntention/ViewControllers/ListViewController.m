@@ -20,15 +20,15 @@
 
 #import "UIView+LoadingIndicator.h"
 
-static NSInteger const kLoadingPostsOnScrollOffset = 25;
+static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 @interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;
-@property (strong, nonatomic) NSArray *allPosts;
-@property (strong, nonatomic) NSArray *favouritePosts;
+@property (strong, nonatomic) NSMutableArray *allPosts;
+@property (strong, nonatomic) NSMutableArray *favouritePosts;
 @property (strong, nonatomic) NSArray *posts;
 @property (strong, nonatomic) NSString *searchText;
 @property (assign, nonatomic) BOOL isLoadingPosts;
@@ -44,8 +44,8 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
     [super viewDidLoad];
 
     self.appDelegate = [UIApplication sharedApplication].delegate;
-    self.allPosts = [NSArray new];
-    self.favouritePosts = [NSArray new];
+    self.allPosts = [NSMutableArray new];
+    self.favouritePosts = [NSMutableArray new];
     self.posts = [NSArray new];
 
     __weak ListViewController *weakSelf = self;
@@ -55,7 +55,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
     switch (self.listStyle) {
         case ListStyleAll: {
             [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-                weakSelf.allPosts = [NSArray new];
+                [weakSelf.allPosts removeAllObjects];
                 [weakSelf searchForPostsWithTitle:note.userInfo[@"text"] offset:0];
             }];
             break;
@@ -63,6 +63,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
         case ListStyleFavourite: {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavouritePosts:) name:kFavouriteRemovedNotification object:nil];
             [[NSNotificationCenter defaultCenter] addObserverForName:kFavouriteAddedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+                [weakSelf.favouritePosts removeAllObjects];
                 weakSelf.posts = [NSArray new];
             }];
             break;
@@ -82,8 +83,8 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
 {
     [super viewWillDisappear:animated];
     if ([self.navigationController.viewControllers count] < 2) {
-        self.allPosts = [NSArray new];
-        self.favouritePosts = [NSArray new];
+        [self.allPosts removeAllObjects];
+        [self.favouritePosts removeAllObjects];
         self.posts = [NSArray new];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
@@ -95,6 +96,17 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
 }
 
 #pragma mark - Private Methods
+
+- (void)showPosts:(NSArray *)posts
+{
+    for (NSInteger i=0; i<[posts count]; i++) {
+        Post *post = posts[i];
+        post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
+    }
+    self.posts = posts;
+    [self.tableView reloadData];
+    self.isLoadingPosts = NO;
+}
 
 #pragma mark All Posts
 
@@ -111,23 +123,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
             weakSelf.isLoadingPosts = NO;
             return;
         } else {
-            NSMutableArray *postsArray = [NSMutableArray arrayWithArray:weakSelf.allPosts];
-            [postsArray addObjectsFromArray:result];
-            [weakSelf showPosts:postsArray];
+            [weakSelf.allPosts addObjectsFromArray:result];
+            [weakSelf showPosts:weakSelf.allPosts];
         }
     }];
-}
-
-- (void)showPosts:(NSArray *)posts
-{
-    self.allPosts = posts;
-    for (NSInteger i=0; i<[self.allPosts count]; i++) {
-        Post *post = self.allPosts[i];
-        post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
-    }
-    self.posts = self.allPosts;
-    [self.tableView reloadData];
-    self.isLoadingPosts = NO;
 }
 
 - (void)searchForPostsWithTitle:(NSString *)text offset:(NSInteger)offset
@@ -143,9 +142,8 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
             return;
         } else {
             NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], text, (long)offset, (long)kPostsLimit);
-            NSMutableArray *postsArray = [NSMutableArray arrayWithArray:weakSelf.allPosts];
-            [postsArray addObjectsFromArray:result];
-            [weakSelf showPosts:postsArray];
+            [weakSelf.allPosts addObjectsFromArray:result];
+            [weakSelf showPosts:weakSelf.allPosts];
         }
     }];
 }
@@ -164,30 +162,17 @@ static NSInteger const kLoadingPostsOnScrollOffset = 25;
             weakSelf.isLoadingPosts = NO;
             return;
         } else {
-            NSMutableArray *postsArray = [NSMutableArray arrayWithArray:weakSelf.favouritePosts];
-            [postsArray addObjectsFromArray:[result valueForKey:@"post"]];
-            [weakSelf showFavouritePosts:postsArray];
+            [weakSelf.favouritePosts addObjectsFromArray:[result valueForKey:@"post"]];
+            [weakSelf showPosts:weakSelf.favouritePosts];
         }
     }];
-}
-
-- (void)showFavouritePosts:(NSArray *)posts
-{
-    self.favouritePosts = posts;
-    for (NSInteger i=0; i<[self.favouritePosts count]; i++) {
-        Post *post = self.favouritePosts[i];
-        post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
-    }
-    self.posts = self.favouritePosts;
-    [self.tableView reloadData];
-    self.isLoadingPosts = NO;
 }
 
 - (void)updateFavouritePosts:(NSNotification *)note
 {
     NSString *postId = note.userInfo[@"postId"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postId != %@", postId];
-    self.favouritePosts = [self.favouritePosts filteredArrayUsingPredicate:predicate];
+    [self.favouritePosts filteredArrayUsingPredicate:predicate];// = [self.favouritePosts filteredArrayUsingPredicate:predicate];
     self.posts = self.favouritePosts;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
