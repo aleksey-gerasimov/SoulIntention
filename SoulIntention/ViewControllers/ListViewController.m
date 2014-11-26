@@ -211,6 +211,18 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 #pragma mark - ScrollView Delegate
 
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    if (self.isLoadingPosts) {
+        return;
+    }
+
+    [self.allPosts removeAllObjects];
+    [self.favouritePosts removeAllObjects];
+    self.posts = [NSArray new];
+    self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.isLoadingPosts || scrollView.decelerating) {
@@ -218,8 +230,12 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     }
 
     CGFloat scrollViewHeight = CGRectGetHeight(scrollView.frame);
-    CGFloat scrollViewConterntOffsetY = scrollView.contentOffset.y;
     CGFloat scrollViewContentHeight = scrollView.contentSize.height;
+    if (scrollViewHeight > scrollViewContentHeight) {
+        return;
+    }
+
+    CGFloat scrollViewConterntOffsetY = scrollView.contentOffset.y;
     if (scrollViewHeight + scrollViewConterntOffsetY > scrollViewContentHeight + kLoadingPostsOnScrollOffset) {
         NSLog(@"Loading more posts with offset %lu", self.posts.count);
         switch (self.listStyle) {

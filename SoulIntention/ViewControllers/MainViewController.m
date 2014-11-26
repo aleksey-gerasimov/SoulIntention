@@ -177,11 +177,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 #pragma mark - UISearchBarDelegate
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    self.searchBarIsShown = NO;
-}
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];

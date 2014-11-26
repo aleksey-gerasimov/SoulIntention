@@ -113,32 +113,34 @@ static CGFloat const kIconHeight = 22.f;
 
     UIImage *normalImage = [UIImage imageNamed:kFacebookButtonImage];
     UIImage *highlightedImage = [UIImage imageNamed:kFacebookButtonHighlightedImage];
-    UIBarButtonItem *facebookBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(facebookButtonPressed)];
+    UIBarButtonItem *facebookBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(facebookButtonPressed:)];
 
     normalImage = [UIImage imageNamed:kTwitterButtonImage];
     highlightedImage = [UIImage imageNamed:kTwitterButtonHighlightedImage];
-    UIBarButtonItem *twitterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(twitterButtonPressed)];
+    UIBarButtonItem *twitterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(twitterButtonPressed:)];
 
     normalImage = [UIImage imageNamed:kFavouriteButtonImage];
     highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
-    UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavourite actionTarget:self selector:@selector(favoriteButtonPressed)];
+    UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavourite actionTarget:self selector:@selector(favoriteButtonPressed:)];
 
     self.navigationItem.rightBarButtonItems = @[facebookBarButtonItem, twitterBarButtonItem, favoriteBarButtonItem];
 }
 
-- (void)facebookButtonPressed
+#pragma mark - IBActions
+
+- (IBAction)facebookButtonPressed:(id)sender
 {
     NSLog(@"PostViewController facebook button press");
     [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
 
-- (void)twitterButtonPressed
+- (IBAction)twitterButtonPressed:(id)sender
 {
     NSLog(@"PostViewController twitter button press");
     [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
 
-- (void)favoriteButtonPressed
+- (IBAction)favoriteButtonPressed:(id)sender
 {
     NSLog(@"PostViewController favorite button press");
     [self.view showLoadingIndicator];
