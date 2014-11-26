@@ -14,7 +14,6 @@ extern NSString *const kMainPageURLString;
 
 extern NSString *const kSessionStartedNotification;
 
-extern NSInteger const kPostsOffset;
 extern NSInteger const kPostsLimit;
 extern NSString *const kSearchForPostsNotification;
 

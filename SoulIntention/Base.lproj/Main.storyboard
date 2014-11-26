@@ -131,10 +131,10 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Soul Intention" id="gAs-Ac-alI">
-                        <barButtonItem key="leftBarButtonItem" image="ic_logo" width="22" id="Krf-4l-aag" userLabel="Icon">
+                        <barButtonItem key="leftBarButtonItem" image="ic_logo" width="22" style="plain" id="Krf-4l-aag" userLabel="Icon">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="ic_search" width="22" id="1ky-oy-UqR" userLabel="SearchBarButton">
+                        <barButtonItem key="rightBarButtonItem" image="ic_search" width="22" style="plain" id="1ky-oy-UqR" userLabel="SearchBarButton">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                     </navigationItem>

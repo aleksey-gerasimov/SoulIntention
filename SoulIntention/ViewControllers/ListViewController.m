@@ -20,12 +20,9 @@
 
 #import "UIView+LoadingIndicator.h"
 
-typedef NS_ENUM(NSUInteger, ListViewControllerType) {
-    ListViewControllerTypeSouls = 0,
-    ListViewControllerTypeFavorites = 1,
-};
+static NSInteger const kLoadingPostsOnScrollOffset = 25;
 
-@interface ListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -33,6 +30,8 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 @property (strong, nonatomic) NSArray *allPosts;
 @property (strong, nonatomic) NSArray *favouritePosts;
 @property (strong, nonatomic) NSArray *posts;
+@property (strong, nonatomic) NSString *searchText;
+@property (assign, nonatomic) BOOL isLoadingPosts;
 
 @end
 
@@ -51,16 +50,23 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 
     __weak ListViewController *weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        self.listStyle == ListStyleAll ? [self getAllPosts] : [self getFavouritePosts];
+        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
     }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [weakSelf showPosts:note.userInfo[@"result"]];
-    }];
-    if (self.listStyle == ListStyleFavourite) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavouritePosts:) name:kFavouriteRemovedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserverForName:kFavouriteAddedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            weakSelf.posts = [NSArray new];
-        }];
+    switch (self.listStyle) {
+        case ListStyleAll: {
+            [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+                weakSelf.allPosts = [NSArray new];
+                [weakSelf searchForPostsWithTitle:note.userInfo[@"text"] offset:0];
+            }];
+            break;
+        }
+        case ListStyleFavourite: {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavouritePosts:) name:kFavouriteRemovedNotification object:nil];
+            [[NSNotificationCenter defaultCenter] addObserverForName:kFavouriteAddedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+                weakSelf.posts = [NSArray new];
+            }];
+            break;
+        }
     }
 }
 
@@ -68,7 +74,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 {
     [super viewWillAppear:animated];
     if ([self.posts count] == 0 && self.appDelegate.sessionStarted) {
-        self.listStyle == ListStyleAll ? [self getAllPosts] : [self getFavouritePosts];
+        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
     }
 }
 
@@ -76,6 +82,8 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 {
     [super viewWillDisappear:animated];
     if ([self.navigationController.viewControllers count] < 2) {
+        self.allPosts = [NSArray new];
+        self.favouritePosts = [NSArray new];
         self.posts = [NSArray new];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
@@ -88,32 +96,24 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
 
 #pragma mark - Private Methods
 
-- (void)getAllPosts
+#pragma mark All Posts
+
+- (void)getAllPostsWithOffset:(NSInteger)offset
 {
+    self.searchText = @"";
+    self.isLoadingPosts = YES;
     [self.view showLoadingIndicator];
     __weak ListViewController *weakSelf = self;
-    [[SoulIntentionManager sharedManager] getPostsWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+    [[SoulIntentionManager sharedManager] getPostsWithOffset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load posts"];
+            weakSelf.isLoadingPosts = NO;
             return;
         } else {
-            [weakSelf showPosts:result];
-        }
-    }];
-}
-
-- (void)getFavouritePosts
-{
-    [self.view showLoadingIndicator];
-    __weak ListViewController *weakSelf = self;
-    [[SoulIntentionManager sharedManager] getFavouritesWithOffset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        [weakSelf.view hideLoadingIndicator];
-        if (error) {
-            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favourite posts"];
-            return;
-        } else {
-            [weakSelf showFavouritePosts:[result valueForKey:@"post"]];
+            NSMutableArray *postsArray = [NSMutableArray arrayWithArray:weakSelf.allPosts];
+            [postsArray addObjectsFromArray:result];
+            [weakSelf showPosts:postsArray];
         }
     }];
 }
@@ -127,6 +127,48 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     }
     self.posts = self.allPosts;
     [self.tableView reloadData];
+    self.isLoadingPosts = NO;
+}
+
+- (void)searchForPostsWithTitle:(NSString *)text offset:(NSInteger)offset
+{
+    self.searchText = text;
+    self.isLoadingPosts = YES;
+    [self.view showLoadingIndicator];
+    __weak ListViewController *weakSelf = self;
+    [[SoulIntentionManager sharedManager] searchForPostsWithTitle:text offset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [weakSelf.view hideLoadingIndicator];
+        if (error) {
+            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to make search"];
+            return;
+        } else {
+            NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], text, (long)offset, (long)kPostsLimit);
+            NSMutableArray *postsArray = [NSMutableArray arrayWithArray:weakSelf.allPosts];
+            [postsArray addObjectsFromArray:result];
+            [weakSelf showPosts:postsArray];
+        }
+    }];
+}
+
+#pragma mark Favourite Posts
+
+- (void)getFavouritePostsWithOffset:(NSInteger)offset
+{
+    self.isLoadingPosts = YES;
+    [self.view showLoadingIndicator];
+    __weak ListViewController *weakSelf = self;
+    [[SoulIntentionManager sharedManager] getFavouritesWithOffset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [weakSelf.view hideLoadingIndicator];
+        if (error) {
+            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favourite posts"];
+            weakSelf.isLoadingPosts = NO;
+            return;
+        } else {
+            NSMutableArray *postsArray = [NSMutableArray arrayWithArray:weakSelf.favouritePosts];
+            [postsArray addObjectsFromArray:[result valueForKey:@"post"]];
+            [weakSelf showFavouritePosts:postsArray];
+        }
+    }];
 }
 
 - (void)showFavouritePosts:(NSArray *)posts
@@ -138,6 +180,7 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     }
     self.posts = self.favouritePosts;
     [self.tableView reloadData];
+    self.isLoadingPosts = NO;
 }
 
 - (void)updateFavouritePosts:(NSNotification *)note
@@ -174,6 +217,30 @@ typedef NS_ENUM(NSUInteger, ListViewControllerType) {
     ListTableViewCell *cell = (ListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     postViewController.postImage = cell.postImageView.image;
     [self.navigationController pushViewController:postViewController animated:YES];
+}
+
+#pragma mark - ScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.isLoadingPosts || scrollView.decelerating) {
+        return;
+    }
+
+    CGFloat scrollViewHeight = CGRectGetHeight(scrollView.frame);
+    CGFloat scrollViewConterntOffsetY = scrollView.contentOffset.y;
+    CGFloat scrollViewContentHeight = scrollView.contentSize.height;
+    if (scrollViewHeight + scrollViewConterntOffsetY > scrollViewContentHeight + kLoadingPostsOnScrollOffset) {
+        NSLog(@"Loading more posts with offset %lu", self.posts.count);
+        switch (self.listStyle) {
+            case ListStyleAll:
+                self.searchText.length > 0 ? [self searchForPostsWithTitle:self.searchText offset:self.posts.count] : [self getAllPostsWithOffset:self.posts.count];
+                break;
+            case ListStyleFavourite:
+                [self getFavouritePostsWithOffset:self.posts.count];
+                break;
+        }
+    }
 }
 
 @end

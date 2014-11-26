@@ -89,33 +89,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     }];
 }
 
-#pragma mark - IBAction
-
-- (IBAction)searchButtonTouchUp:(id)sender
-{
-    NSLog(@"Search Button Press");
-    self.searchBarIsShown = !self.searchBarIsShown;
-}
-
-- (void)menuButtonTouchUpInside:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    switch (button.tag) {
-        case SoulsChildViewController:
-            self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
-            break;
-        case AutorChildViewController:
-            self.underlineLeadingConstraint.constant = -self.postsButtonWidthConstraint.constant;
-            break;
-        case FavoritesChildViewController:
-            self.underlineLeadingConstraint.constant = 0;
-            break;
-    }
-    self.navigationItem.rightBarButtonItem.enabled = button.tag != AutorChildViewController;
-    [self.view layoutIfNeeded];
-    [self displayChildViewControllersWithTag:button.tag];
-}
-
 #pragma mark - Private Methods
 
 - (void)setCustomBarButtons
@@ -175,6 +148,33 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     }
 }
 
+#pragma mark - IBAction
+
+- (IBAction)searchButtonTouchUp:(id)sender
+{
+    NSLog(@"Search Button Press");
+    self.searchBarIsShown = !self.searchBarIsShown;
+}
+
+- (void)menuButtonTouchUpInside:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    switch (button.tag) {
+        case SoulsChildViewController:
+            self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
+            break;
+        case AutorChildViewController:
+            self.underlineLeadingConstraint.constant = -self.postsButtonWidthConstraint.constant;
+            break;
+        case FavoritesChildViewController:
+            self.underlineLeadingConstraint.constant = 0;
+            break;
+    }
+    self.navigationItem.rightBarButtonItem.enabled = button.tag == SoulsChildViewController;
+    [self.view layoutIfNeeded];
+    [self displayChildViewControllersWithTag:button.tag];
+}
+
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -185,19 +185,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    [self.view showLoadingIndicator];
-    __weak MainViewController *weakSelf = self;
-    __weak AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    [[SoulIntentionManager sharedManager] searchForPostsWithTitle:searchBar.text offset:kPostsOffset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        [weakSelf.view hideLoadingIndicator];
-        if (error) {
-            [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to make search"];
-            return;
-        } else {
-            NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], searchBar.text, (long)kPostsOffset, (long)kPostsLimit);
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"result" : result}];
-        }
-    }];
+    self.searchBarIsShown = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
 }
 
 @end

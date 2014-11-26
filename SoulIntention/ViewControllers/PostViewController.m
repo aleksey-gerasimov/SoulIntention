@@ -27,6 +27,7 @@ static CGFloat const ICON_HEIGHT = 22.f;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postImageViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postImageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewHeightConstraint;
+
 @end
 
 @implementation PostViewController

@@ -13,8 +13,7 @@ NSString *const kMainPageURLString = @"http://www.maryjorapini.com";
 
 NSString *const kSessionStartedNotification = @"SessionStartedNotification";
 
-NSInteger const kPostsOffset = 0;
-NSInteger const kPostsLimit = 20;
+NSInteger const kPostsLimit = 5;
 NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
 
 CGFloat const kAnimationDuration = 0.5;
