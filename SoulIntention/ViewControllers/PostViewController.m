@@ -54,8 +54,8 @@ static CGFloat const kIconHeight = 22.f;
         UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
         UIBarButtonItem *barButtonItem = [weakSelf.navigationItem.rightBarButtonItems lastObject];
         UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
-        [favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
-                      highlightedImage:_post.isFavourite ? normalImage : highlightedImage
+        [favoriteButton setNormalImage:weakSelf.post.isFavourite ? highlightedImage : normalImage
+                      highlightedImage:weakSelf.post.isFavourite ? normalImage : highlightedImage
                                   size:CGSizeMake(kIconWidth, kIconHeight)];
     }];
 }

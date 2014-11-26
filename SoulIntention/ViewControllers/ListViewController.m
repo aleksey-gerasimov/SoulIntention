@@ -16,7 +16,6 @@
 #import "Constants.h"
 
 #import "Post.h"
-#import "Favourite.h"
 
 #import "UIView+LoadingIndicator.h"
 
