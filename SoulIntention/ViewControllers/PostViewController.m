@@ -14,11 +14,13 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 
+#import "Post.h"
+
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-static CGFloat const ICON_WIDTH = 22.f;
-static CGFloat const ICON_HEIGHT = 22.f;
+static CGFloat const kIconWidth = 22.f;
+static CGFloat const kIconHeight = 22.f;
 
 @interface PostViewController ()
 
@@ -90,7 +92,7 @@ static CGFloat const ICON_HEIGHT = 22.f;
 
 - (void)setCustomBarButtonItems
 {
-    CGSize size = CGSizeMake(ICON_WIDTH, ICON_HEIGHT);
+    CGSize size = CGSizeMake(kIconWidth, kIconHeight);
 
     UIImage *normalImage = [UIImage imageNamed:kFacebookButtonImage];
     UIImage *highlightedImage = [UIImage imageNamed:kFacebookButtonHighlightedImage];
@@ -133,7 +135,7 @@ static CGFloat const ICON_HEIGHT = 22.f;
         UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
         [favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
                       highlightedImage:_post.isFavourite ? normalImage : highlightedImage
-                                  size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+                                  size:CGSizeMake(kIconWidth, kIconHeight)];
     };
     if (self.post.isFavourite) {
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {

@@ -41,42 +41,31 @@
 - (void)presentShareDialogWithName:(NSString *)name caption:(NSString *)caption description:(NSString *)description link:(NSURL *)link picture:(NSURL *)picture
 {
     __weak AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-//    if ([FBDialogs canPresentShareDialog]) {
-//        [FBDialogs presentShareDialogWithLink:link name:name caption:caption description:description picture:picture clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-//            if (error) {
-//                NSLog(@"Facebook present share dialog error: %@", [error localizedDescription]);
-//                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to present facebook share dialog"];
-//            } else {
-//                NSLog(@"Facebook present share dialog success");
-//            }
-//        }];
-//    } else {
-        NSMutableDictionary *parameters = [NSMutableDictionary new];
-        if (name) {
-            parameters[@"name"] = name;
-        }
-        if (caption) {
-            parameters[@"caption"] = caption;
-        }
-        if (description) {
-            parameters[@"description"] = description;
-        }
-        if (link) {
-            parameters[@"link"] = link.absoluteString;
-        }
-        if (picture) {
-            parameters[@"picture"] = picture.absoluteString;
-        }
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    if (name) {
+        parameters[@"name"] = name;
+    }
+    if (caption) {
+        parameters[@"caption"] = caption;
+    }
+    if (description) {
+        parameters[@"description"] = description;
+    }
+    if (link) {
+        parameters[@"link"] = link.absoluteString;
+    }
+    if (picture) {
+        parameters[@"picture"] = picture.absoluteString;
+    }
 
-        [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:parameters handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-            if (error) {
-                NSLog(@"Facebook present feed dialog modally error: %@", [error localizedDescription]);
-                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to present facebook feed dialog"];
-            } else {
-                NSLog(@"Facebook present feed dialog modally success");
-            }
-        }];
-//    }
+    [FBWebDialogs presentFeedDialogModallyWithSession:nil parameters:parameters handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+        if (error) {
+            NSLog(@"Facebook present feed dialog modally error: %@", [error localizedDescription]);
+            [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to present facebook feed dialog"];
+        } else {
+            NSLog(@"Facebook present feed dialog modally success");
+        }
+    }];
 }
 
 @end

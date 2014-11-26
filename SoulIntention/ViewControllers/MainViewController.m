@@ -19,8 +19,8 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-static CGFloat const ICON_WIDTH = 30.f;
-static CGFloat const ICON_HEIGHT = 30.f;
+static CGFloat const kIconWidth = 30.f;
+static CGFloat const kIconHeight = 30.f;
 
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 {
     _searchBarIsShown = searchBarIsShown;
     __weak MainViewController *weakSelf = self;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:kAnimationDuration animations:^{
         weakSelf.searchBarTopConstraint.constant = _searchBarIsShown ? 0 : -CGRectGetHeight(weakSelf.searchBar.frame);
         [weakSelf.view layoutIfNeeded];
 //        CGFloat yPosision = _searchBarIsShown ? CGRectGetMinY(weakSelf.containerView.frame) : CGRectGetMinY(weakSelf.containerView.frame) - CGRectGetHeight(weakSelf.searchBar.frame);
@@ -93,7 +93,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)setCustomBarButtons
 {
-    CGSize size = CGSizeMake(ICON_WIDTH, ICON_HEIGHT);
+    CGSize size = CGSizeMake(kIconWidth, kIconHeight);
 
     UIImage *normalImage = [UIImage imageNamed:kLogoButtonImage];
     UIBarButtonItem *logoBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:nil selector:nil];

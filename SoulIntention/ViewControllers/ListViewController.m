@@ -200,7 +200,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PostViewController class])];
     postViewController.post = self.posts[indexPath.row];
     ListTableViewCell *cell = (ListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    postViewController.postImage = cell.postImageView.image;
+    postViewController.postImage = [cell getPostImage];
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 

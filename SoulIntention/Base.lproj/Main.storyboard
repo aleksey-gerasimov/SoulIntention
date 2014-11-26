@@ -131,10 +131,10 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Soul Intention" id="gAs-Ac-alI">
-                        <barButtonItem key="leftBarButtonItem" image="ic_logo" width="22" style="plain" id="Krf-4l-aag" userLabel="Icon">
+                        <barButtonItem key="leftBarButtonItem" image="ic_logo" width="22" style="done" id="Krf-4l-aag" userLabel="Icon">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="ic_search" width="22" style="plain" id="1ky-oy-UqR" userLabel="SearchBarButton">
+                        <barButtonItem key="rightBarButtonItem" image="ic_search" width="22" style="done" id="1ky-oy-UqR" userLabel="SearchBarButton">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                     </navigationItem>
@@ -258,7 +258,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="143"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0PW-38-zs2" userLabel="titleLabel">
-                                                            <rect key="frame" x="14" y="19" width="298" height="22"/>
+                                                            <rect key="frame" x="134" y="19" width="178" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="kC0-mL-RyI"/>
                                                             </constraints>
@@ -272,7 +272,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NgL-Kw-YuH" userLabel="descriptionLabel">
-                                                            <rect key="frame" x="15" y="55" width="298" height="51"/>
+                                                            <rect key="frame" x="135" y="55" width="178" height="51"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="51" id="Qep-QJ-e9I"/>
                                                                 <constraint firstAttribute="height" constant="51" id="Z4o-T5-qff"/>
@@ -289,7 +289,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luy-Iw-tnI" userLabel="dateLabel">
-                                                            <rect key="frame" x="15" y="115" width="298" height="15"/>
+                                                            <rect key="frame" x="135" y="115" width="178" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="9" id="waO-5e-dm1"/>
                                                             </constraints>
@@ -303,10 +303,11 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sE2-7y-lP0" userLabel="postImageView">
+                                                            <rect key="frame" x="7" y="19" width="120" height="112"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="120" id="QBi-8Q-iYp"/>
-                                                                <constraint firstAttribute="width" id="SDZ-Q6-X9v"/>
+                                                                <constraint firstAttribute="width" constant="120" id="SDZ-Q6-X9v"/>
                                                                 <constraint firstAttribute="height" constant="112" id="V3n-op-E5x"/>
                                                             </constraints>
                                                             <variation key="default">
@@ -376,30 +377,17 @@
                                     <outlet property="delegate" destination="lnc-Tb-wOR" id="QK7-B1-S2R"/>
                                 </connections>
                             </tableView>
-                            <searchBar contentMode="redraw" placeholder="Enter text to search" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mW1-ao-g0Z">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="xH9-4g-bcI"/>
-                                </constraints>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="2Rm-sx-XXG"/>
-                            <constraint firstItem="mW1-ao-g0Z" firstAttribute="top" secondItem="PGi-4f-Ybm" secondAttribute="bottom" id="7Wb-KV-slO"/>
-                            <constraint firstItem="mW1-ao-g0Z" firstAttribute="leading" secondItem="2oA-Rl-jMk" secondAttribute="leading" id="9vr-a1-GwQ"/>
                             <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="E7W-td-i7e"/>
-                            <constraint firstAttribute="trailing" secondItem="mW1-ao-g0Z" secondAttribute="trailing" id="Lhq-5e-Pdh"/>
                             <constraint firstItem="DVK-AM-EMT" firstAttribute="leading" secondItem="2oA-Rl-jMk" secondAttribute="leading" id="ayK-zA-LSj"/>
                             <constraint firstItem="DVK-AM-EMT" firstAttribute="top" secondItem="2oA-Rl-jMk" secondAttribute="top" id="nfz-72-M8O"/>
                             <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="sdE-Rp-gc8"/>
                             <constraint firstAttribute="trailing" secondItem="DVK-AM-EMT" secondAttribute="trailing" id="ssC-wm-x7n"/>
                         </constraints>
                         <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="mW1-ao-g0Z"/>
-                            </mask>
                             <mask key="constraints">
                                 <exclude reference="2Rm-sx-XXG"/>
                                 <exclude reference="E7W-td-i7e"/>
@@ -431,10 +419,11 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="vdh-8U-Keb">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XTE-Cd-cFg" userLabel="Author Image">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XTE-Cd-cFg" userLabel="Author Image">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" id="0ZB-tu-1yn"/>
+                                            <constraint firstAttribute="height" constant="180" id="0ZB-tu-1yn"/>
                                             <constraint firstAttribute="width" constant="320" id="Zjk-G9-agw"/>
                                             <constraint firstAttribute="height" constant="180" id="mrB-yI-u7V"/>
                                             <constraint firstAttribute="width" constant="320" id="y5b-x3-QOG"/>
@@ -447,7 +436,7 @@
                                         </variation>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZF-60-D8J" userLabel="Author Info">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                                        <rect key="frame" x="0.0" y="180" width="320" height="300"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="380" id="gbi-bn-it4"/>

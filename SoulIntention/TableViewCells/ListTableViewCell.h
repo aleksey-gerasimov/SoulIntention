@@ -12,8 +12,8 @@
 
 @interface ListTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
-
 @property (strong, nonatomic) Post *post;
+
+- (UIImage *)getPostImage;
 
 @end

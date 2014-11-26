@@ -8,7 +8,7 @@
 
 #import "TwitterManager.h"
 
-static NSString *const TSTwitterPostRequestURL = @"https://api.twitter.com/1.1/statuses/update_with_media.json";
+//static NSString *const TSTwitterPostRequestURL = @"https://api.twitter.com/1.1/statuses/update_with_media.json";
 
 @interface TwitterManager ()
 

@@ -21,9 +21,10 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-static CGFloat const ICON_WIDTH = 30.f;
-static CGFloat const ICON_HEIGHT = 30.f;
-static CGFloat const SWIPE_OFFSET = 107.f;
+static CGFloat const kPostImageViewWidth = 120.f;
+static CGFloat const kIconWidth = 30.f;
+static CGFloat const kIconHeight = 30.f;
+static CGFloat const kSwipeOffset = 107.f;
 
 typedef NS_ENUM(NSInteger, CellType) {
     CellTypeLeft = 0,
@@ -40,6 +41,7 @@ typedef void(^CellSwipeHandler)(void);
 
 @interface ListTableViewCell ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -89,7 +91,7 @@ typedef void(^CellSwipeHandler)(void);
     return UIEdgeInsetsZero;
 }
 
-#pragma mark - Custom Setters
+#pragma mark - Custom Accessors
 
 - (void)setPost:(Post *)post
 {
@@ -103,7 +105,7 @@ typedef void(^CellSwipeHandler)(void);
     UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
     [self.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
                        highlightedImage:_post.isFavourite ? normalImage : highlightedImage
-                                   size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+                                   size:CGSizeMake(kIconWidth, kIconHeight)];
 
     __weak ListTableViewCell *weakSelf = self;
     void(^loadImageHandler)(UIImage*, NSInteger) = ^(UIImage *image, NSInteger width){
@@ -115,7 +117,7 @@ typedef void(^CellSwipeHandler)(void);
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.postImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         NSLog(@"Post image load success");
-        loadImageHandler(image, 120);
+        loadImageHandler(image, kPostImageViewWidth);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         NSLog(@"Post image load error: %@", [error localizedDescription]);
         loadImageHandler(nil, 0);
@@ -128,10 +130,10 @@ typedef void(^CellSwipeHandler)(void);
 {
     [self.facebookButton setNormalImage:[UIImage imageNamed:kFacebookButtonImage]
                        highlightedImage:[UIImage imageNamed:kFacebookButtonHighlightedImage]
-                                   size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+                                   size:CGSizeMake(kIconWidth, kIconHeight)];
     [self.twitterButton setNormalImage:[UIImage imageNamed:kTwitterButtonImage]
                       highlightedImage:[UIImage imageNamed:kTwitterButtonHighlightedImage]
-                                  size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+                                  size:CGSizeMake(kIconWidth, kIconHeight)];
 }
 
 - (void)cellStateChanged:(NSNotification *)notification
@@ -145,10 +147,10 @@ typedef void(^CellSwipeHandler)(void);
         case CellTypeCenter:
             break;
         case CellTypeLeft:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight completitionHandler:nil];
             break;
         case CellTypeRight:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:nil];
             break;
     }
     self.cellType = CellTypeCenter;
@@ -167,7 +169,13 @@ typedef void(^CellSwipeHandler)(void);
             handler();
         }
     }];
-    
+}
+
+#pragma mark - Public
+
+- (UIImage *)getPostImage
+{
+    return self.postImageView.image;
 }
 
 #pragma mark - IBActions
@@ -179,12 +187,12 @@ typedef void(^CellSwipeHandler)(void);
     __weak ListTableViewCell *weakSelf = self;
     void(^favouriteSwitchHandler)(void) = ^{
         weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
-        [weakSelf swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:^{
+        [weakSelf swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:^{
             UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
             UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
             [weakSelf.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
                                highlightedImage:_post.isFavourite ? normalImage : highlightedImage
-                                           size:CGSizeMake(ICON_WIDTH, ICON_HEIGHT)];
+                                           size:CGSizeMake(kIconWidth, kIconHeight)];
         }];
         weakSelf.cellType = CellTypeCenter;
     };
@@ -245,11 +253,11 @@ typedef void(^CellSwipeHandler)(void);
         case CellTypeRight:
             return; //no need to post notification
         case CellTypeLeft:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight completitionHandler:nil];
             self.cellType = CellTypeCenter;
             break;
         case CellTypeCenter:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionRight completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight completitionHandler:nil];
             self.cellType = CellTypeRight;
             break;
     }
@@ -260,13 +268,13 @@ typedef void(^CellSwipeHandler)(void);
 {
     switch (self.cellType) {
         case CellTypeRight:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:nil];
             self.cellType = CellTypeCenter;
             break;
         case CellTypeLeft:
             return; //no need to post notification
         case CellTypeCenter:
-            [self swipeWithOffset:SWIPE_OFFSET toDirection:SwipeDirectionLeft completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:nil];
             self.cellType = CellTypeLeft;
             break;
     }

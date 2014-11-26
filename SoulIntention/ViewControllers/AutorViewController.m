@@ -18,7 +18,7 @@
 
 #import "UIView+LoadingIndicator.h"
 
-NSInteger const kAuthorImageViewHeight = 180;
+static NSInteger const kAuthorImageViewHeight = 180;
 
 @interface AutorViewController ()
 
@@ -42,6 +42,7 @@ NSInteger const kAuthorImageViewHeight = 180;
     [super viewDidLoad];
 
     self.authorImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
+    self.authorImageViewHeightConstraint.constant = 0;
     [self.view layoutIfNeeded];
 
     self.appDelegate = [UIApplication sharedApplication].delegate;
