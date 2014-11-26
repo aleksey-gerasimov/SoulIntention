@@ -66,18 +66,24 @@ typedef void(^CellSwipeHandler)(void);
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+
     [self initGestureRecognizer];
     [self setButtonImages];
+
     self.cellType = CellTypeCenter;
     self.appDelegate = [UIApplication sharedApplication].delegate;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:kListCellSwipeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favouriteStatusChanged:) name:kFavouriteFlagChangedNotification object:nil];
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+
     self.imageWidthConstraint.constant = 0;
     [self layoutIfNeeded];
+
     [self.postImageView cancelImageRequestOperation];
 }
 
@@ -136,6 +142,23 @@ typedef void(^CellSwipeHandler)(void);
                                   size:CGSizeMake(kIconWidth, kIconHeight)];
 }
 
+- (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction completitionHandler:(CellSwipeHandler)handler
+{
+    if (direction == SwipeDirectionLeft) {
+        offset = -offset;
+    }
+
+    [UIView animateWithDuration:kAnimationDuration animations:^{
+        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
+    } completion:^(BOOL finished) {
+        if (handler) {
+            handler();
+        }
+    }];
+}
+
+#pragma mark - Notifications
+
 - (void)cellStateChanged:(NSNotification *)notification
 {
     NSDictionary *userInfo = notification.userInfo;
@@ -156,19 +179,19 @@ typedef void(^CellSwipeHandler)(void);
     self.cellType = CellTypeCenter;
 }
 
-- (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction completitionHandler:(CellSwipeHandler)handler
+- (void)favouriteStatusChanged:(NSNotification *)note
 {
-    if (direction == SwipeDirectionLeft) {
-        offset = -offset;
+    if (self.post.postId == note.userInfo[@"postId"]) {
+        self.post.isFavourite = [(NSNumber *)note.userInfo[@"isFavourite"] boolValue];
+        [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:^{
+            UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
+            UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
+            [self.favoriteButton setNormalImage:self.post.isFavourite ? highlightedImage : normalImage
+                               highlightedImage:self.post.isFavourite ? normalImage : highlightedImage
+                                           size:CGSizeMake(kIconWidth, kIconHeight)];
+        }];
+        self.cellType = CellTypeCenter;
     }
-
-    [UIView animateWithDuration:kAnimationDuration animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
-    } completion:^(BOOL finished) {
-        if (handler) {
-            handler();
-        }
-    }];
 }
 
 #pragma mark - Public
@@ -184,18 +207,8 @@ typedef void(^CellSwipeHandler)(void);
 {
     NSLog(@"ListTableViewCell favorite button pressed");
     [self showLoadingIndicator];
+    NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavourite" : @(!self.post.isFavourite)};
     __weak ListTableViewCell *weakSelf = self;
-    void(^favouriteSwitchHandler)(void) = ^{
-        weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
-        [weakSelf swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:^{
-            UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
-            UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
-            [weakSelf.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
-                               highlightedImage:_post.isFavourite ? normalImage : highlightedImage
-                                           size:CGSizeMake(kIconWidth, kIconHeight)];
-        }];
-        weakSelf.cellType = CellTypeCenter;
-    };
     if (self.post.isFavourite) {
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf hideLoadingIndicator];
@@ -203,9 +216,8 @@ typedef void(^CellSwipeHandler)(void);
                 [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favourites"];
                 return;
             } else {
-                favouriteSwitchHandler();
                 [weakSelf.appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteRemovedNotification object:[weakSelf class] userInfo:@{@"postId" : weakSelf.post.postId}];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     } else {
@@ -215,8 +227,8 @@ typedef void(^CellSwipeHandler)(void);
                 [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favourites"];
                 return;
             } else {
-                favouriteSwitchHandler();
                 [weakSelf.appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     }

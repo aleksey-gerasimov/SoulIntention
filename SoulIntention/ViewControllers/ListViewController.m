@@ -49,11 +49,11 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     self.posts = [NSArray new];
 
     __weak ListViewController *weakSelf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
-    }];
     switch (self.listStyle) {
         case ListStyleAll: {
+            [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+                [weakSelf getAllPostsWithOffset:0];
+            }];
             [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
                 [weakSelf.allPosts removeAllObjects];
                 [weakSelf searchForPostsWithTitle:note.userInfo[@"text"] offset:0];
@@ -61,11 +61,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
             break;
         }
         case ListStyleFavourite: {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavouritePosts:) name:kFavouriteRemovedNotification object:nil];
-            [[NSNotificationCenter defaultCenter] addObserverForName:kFavouriteAddedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-                [weakSelf.favouritePosts removeAllObjects];
-                weakSelf.posts = [NSArray new];
+            [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+                [weakSelf getFavouritePostsWithOffset:0];
             }];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavouritePosts:) name:kFavouriteFlagChangedNotification object:nil];
             break;
         }
     }
@@ -170,9 +169,15 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 - (void)updateFavouritePosts:(NSNotification *)note
 {
+    if ([(NSNumber *)note.userInfo[@"isFavourite"] boolValue]) {
+        [self.favouritePosts removeAllObjects];
+        self.posts = [NSArray new];
+        return;
+    }
+
     NSString *postId = note.userInfo[@"postId"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postId != %@", postId];
-    [self.favouritePosts filteredArrayUsingPredicate:predicate];// = [self.favouritePosts filteredArrayUsingPredicate:predicate];
+    [self.favouritePosts filterUsingPredicate:predicate];
     self.posts = self.favouritePosts;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];

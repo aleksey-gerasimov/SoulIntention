@@ -20,8 +20,7 @@ extern NSString *const kSearchForPostsNotification;
 extern CGFloat const kAnimationDuration;
 extern NSString *const kListCellSwipeNotification;
 
-extern NSString *const kFavouriteRemovedNotification;
-extern NSString *const kFavouriteAddedNotification;
+extern NSString *const kFavouriteFlagChangedNotification;
 
 extern NSString *const kLogoButtonImage;
 extern NSString *const kSearchButtonImage;

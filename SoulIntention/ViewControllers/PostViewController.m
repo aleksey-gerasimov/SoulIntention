@@ -46,6 +46,23 @@ static CGFloat const kIconHeight = 22.f;
 
     self.postImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
     [self.view layoutIfNeeded];
+
+    __weak PostViewController *weakSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:kFavouriteFlagChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        weakSelf.post.isFavourite = [(NSNumber *)note.userInfo[@"isFavourite"] boolValue];
+        UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
+        UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
+        UIBarButtonItem *barButtonItem = [weakSelf.navigationItem.rightBarButtonItems lastObject];
+        UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
+        [favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
+                      highlightedImage:_post.isFavourite ? normalImage : highlightedImage
+                                  size:CGSizeMake(kIconWidth, kIconHeight)];
+    }];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Private Methods
@@ -126,17 +143,8 @@ static CGFloat const kIconHeight = 22.f;
     NSLog(@"PostViewController favorite button press");
     [self.view showLoadingIndicator];
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavourite" : @(!self.post.isFavourite)};
     __weak PostViewController *weakSelf = self;
-    void(^favouriteSwitchHandler)(void) = ^{
-        weakSelf.post.isFavourite = !weakSelf.post.isFavourite;
-        UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
-        UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
-        UIBarButtonItem *barButtonItem = [weakSelf.navigationItem.rightBarButtonItems lastObject];
-        UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
-        [favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
-                      highlightedImage:_post.isFavourite ? normalImage : highlightedImage
-                                  size:CGSizeMake(kIconWidth, kIconHeight)];
-    };
     if (self.post.isFavourite) {
         [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf.view hideLoadingIndicator];
@@ -144,9 +152,8 @@ static CGFloat const kIconHeight = 22.f;
                 [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favourites"];
                 return;
             } else {
-                favouriteSwitchHandler();
                 [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteRemovedNotification object:[weakSelf class] userInfo:@{@"postId" : weakSelf.post.postId}];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     } else {
@@ -156,9 +163,8 @@ static CGFloat const kIconHeight = 22.f;
                 [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favourites"];
                 return;
             } else {
-                favouriteSwitchHandler();
                 [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteAddedNotification object:[weakSelf class]];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     }

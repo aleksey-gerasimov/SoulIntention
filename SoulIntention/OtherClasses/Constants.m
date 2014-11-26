@@ -19,8 +19,7 @@ NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
 CGFloat const kAnimationDuration = 0.5;
 NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 
-NSString *const kFavouriteRemovedNotification = @"FavouriteRemovedNotification";
-NSString *const kFavouriteAddedNotification = @"FavouriteAddedNotification";
+NSString *const kFavouriteFlagChangedNotification = @"kFavouriteFlagChangedNotification";
 
 NSString *const kLogoButtonImage = @"ic_logo";
 NSString *const kSearchButtonImage = @"ic_search";
