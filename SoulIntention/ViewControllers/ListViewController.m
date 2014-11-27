@@ -31,6 +31,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 @property (strong, nonatomic) NSArray *posts;
 @property (strong, nonatomic) NSString *searchText;
 @property (assign, nonatomic) BOOL isLoadingPosts;
+@property (assign, nonatomic) BOOL needsUpdate;
 
 @end
 
@@ -72,7 +73,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([self.posts count] == 0 && self.appDelegate.sessionStarted) {
+    if (/*[self.posts count] == 0*/ self.needsUpdate && self.appDelegate.sessionStarted) {
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
     }
 }
@@ -83,9 +84,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     if ([self.navigationController.viewControllers count] < 2) {
         [self.allPosts removeAllObjects];
         [self.favouritePosts removeAllObjects];
-        self.posts = [NSArray new];
+        self.needsUpdate = YES;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHideSearchBarNotification object:nil];
 }
 
 - (void)dealloc
@@ -101,9 +103,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         Post *post = posts[i];
         post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
     }
-    self.posts = posts;
+    self.posts = [posts copy];
     [self.tableView reloadData];
     self.isLoadingPosts = NO;
+    self.needsUpdate = NO;
 }
 
 #pragma mark All Posts
@@ -119,11 +122,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load posts"];
             weakSelf.isLoadingPosts = NO;
-            return;
         } else {
             [weakSelf.allPosts addObjectsFromArray:result];
-            [weakSelf showPosts:weakSelf.allPosts];
         }
+        [weakSelf showPosts:weakSelf.allPosts];
     }];
 }
 
@@ -137,12 +139,11 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         [weakSelf.view hideLoadingIndicator];
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to make search"];
-            return;
         } else {
             NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], text, (long)offset, (long)kPostsLimit);
             [weakSelf.allPosts addObjectsFromArray:result];
-            [weakSelf showPosts:weakSelf.allPosts];
         }
+        [weakSelf showPosts:weakSelf.allPosts];
     }];
 }
 
@@ -158,11 +159,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favourite posts"];
             weakSelf.isLoadingPosts = NO;
-            return;
         } else {
             [weakSelf.favouritePosts addObjectsFromArray:[result valueForKey:@"post"]];
-            [weakSelf showPosts:weakSelf.favouritePosts];
         }
+        [weakSelf showPosts:weakSelf.favouritePosts];
     }];
 }
 
@@ -170,14 +170,14 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 {
     if ([(NSNumber *)note.userInfo[@"isFavourite"] boolValue]) {
         [self.favouritePosts removeAllObjects];
-        self.posts = [NSArray new];
+        self.needsUpdate = YES;
         return;
     }
 
     NSString *postId = note.userInfo[@"postId"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postId != %@", postId];
     [self.favouritePosts filterUsingPredicate:predicate];
-    self.posts = self.favouritePosts;
+    self.posts = [self.favouritePosts copy];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
@@ -210,16 +210,9 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 #pragma mark - ScrollView Delegate
 
-- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if (self.isLoadingPosts) {
-        return;
-    }
-
-    [self.allPosts removeAllObjects];
-    [self.favouritePosts removeAllObjects];
-    self.posts = [NSArray new];
-    self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHideSearchBarNotification object:nil];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -228,14 +221,20 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         return;
     }
 
+    CGFloat scrollViewContentOffsetY = scrollView.contentOffset.y;
+    if (scrollViewContentOffsetY <= -kLoadingPostsOnScrollOffset) {
+        [self.allPosts removeAllObjects];
+        [self.favouritePosts removeAllObjects];
+        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
+        return;
+    }
+
     CGFloat scrollViewHeight = CGRectGetHeight(scrollView.frame);
     CGFloat scrollViewContentHeight = scrollView.contentSize.height;
     if (scrollViewHeight > scrollViewContentHeight) {
         return;
     }
-
-    CGFloat scrollViewConterntOffsetY = scrollView.contentOffset.y;
-    if (scrollViewHeight + scrollViewConterntOffsetY > scrollViewContentHeight + kLoadingPostsOnScrollOffset) {
+    if (scrollViewHeight + scrollViewContentOffsetY > scrollViewContentHeight + kLoadingPostsOnScrollOffset) {
         NSLog(@"Loading more posts with offset %lu", self.posts.count);
         switch (self.listStyle) {
             case ListStyleAll:

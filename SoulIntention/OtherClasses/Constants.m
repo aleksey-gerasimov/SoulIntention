@@ -16,6 +16,7 @@ NSString *const kSessionStartedNotification = @"SessionStartedNotification";
 
 NSInteger const kPostsLimit = 5;
 NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
+NSString *const kHideSearchBarNotification = @"HideSearchBarNotification";
 
 CGFloat const kAnimationDuration = 0.5;
 NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";

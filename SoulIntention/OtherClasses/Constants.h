@@ -16,6 +16,7 @@ extern NSString *const kSessionStartedNotification;
 
 extern NSInteger const kPostsLimit;
 extern NSString *const kSearchForPostsNotification;
+extern NSString *const kHideSearchBarNotification;
 
 extern CGFloat const kAnimationDuration;
 extern NSString *const kListCellSwipeNotification;

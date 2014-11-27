@@ -67,6 +67,13 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.underlineWidthConstraint.constant = screenWidth + screenWidth*2/3;
     self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
     [self.view layoutIfNeeded];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSearchBar) name:kHideSearchBarNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Custom Accessors
@@ -78,8 +85,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [UIView animateWithDuration:kAnimationDuration animations:^{
         weakSelf.searchBarTopConstraint.constant = _searchBarIsShown ? 0 : -CGRectGetHeight(weakSelf.searchBar.frame);
         [weakSelf.view layoutIfNeeded];
-//        CGFloat yPosision = _searchBarIsShown ? CGRectGetMinY(weakSelf.containerView.frame) : CGRectGetMinY(weakSelf.containerView.frame) - CGRectGetHeight(weakSelf.searchBar.frame);
-//        weakSelf.searchBar.frame = CGRectMake(CGRectGetMinX(weakSelf.searchBar.frame), yPosision, CGRectGetWidth(weakSelf.searchBar.frame), CGRectGetHeight(weakSelf.searchBar.frame));
     } completion:^(BOOL finished) {
         if (_searchBarIsShown) {
             [weakSelf.searchBar becomeFirstResponder];
@@ -144,6 +149,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.currentViewController.view.frame = self.containerView.bounds;
     [self.containerView addSubview:self.currentViewController.view];
 
+    [self hideSearchBar];
+}
+
+- (void)hideSearchBar
+{
     if (self.searchBarIsShown) {
         self.searchBarIsShown = NO;
     }
@@ -181,7 +191,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    self.searchBarIsShown = NO;
+    [self hideSearchBar];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
 }
 

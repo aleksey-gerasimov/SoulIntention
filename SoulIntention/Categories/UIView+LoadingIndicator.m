@@ -35,7 +35,8 @@ NSInteger const kLoadingIndicatorViewTag = 215;
     [loadingIndicator startAnimating];
 
     UIView *backgroundView = [UIView new];
-    backgroundView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+    backgroundView.backgroundColor = [UIColor blackColor];
+    backgroundView.alpha = 0.6;
     backgroundView.frame = self.rootView.bounds;
     backgroundView.tag = kLoadingIndicatorBackgroundViewTag;
 
