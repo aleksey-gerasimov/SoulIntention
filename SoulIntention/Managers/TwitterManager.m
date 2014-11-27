@@ -8,6 +8,8 @@
 
 #import "TwitterManager.h"
 
+#import "AppDelegate.h"
+
 //static NSString *const TSTwitterPostRequestURL = @"https://api.twitter.com/1.1/statuses/update_with_media.json";
 
 @interface TwitterManager ()
@@ -28,7 +30,12 @@
 
 - (BOOL)presentShareDialogWithText:(NSString *)text url:(NSURL *)url
 {
-    return [super presentShareDialogWithText:text url:url];
+    BOOL success = [super presentShareDialogWithText:text url:url];
+    if (!success) {
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        [appDelegate showAlertViewWithTitle:@"Error" message:@"Please, set up your twitter account in settings"];
+    }
+    return success;
 }
 
 @end

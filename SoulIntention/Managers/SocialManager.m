@@ -11,7 +11,6 @@
 #import "SocialManager.h"
 
 #import "FacebookManager.h"
-//#import "TwitterManager.h"
 #import "AppDelegate.h"
 
 @implementation SocialManager
@@ -41,7 +40,19 @@
         if (url) {
             [viewController addURL:url];
         }
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+
+        __weak AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        viewController.completionHandler = ^(SLComposeViewControllerResult result){
+            switch (result) {
+                case SLComposeViewControllerResultDone:
+                    [appDelegate showAlertViewWithTitle:@"Success" message:[NSString stringWithFormat:@"You have successfully shared with %@", [self isKindOfClass:[FacebookManager class]] ? @"facebook" : @"twitter"]];
+                    break;
+                case SLComposeViewControllerResultCancelled:
+                    [appDelegate showAlertViewWithTitle:@"Error" message:[NSString stringWithFormat:@"Failed to share with %@", [self isKindOfClass:[FacebookManager class]] ? @"facebook" : @"twitter"]];
+                    break;
+            }
+        };
+        
         [appDelegate.window.rootViewController presentViewController:viewController animated:YES completion:nil];
         success = YES;
     } else {

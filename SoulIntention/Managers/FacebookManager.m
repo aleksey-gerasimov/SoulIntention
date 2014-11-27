@@ -64,6 +64,11 @@
             [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to present facebook feed dialog"];
         } else {
             NSLog(@"Facebook present feed dialog modally success");
+            if ([resultURL.absoluteString containsString:@"post_id="]) {
+                [appDelegate showAlertViewWithTitle:@"Success" message:@"You have successfully shared with facebook"];
+            } else {
+                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to share with facebook"];
+            }
         }
     }];
 }
