@@ -21,7 +21,6 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-static CGFloat const kPostImageViewWidth = 120.f;
 static CGFloat const kIconWidth = 30.f;
 static CGFloat const kIconHeight = 30.f;
 static CGFloat const kSwipeOffset = 107.f;
@@ -41,14 +40,11 @@ typedef void(^CellSwipeHandler)(void);
 
 @interface ListTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *cellView;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidthConstraint;
 
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
@@ -56,6 +52,7 @@ typedef void(^CellSwipeHandler)(void);
 
 @property (assign, nonatomic) CellType cellType;
 @property (strong, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) UIImage *postImage;
 
 @end
 
@@ -75,16 +72,6 @@ typedef void(^CellSwipeHandler)(void);
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:kListCellSwipeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favouriteStatusChanged:) name:kFavouriteFlagChangedNotification object:nil];
-}
-
-- (void)prepareForReuse
-{
-    [super prepareForReuse];
-
-    self.imageWidthConstraint.constant = 0;
-    [self layoutIfNeeded];
-
-    [self.postImageView cancelImageRequestOperation];
 }
 
 - (void)dealloc
@@ -114,20 +101,16 @@ typedef void(^CellSwipeHandler)(void);
                                    size:CGSizeMake(kIconWidth, kIconHeight)];
 
     __weak ListTableViewCell *weakSelf = self;
-    void(^loadImageHandler)(UIImage*, NSInteger) = ^(UIImage *image, NSInteger width){
-        weakSelf.postImageView.image = image;
-        weakSelf.imageWidthConstraint.constant = width;
-        [weakSelf layoutIfNeeded];
-    };
     NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [self.postImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Post image load success");
-        loadImageHandler(image, kPostImageViewWidth);
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        weakSelf.postImage = [UIImage imageWithData:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Post image load error: %@", [error localizedDescription]);
-        loadImageHandler(nil, 0);
     }];
+    [operation start];
 }
 
 #pragma mark - Private Methods
@@ -198,7 +181,7 @@ typedef void(^CellSwipeHandler)(void);
 
 - (UIImage *)getPostImage
 {
-    return self.postImageView.image;
+    return self.postImage;
 }
 
 #pragma mark - IBActions
