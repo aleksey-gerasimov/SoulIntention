@@ -53,6 +53,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"Soul Intention";
 
     self.childViewControllers = [NSMutableArray new];
     _searchBarIsShown = NO;

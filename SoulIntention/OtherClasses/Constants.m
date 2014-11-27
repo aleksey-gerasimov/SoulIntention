@@ -8,7 +8,8 @@
 
 #import "Constants.h"
 
-NSString *const kBaseURLString = @"http://134.249.164.53:8077";
+//NSString *const kBaseURLString = @"http://134.249.164.53:8077";
+NSString *const kBaseURLString = @"http://soulintention.elasticbeanstalk.com";
 NSString *const kMainPageURLString = @"http://www.maryjorapini.com";
 
 NSString *const kSessionStartedNotification = @"SessionStartedNotification";
@@ -21,6 +22,7 @@ NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 
 NSString *const kFavouriteFlagChangedNotification = @"kFavouriteFlagChangedNotification";
 
+NSString *const kBackButtonImage = @"ic_back_arrow";
 NSString *const kLogoButtonImage = @"ic_logo";
 NSString *const kSearchButtonImage = @"ic_search";
 NSString *const kFacebookButtonImage = @"ic_facebook";

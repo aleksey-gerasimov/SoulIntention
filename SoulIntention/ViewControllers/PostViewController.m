@@ -39,6 +39,7 @@ static CGFloat const kIconHeight = 22.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"Soul Intention";
 
     [self showText];
     [self showImage];
@@ -124,6 +125,10 @@ static CGFloat const kIconHeight = 22.f;
     UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavourite actionTarget:self selector:@selector(favoriteButtonPressed:)];
 
     self.navigationItem.rightBarButtonItems = @[facebookBarButtonItem, twitterBarButtonItem, favoriteBarButtonItem];
+
+    normalImage = [UIImage imageNamed:kBackButtonImage];
+    UIBarButtonItem *backBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(backButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = backBarButtonItem;
 }
 
 #pragma mark - IBActions
@@ -170,6 +175,11 @@ static CGFloat const kIconHeight = 22.f;
             }
         }];
     }
+}
+
+- (IBAction)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
