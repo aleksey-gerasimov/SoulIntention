@@ -260,7 +260,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGp-DM-fBr" userLabel="Info View">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="143"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0PW-38-zs2" userLabel="titleLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0PW-38-zs2" userLabel="titleLabel">
                                                             <rect key="frame" x="20" y="17" width="280" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="kC0-mL-RyI"/>
@@ -287,6 +287,7 @@
                                                             <variation key="default">
                                                                 <mask key="constraints">
                                                                     <exclude reference="Qep-QJ-e9I"/>
+                                                                    <exclude reference="Z4o-T5-qff"/>
                                                                     <exclude reference="c9N-U3-yVC"/>
                                                                 </mask>
                                                             </variation>
@@ -294,6 +295,7 @@
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luy-Iw-tnI" userLabel="dateLabel">
                                                             <rect key="frame" x="20" y="116" width="280" height="14"/>
                                                             <constraints>
+                                                                <constraint firstAttribute="height" constant="14" id="fYb-ew-PQi"/>
                                                                 <constraint firstAttribute="height" constant="9" id="waO-5e-dm1"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
