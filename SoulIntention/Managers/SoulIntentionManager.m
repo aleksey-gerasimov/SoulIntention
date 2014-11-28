@@ -13,13 +13,13 @@
 #import "Constants.h"
 
 #import "Post.h"
-#import "Favourite.h"
+#import "Favorite.h"
 #import "Author.h"
 
 static NSString *const kStartSession = @"/startMobile";
 static NSString *const kPosts = @"/post";
-static NSString *const kFavourites = @"/favourite";
-static NSString *const kFavouritesIds = @"/favouriteId";
+static NSString *const kFavorites = @"/favourite";
+static NSString *const kFavoritesIds = @"/favouriteId";
 static NSString *const kSearchPosts = @"/searchPost";
 static NSString *const kAuthorDescription = @"/about";
 
@@ -65,17 +65,17 @@ static NSString *const kAuthorDescription = @"/about";
                                                       @"author.full_name" : @"author",
                                                       @"images" : @"images"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
-    //Get favourite posts
-    RKObjectMapping *favouriteMapping = [RKObjectMapping mappingForClass:[Favourite class]];
-    [favouriteMapping addAttributeMappingsFromDictionary:@{@"post_id" : @"postId"}];
-    [favouriteMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"post" toKeyPath:@"post" withMapping:postMapping]];
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
-    //Get favourite posts ids
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favouriteMapping method:RKRequestMethodGET pathPattern:kFavouritesIds keyPath:@"" statusCodes:nil]];
-    //Add post to favourites
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
-    //Remove post from favourites
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodDELETE pathPattern:kFavourites keyPath:@"" statusCodes:nil]];
+    //Get favorite posts
+    RKObjectMapping *favoriteMapping = [RKObjectMapping mappingForClass:[Favorite class]];
+    [favoriteMapping addAttributeMappingsFromDictionary:@{@"post_id" : @"postId"}];
+    [favoriteMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"post" toKeyPath:@"post" withMapping:postMapping]];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favoriteMapping method:RKRequestMethodGET pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
+    //Get favorite posts ids
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favoriteMapping method:RKRequestMethodGET pathPattern:kFavoritesIds keyPath:@"" statusCodes:nil]];
+    //Add post to favorites
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
+    //Remove post from favorites
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodDELETE pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
 
     //Search for posts
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kSearchPosts keyPath:@"" statusCodes:nil]];
@@ -128,47 +128,47 @@ static NSString *const kAuthorDescription = @"/about";
     }];
 }
 
-- (void)getFavouritesWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
+- (void)getFavoritesWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
     NSDictionary *parameters = @{@"limit" : @(limit), @"offset" : @(offset)};
-    [self.restManager getObjectsAtPath:kFavourites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager get favourites success");
+    [self.restManager getObjectsAtPath:kFavorites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager get favorites success");
         if (handler) {
             handler(YES, [mappingResult array], nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager get favourites error: %@", [error localizedDescription]);
+        NSLog(@"SoulIntentionManager get favorites error: %@", [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }
     }];
 }
 
-- (void)getFavouritesIdsWithCompletitionHandler:(CompletitionHandler)handler
+- (void)getFavoritesIdsWithCompletitionHandler:(CompletitionHandler)handler
 {
-    [self.restManager getObjectsAtPath:kFavouritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager get favourites Ids success");
+    [self.restManager getObjectsAtPath:kFavoritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager get favorites Ids success");
         if (handler) {
             handler(YES, [mappingResult array], nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager get favourites Ids error: %@", [error localizedDescription]);
+        NSLog(@"SoulIntentionManager get favorites Ids error: %@", [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }
     }];
 }
 
-- (void)addToFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
+- (void)addToFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
     NSDictionary *parameters = @{@"postId" : postId};
-    [self.restManager postObject:nil path:kFavourites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager add to favourites post with id %@ success", postId);
+    [self.restManager postObject:nil path:kFavorites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager add to favorites post with id %@ success", postId);
         if (handler) {
             handler(YES, nil, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager add to favourites post with id %@ error: %@", postId, [error localizedDescription]);
+        NSLog(@"SoulIntentionManager add to favorites post with id %@ error: %@", postId, [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }
@@ -194,15 +194,15 @@ static NSString *const kAuthorDescription = @"/about";
 }
 
 
-- (void)removeFromFavouritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
+- (void)removeFromFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
-    [self.restManager deleteObject:nil path:[NSString stringWithFormat:@"%@/%@", kFavourites, postId] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager remove from favourites post with id %@ success", postId);
+    [self.restManager deleteObject:nil path:[NSString stringWithFormat:@"%@/%@", kFavorites, postId] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager remove from favorites post with id %@ success", postId);
         if (handler) {
             handler(YES, nil, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager remove from favourites post with id %@ error: %@", postId, [error localizedDescription]);
+        NSLog(@"SoulIntentionManager remove from favorites post with id %@ error: %@", postId, [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }

@@ -21,7 +21,7 @@ NSString *const kHideSearchBarNotification = @"HideSearchBarNotification";
 CGFloat const kAnimationDuration = 0.5;
 NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 
-NSString *const kFavouriteFlagChangedNotification = @"kFavouriteFlagChangedNotification";
+NSString *const kFavoriteFlagChangedNotification = @"kFavoriteFlagChangedNotification";
 
 NSString *const kBackButtonImage = @"ic_back_arrow";
 NSString *const kLogoButtonImage = @"ic_logo";
@@ -30,8 +30,8 @@ NSString *const kFacebookButtonImage = @"ic_facebook";
 NSString *const kFacebookButtonHighlightedImage = @"ic_facebook_select";
 NSString *const kTwitterButtonImage = @"ic_twitter";
 NSString *const kTwitterButtonHighlightedImage = @"ic_twitter_select";
-NSString *const kFavouriteButtonImage = @"ic_favorite";
-NSString *const kFavouriteButtonHighlightedImage = @"ic_favorite_select";
+NSString *const kFavoriteButtonImage = @"ic_favorite";
+NSString *const kFavoriteButtonHighlightedImage = @"ic_favorite_select";
 
 @implementation Constants
 

@@ -16,6 +16,6 @@
 @property (strong, nonatomic) NSString *updateDate;
 @property (strong, nonatomic) NSString *author;
 @property (strong, nonatomic) NSArray *images;
-@property (assign, nonatomic) BOOL isFavourite;
+@property (assign, nonatomic) BOOL isFavorite;
 
 @end

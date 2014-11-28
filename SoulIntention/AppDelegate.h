@@ -13,7 +13,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (assign, nonatomic) BOOL sessionStarted;
-@property (strong, nonatomic) NSMutableArray *favouritesIdsArray;
+@property (strong, nonatomic) NSMutableArray *favoritesIdsArray;
 
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message;
 

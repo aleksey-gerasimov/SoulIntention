@@ -27,7 +27,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSMutableArray *allPosts;
-@property (strong, nonatomic) NSMutableArray *favouritePosts;
+@property (strong, nonatomic) NSMutableArray *favoritePosts;
 @property (strong, nonatomic) NSArray *posts;
 @property (strong, nonatomic) NSString *searchText;
 @property (assign, nonatomic) BOOL isLoadingPosts;
@@ -45,7 +45,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
     self.appDelegate = [UIApplication sharedApplication].delegate;
     self.allPosts = [NSMutableArray new];
-    self.favouritePosts = [NSMutableArray new];
+    self.favoritePosts = [NSMutableArray new];
     self.posts = [NSArray new];
 
     __weak ListViewController *weakSelf = self;
@@ -60,11 +60,11 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
             }];
             break;
         }
-        case ListStyleFavourite: {
+        case ListStyleFavorite: {
             [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-                [weakSelf getFavouritePostsWithOffset:0];
+                [weakSelf getFavoritePostsWithOffset:0];
             }];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavouritePosts:) name:kFavouriteFlagChangedNotification object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavoritePosts:) name:kFavoriteFlagChangedNotification object:nil];
             break;
         }
     }
@@ -74,7 +74,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 {
     [super viewWillAppear:animated];
     if (self.needsUpdate && self.appDelegate.sessionStarted) {
-        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
+        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavoritePostsWithOffset:0];
     }
 }
 
@@ -83,7 +83,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     [super viewWillDisappear:animated];
     if ([self.navigationController.viewControllers count] < 2) {
         [self.allPosts removeAllObjects];
-        [self.favouritePosts removeAllObjects];
+        [self.favoritePosts removeAllObjects];
         self.needsUpdate = YES;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
@@ -101,7 +101,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 {
     for (NSInteger i=0; i<[posts count]; i++) {
         Post *post = posts[i];
-        post.isFavourite = [self.appDelegate.favouritesIdsArray containsObject:post.postId] ? YES : NO;
+        post.isFavorite = [self.appDelegate.favoritesIdsArray containsObject:post.postId] ? YES : NO;
     }
     self.posts = [posts copy];
     [self.tableView reloadData];
@@ -147,37 +147,37 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     }];
 }
 
-#pragma mark Favourite Posts
+#pragma mark Favorite Posts
 
-- (void)getFavouritePostsWithOffset:(NSInteger)offset
+- (void)getFavoritePostsWithOffset:(NSInteger)offset
 {
     self.isLoadingPosts = YES;
     [self.view showLoadingIndicator];
     __weak ListViewController *weakSelf = self;
-    [[SoulIntentionManager sharedManager] getFavouritesWithOffset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+    [[SoulIntentionManager sharedManager] getFavoritesWithOffset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
-            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favourite posts"];
+            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favorite posts"];
             weakSelf.isLoadingPosts = NO;
         } else {
-            [weakSelf.favouritePosts addObjectsFromArray:[result valueForKey:@"post"]];
+            [weakSelf.favoritePosts addObjectsFromArray:[result valueForKey:@"post"]];
         }
-        [weakSelf showPosts:weakSelf.favouritePosts];
+        [weakSelf showPosts:weakSelf.favoritePosts];
     }];
 }
 
-- (void)updateFavouritePosts:(NSNotification *)note
+- (void)updateFavoritePosts:(NSNotification *)note
 {
-    if ([(NSNumber *)note.userInfo[@"isFavourite"] boolValue]) {
-        [self.favouritePosts removeAllObjects];
+    if ([(NSNumber *)note.userInfo[@"isFavorite"] boolValue]) {
+        [self.favoritePosts removeAllObjects];
         self.needsUpdate = YES;
         return;
     }
 
     NSString *postId = note.userInfo[@"postId"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"postId != %@", postId];
-    [self.favouritePosts filterUsingPredicate:predicate];
-    self.posts = [self.favouritePosts copy];
+    [self.favoritePosts filterUsingPredicate:predicate];
+    self.posts = [self.favoritePosts copy];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
@@ -224,8 +224,8 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     CGFloat scrollViewContentOffsetY = scrollView.contentOffset.y;
     if (scrollViewContentOffsetY <= -kLoadingPostsOnScrollOffset) {
         [self.allPosts removeAllObjects];
-        [self.favouritePosts removeAllObjects];
-        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
+        [self.favoritePosts removeAllObjects];
+        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavoritePostsWithOffset:0];
         return;
     }
 
@@ -240,8 +240,8 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
             case ListStyleAll:
                 self.searchText.length > 0 ? [self searchForPostsWithTitle:self.searchText offset:self.posts.count] : [self getAllPostsWithOffset:self.posts.count];
                 break;
-            case ListStyleFavourite:
-                [self getFavouritePostsWithOffset:self.posts.count];
+            case ListStyleFavorite:
+                [self getFavoritePostsWithOffset:self.posts.count];
                 break;
         }
     }

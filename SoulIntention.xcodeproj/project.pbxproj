@@ -23,12 +23,12 @@
 		5B4834051A1B1B5100CA240D /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FB1A1B1B5100CA240D /* ListViewController.m */; };
 		5B4834061A1B1B5100CA240D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FD1A1B1B5100CA240D /* MainViewController.m */; };
 		5B4834071A1B1B5100CA240D /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833FF1A1B1B5100CA240D /* PostViewController.m */; };
-		5B4AF7CC1A1E20DE00DB28F8 /* Favourite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AF7CB1A1E20DE00DB28F8 /* Favourite.m */; };
 		5B532A581A1CCC4E00D96279 /* Author.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B532A571A1CCC4E00D96279 /* Author.m */; };
 		5B8CAA651A1B579C0056020B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA641A1B579C0056020B /* Social.framework */; };
 		5B8CAA671A1B57A80056020B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8CAA661A1B57A80056020B /* Accounts.framework */; };
 		5BA250FD1A1CA5C200EA2F57 /* SocialManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA250FC1A1CA5C200EA2F57 /* SocialManager.m */; };
 		5BB622F11A2364BD003797D3 /* UIView+LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB622F01A2364BD003797D3 /* UIView+LoadingIndicator.m */; };
+		5BD8378D1A288A660089CD11 /* Favorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8378C1A288A660089CD11 /* Favorite.m */; };
 		84CE291B1A1B393300109DC3 /* AutorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE291A1A1B393300109DC3 /* AutorViewController.m */; };
 		84CE29211A1B690C00109DC3 /* UIImage+ScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */; };
 		B5884602BAEE1AFCDF27C19E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 064D9156E3CB37447070654F /* libPods.a */; };
@@ -78,8 +78,6 @@
 		5B4833FD1A1B1B5100CA240D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5B4833FE1A1B1B5100CA240D /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		5B4833FF1A1B1B5100CA240D /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
-		5B4AF7CA1A1E20DE00DB28F8 /* Favourite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Favourite.h; sourceTree = "<group>"; };
-		5B4AF7CB1A1E20DE00DB28F8 /* Favourite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Favourite.m; sourceTree = "<group>"; };
 		5B532A561A1CCC4E00D96279 /* Author.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Author.h; sourceTree = "<group>"; };
 		5B532A571A1CCC4E00D96279 /* Author.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Author.m; sourceTree = "<group>"; };
 		5B8CAA641A1B579C0056020B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -88,6 +86,8 @@
 		5BA250FC1A1CA5C200EA2F57 /* SocialManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialManager.m; sourceTree = "<group>"; };
 		5BB622EF1A2364BD003797D3 /* UIView+LoadingIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LoadingIndicator.h"; sourceTree = "<group>"; };
 		5BB622F01A2364BD003797D3 /* UIView+LoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LoadingIndicator.m"; sourceTree = "<group>"; };
+		5BD8378B1A288A660089CD11 /* Favorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Favorite.h; sourceTree = "<group>"; };
+		5BD8378C1A288A660089CD11 /* Favorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Favorite.m; sourceTree = "<group>"; };
 		84CE29191A1B393300109DC3 /* AutorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutorViewController.h; sourceTree = "<group>"; };
 		84CE291A1A1B393300109DC3 /* AutorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutorViewController.m; sourceTree = "<group>"; };
 		84CE291C1A1B43C600109DC3 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -211,8 +211,8 @@
 			children = (
 				5B4833F41A1B1B5100CA240D /* Post.h */,
 				5B4833F51A1B1B5100CA240D /* Post.m */,
-				5B4AF7CA1A1E20DE00DB28F8 /* Favourite.h */,
-				5B4AF7CB1A1E20DE00DB28F8 /* Favourite.m */,
+				5BD8378B1A288A660089CD11 /* Favorite.h */,
+				5BD8378C1A288A660089CD11 /* Favorite.m */,
 				5B532A561A1CCC4E00D96279 /* Author.h */,
 				5B532A571A1CCC4E00D96279 /* Author.m */,
 			);
@@ -424,9 +424,9 @@
 				5B4834061A1B1B5100CA240D /* MainViewController.m in Sources */,
 				5B4834001A1B1B5100CA240D /* FacebookManager.m in Sources */,
 				5B4834041A1B1B5100CA240D /* ListTableViewCell.m in Sources */,
-				5B4AF7CC1A1E20DE00DB28F8 /* Favourite.m in Sources */,
 				5B4833C91A1B1B1100CA240D /* main.m in Sources */,
 				84CE29211A1B690C00109DC3 /* UIImage+ScaleImage.m in Sources */,
+				5BD8378D1A288A660089CD11 /* Favorite.m in Sources */,
 				5B4834011A1B1B5100CA240D /* SoulIntentionManager.m in Sources */,
 				5BA250FD1A1CA5C200EA2F57 /* SocialManager.m in Sources */,
 			);

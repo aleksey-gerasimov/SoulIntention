@@ -70,7 +70,7 @@ typedef void(^CellSwipeHandler)(void);
     self.appDelegate = [UIApplication sharedApplication].delegate;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:kListCellSwipeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favouriteStatusChanged:) name:kFavouriteFlagChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteStatusChanged:) name:kFavoriteFlagChangedNotification object:nil];
 }
 
 - (void)prepareForReuse
@@ -99,10 +99,10 @@ typedef void(^CellSwipeHandler)(void);
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
 
-    UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
-    [self.favoriteButton setNormalImage:_post.isFavourite ? highlightedImage : normalImage
-                       highlightedImage:_post.isFavourite ? normalImage : highlightedImage
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+    [self.favoriteButton setNormalImage:_post.isFavorite ? highlightedImage : normalImage
+                       highlightedImage:_post.isFavorite ? normalImage : highlightedImage
                                    size:CGSizeMake(kIconWidth, kIconHeight)];
 
     NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
@@ -166,15 +166,15 @@ typedef void(^CellSwipeHandler)(void);
     self.cellType = CellTypeCenter;
 }
 
-- (void)favouriteStatusChanged:(NSNotification *)note
+- (void)favoriteStatusChanged:(NSNotification *)note
 {
     if (self.post.postId == note.userInfo[@"postId"]) {
-        self.post.isFavourite = [(NSNumber *)note.userInfo[@"isFavourite"] boolValue];
+        self.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
         [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:^{
-            UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
-            UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
-            [self.favoriteButton setNormalImage:self.post.isFavourite ? highlightedImage : normalImage
-                               highlightedImage:self.post.isFavourite ? normalImage : highlightedImage
+            UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+            UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+            [self.favoriteButton setNormalImage:self.post.isFavorite ? highlightedImage : normalImage
+                               highlightedImage:self.post.isFavorite ? normalImage : highlightedImage
                                            size:CGSizeMake(kIconWidth, kIconHeight)];
         }];
         self.cellType = CellTypeCenter;
@@ -187,28 +187,28 @@ typedef void(^CellSwipeHandler)(void);
 {
     NSLog(@"ListTableViewCell favorite button pressed");
     [self showLoadingIndicator];
-    NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavourite" : @(!self.post.isFavourite)};
+    NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavorite" : @(!self.post.isFavorite)};
     __weak ListTableViewCell *weakSelf = self;
-    if (self.post.isFavourite) {
-        [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+    if (self.post.isFavorite) {
+        [[SoulIntentionManager sharedManager] removeFromFavoritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf hideLoadingIndicator];
             if (error) {
-                [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favourites"];
+                [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favorites"];
                 return;
             } else {
-                [weakSelf.appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
+                [weakSelf.appDelegate.favoritesIdsArray removeObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     } else {
-        [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [[SoulIntentionManager sharedManager] addToFavoritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf hideLoadingIndicator];
             if (error) {
-                [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favourites"];
+                [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favorites"];
                 return;
             } else {
-                [weakSelf.appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
+                [weakSelf.appDelegate.favoritesIdsArray addObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     }

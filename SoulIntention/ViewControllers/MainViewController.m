@@ -53,7 +53,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"Soul Intention";
 
     self.childViewControllers = [NSMutableArray new];
     _searchBarIsShown = NO;
@@ -118,7 +117,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     soulsViewController.listStyle = ListStyleAll;
     AutorViewController *autorViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([AutorViewController class])];
     ListViewController *favoritesViewController = [self.storyboard instantiateViewControllerWithIdentifier: NSStringFromClass([ListViewController class])];
-    favoritesViewController.listStyle = ListStyleFavourite;
+    favoritesViewController.listStyle = ListStyleFavorite;
     
     [self.childViewControllers addObject:soulsViewController];
     [self.childViewControllers addObject:autorViewController];

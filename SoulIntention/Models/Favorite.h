@@ -1,5 +1,5 @@
 //
-//  Favourite.h
+//  Favorite.h
 //  SoulIntention
 //
 //  Created by Aleksey on 11/20/14.
@@ -10,7 +10,7 @@
 
 @class Post;
 
-@interface Favourite : NSObject
+@interface Favorite : NSObject
 
 @property (strong, nonatomic) NSString *postId;
 @property (strong, nonatomic) Post *post;

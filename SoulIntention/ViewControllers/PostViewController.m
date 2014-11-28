@@ -50,14 +50,14 @@ static CGFloat const kIconHeight = 22.f;
     [self.view layoutIfNeeded];
 
     __weak PostViewController *weakSelf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:kFavouriteFlagChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        weakSelf.post.isFavourite = [(NSNumber *)note.userInfo[@"isFavourite"] boolValue];
-        UIImage *normalImage = [UIImage imageNamed:kFavouriteButtonImage];
-        UIImage *highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kFavoriteFlagChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        weakSelf.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
+        UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+        UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
         UIBarButtonItem *barButtonItem = [weakSelf.navigationItem.rightBarButtonItems lastObject];
         UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
-        [favoriteButton setNormalImage:weakSelf.post.isFavourite ? highlightedImage : normalImage
-                      highlightedImage:weakSelf.post.isFavourite ? normalImage : highlightedImage
+        [favoriteButton setNormalImage:weakSelf.post.isFavorite ? highlightedImage : normalImage
+                      highlightedImage:weakSelf.post.isFavorite ? normalImage : highlightedImage
                                   size:CGSizeMake(kIconWidth, kIconHeight)];
     }];
 }
@@ -121,9 +121,9 @@ static CGFloat const kIconHeight = 22.f;
     highlightedImage = [UIImage imageNamed:kTwitterButtonHighlightedImage];
     UIBarButtonItem *twitterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(twitterButtonPressed:)];
 
-    normalImage = [UIImage imageNamed:kFavouriteButtonImage];
-    highlightedImage = [UIImage imageNamed:kFavouriteButtonHighlightedImage];
-    UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavourite actionTarget:self selector:@selector(favoriteButtonPressed:)];
+    normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+    highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+    UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavorite actionTarget:self selector:@selector(favoriteButtonPressed:)];
 
     self.navigationItem.rightBarButtonItems = @[facebookBarButtonItem, twitterBarButtonItem, favoriteBarButtonItem];
 
@@ -151,28 +151,28 @@ static CGFloat const kIconHeight = 22.f;
     NSLog(@"PostViewController favorite button press");
     [self.view showLoadingIndicator];
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavourite" : @(!self.post.isFavourite)};
+    NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavorite" : @(!self.post.isFavorite)};
     __weak PostViewController *weakSelf = self;
-    if (self.post.isFavourite) {
-        [[SoulIntentionManager sharedManager] removeFromFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+    if (self.post.isFavorite) {
+        [[SoulIntentionManager sharedManager] removeFromFavoritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf.view hideLoadingIndicator];
             if (error) {
-                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favourites"];
+                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favorites"];
                 return;
             } else {
-                [appDelegate.favouritesIdsArray removeObject:weakSelf.post.postId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
+                [appDelegate.favoritesIdsArray removeObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     } else {
-        [[SoulIntentionManager sharedManager] addToFavouritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [[SoulIntentionManager sharedManager] addToFavoritesPostWithId:self.post.postId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf.view hideLoadingIndicator];
             if (error) {
-                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favourites"];
+                [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favorites"];
                 return;
             } else {
-                [appDelegate.favouritesIdsArray addObject:weakSelf.post.postId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFavouriteFlagChangedNotification object:nil userInfo:notificationDictionary];
+                [appDelegate.favoritesIdsArray addObject:weakSelf.post.postId];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
     }

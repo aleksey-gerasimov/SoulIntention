@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSInteger, ListStyle) {
     ListStyleAll,
-    ListStyleFavourite
+    ListStyleFavorite
 };
 
 @interface ListViewController : UIViewController

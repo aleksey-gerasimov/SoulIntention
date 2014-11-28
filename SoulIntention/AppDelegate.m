@@ -28,7 +28,7 @@
     [[UINavigationBar appearance] setTranslucent:NO];
 
     self.sessionStarted = NO;
-    self.favouritesIdsArray = [NSMutableArray new];
+    self.favoritesIdsArray = [NSMutableArray new];
     [self.window.rootViewController.view showLoadingIndicator];
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
     NSLog(@"Device ID = %@", deviceId);
@@ -40,16 +40,16 @@
             return;
         }
 
-        [[SoulIntentionManager sharedManager] getFavouritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        [[SoulIntentionManager sharedManager] getFavoritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf.window.rootViewController.view hideLoadingIndicator];
             if (error) {
-                [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to get favourites indexes"];
+                [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to get favorites indexes"];
                 return;
             }
             weakSelf.sessionStarted = YES;
-            weakSelf.favouritesIdsArray = [[result valueForKey:@"postId"] mutableCopy];
+            weakSelf.favoritesIdsArray = [[result valueForKey:@"postId"] mutableCopy];
             [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
-            NSLog(@"Favourites Ids: \n%@", weakSelf.favouritesIdsArray);
+            NSLog(@"Favorites Ids: \n%@", weakSelf.favoritesIdsArray);
         }];
     }];
 
