@@ -73,7 +73,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (/*[self.posts count] == 0*/ self.needsUpdate && self.appDelegate.sessionStarted) {
+    if (self.needsUpdate && self.appDelegate.sessionStarted) {
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavouritePostsWithOffset:0];
     }
 }
@@ -204,7 +204,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PostViewController class])];
     postViewController.post = self.posts[indexPath.row];
     ListTableViewCell *cell = (ListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    postViewController.postImage = [cell getPostImage];
+    postViewController.postImage = cell.postImage;
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 

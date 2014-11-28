@@ -8,14 +8,14 @@
 
 #import "Author.h"
 
-#import "Constants.h"
+//#import "Constants.h"
 
 @implementation Author
 
-- (void)setImageURL:(NSString *)imageURL
-{
-    imageURL = [imageURL stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
-    _imageURL = [NSString stringWithFormat:@"%@/%@", kBaseURLString, imageURL];
-}
+//- (void)setImageURL:(NSString *)imageURL
+//{
+//    imageURL = [imageURL stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+//    _imageURL = [NSString stringWithFormat:@"%@/%@", kBaseURLString, imageURL];
+//}
 
 @end

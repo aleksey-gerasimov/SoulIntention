@@ -52,7 +52,6 @@ typedef void(^CellSwipeHandler)(void);
 
 @property (assign, nonatomic) CellType cellType;
 @property (strong, nonatomic) AppDelegate *appDelegate;
-@property (strong, nonatomic) UIImage *postImage;
 
 @end
 
@@ -72,6 +71,12 @@ typedef void(^CellSwipeHandler)(void);
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cellStateChanged:) name:kListCellSwipeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favouriteStatusChanged:) name:kFavouriteFlagChangedNotification object:nil];
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.cellType = CellTypeCenter;
 }
 
 - (void)dealloc
@@ -100,13 +105,12 @@ typedef void(^CellSwipeHandler)(void);
                        highlightedImage:_post.isFavourite ? normalImage : highlightedImage
                                    size:CGSizeMake(kIconWidth, kIconHeight)];
 
-    __weak ListTableViewCell *weakSelf = self;
     NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Post image load success");
-        weakSelf.postImage = [UIImage imageWithData:responseObject];
+        _postImage = [UIImage imageWithData:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Post image load error: %@", [error localizedDescription]);
     }];
@@ -175,13 +179,6 @@ typedef void(^CellSwipeHandler)(void);
         }];
         self.cellType = CellTypeCenter;
     }
-}
-
-#pragma mark - Public
-
-- (UIImage *)getPostImage
-{
-    return self.postImage;
 }
 
 #pragma mark - IBActions

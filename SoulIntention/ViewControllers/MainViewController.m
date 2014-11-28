@@ -83,6 +83,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     _searchBarIsShown = searchBarIsShown;
     __weak MainViewController *weakSelf = self;
     [UIView animateWithDuration:kAnimationDuration animations:^{
+        weakSelf.containerView.alpha = _searchBarIsShown ? 0.2 : 1.0;
         weakSelf.searchBarTopConstraint.constant = _searchBarIsShown ? 0 : -CGRectGetHeight(weakSelf.searchBar.frame);
         [weakSelf.view layoutIfNeeded];
     } completion:^(BOOL finished) {
