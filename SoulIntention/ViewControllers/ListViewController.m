@@ -47,6 +47,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     self.allPosts = [NSMutableArray new];
     self.favoritePosts = [NSMutableArray new];
     self.posts = [NSArray new];
+    self.needsUpdate = YES;
 
     __weak ListViewController *weakSelf = self;
     switch (self.listStyle) {
