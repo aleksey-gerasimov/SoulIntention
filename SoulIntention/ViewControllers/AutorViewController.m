@@ -44,16 +44,14 @@ static NSInteger const kAuthorImageViewHeight = 180;
     self.authorImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
     self.authorImageViewHeightConstraint.constant = 0;
     [self.view layoutIfNeeded];
+    self.authorTextView.textContainerInset = UIEdgeInsetsMake(0.0, 16.0, 0.0, 16.0);
 
     self.appDelegate = [UIApplication sharedApplication].delegate;
     if (self.appDelegate.sessionStarted) {
         [self getAuthorInfo];
     }
 
-    __weak AutorViewController *weakSelf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [weakSelf getAuthorInfo];
-    }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAuthorInfo) name:kSessionStartedNotification object:nil];
 }
 
 - (void)dealloc
