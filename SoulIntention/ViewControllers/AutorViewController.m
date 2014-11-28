@@ -41,10 +41,10 @@ static NSInteger const kAuthorImageViewHeight = 180;
 {
     [super viewDidLoad];
 
+    self.authorTextView.textContainerInset = UIEdgeInsetsMake(0.0, 16.0, 0.0, 16.0);
     self.authorImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
     self.authorImageViewHeightConstraint.constant = 0;
     [self.view layoutIfNeeded];
-    self.authorTextView.textContainerInset = UIEdgeInsetsMake(0.0, 16.0, 0.0, 16.0);
 
     self.appDelegate = [UIApplication sharedApplication].delegate;
     if (self.appDelegate.sessionStarted) {

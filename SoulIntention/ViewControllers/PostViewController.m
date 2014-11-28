@@ -45,6 +45,7 @@ static CGFloat const kIconHeight = 22.f;
     [self showImage];
     [self setCustomBarButtonItems];
 
+    self.postTextView.textContainerInset = UIEdgeInsetsMake(0.0, 6.0, 0.0, 6.0);
     self.postImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
     [self.view layoutIfNeeded];
 

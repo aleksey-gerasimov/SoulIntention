@@ -81,18 +81,19 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 - (void)setSearchBarIsShown:(BOOL)searchBarIsShown
 {
     _searchBarIsShown = searchBarIsShown;
+    if (_searchBarIsShown) {
+        [self.searchBar becomeFirstResponder];
+    } else {
+        self.searchBar.text = @"";
+        [self.searchBar resignFirstResponder];
+    }
+    
     __weak MainViewController *weakSelf = self;
     [UIView animateWithDuration:kAnimationDuration animations:^{
         weakSelf.containerView.alpha = _searchBarIsShown ? 0.2 : 1.0;
         weakSelf.searchBarTopConstraint.constant = _searchBarIsShown ? 0 : -CGRectGetHeight(weakSelf.searchBar.frame);
         [weakSelf.view layoutIfNeeded];
     } completion:^(BOOL finished) {
-        if (_searchBarIsShown) {
-            [weakSelf.searchBar becomeFirstResponder];
-        } else {
-            [weakSelf.searchBar resignFirstResponder];
-            weakSelf.searchBar.text = @"";
-        }
     }];
 }
 
@@ -191,9 +192,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [searchBar resignFirstResponder];
-    [self hideSearchBar];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
+    [self hideSearchBar];
 }
 
 @end
