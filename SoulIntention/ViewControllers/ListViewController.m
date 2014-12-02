@@ -236,7 +236,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         return;
     }
     if (scrollViewHeight + scrollViewContentOffsetY > scrollViewContentHeight + kLoadingPostsOnScrollOffset) {
-        NSLog(@"Loading more posts with offset %lu", self.posts.count);
+        NSLog(@"Loading more posts with offset %lu", (unsigned long)self.posts.count);
         switch (self.listStyle) {
             case ListStyleAll:
                 self.searchText.length > 0 ? [self searchForPostsWithTitle:self.searchText offset:self.posts.count] : [self getAllPostsWithOffset:self.posts.count];

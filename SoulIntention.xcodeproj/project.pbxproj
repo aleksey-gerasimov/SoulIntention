@@ -568,7 +568,7 @@
 				INFOPLIST_FILE = SoulIntention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f0d3cbeb-09ad-4e89-b9f9-7bb56b90b537";
+				PROVISIONING_PROFILE = "8806cfc8-b103-4bdc-9bd8-8cbcf8601884";
 			};
 			name = Release;
 		};
