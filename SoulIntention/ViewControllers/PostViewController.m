@@ -41,8 +41,8 @@ static CGFloat const kIconHeight = 22.f;
     [super viewDidLoad];
     self.navigationItem.title = @"Soul Intention";
 
-    [self showText];
     [self showImage];
+    [self showText];
     [self setCustomBarButtonItems];
 
     self.postTextView.textContainerInset = UIEdgeInsetsMake(0.0, 6.0, 0.0, 6.0);
@@ -88,13 +88,15 @@ static CGFloat const kIconHeight = 22.f;
     attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};
     [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2, self.post.text.length)];
 
-    font = [UIFont fontWithName:@"HelveticaNeue-italic" size:12];
+    font = [UIFont fontWithName:@"HelveticaNeue" size:12];
     attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor grayColor]};
     [text setAttributes:attributes range:NSMakeRange(self.post.title.length+2+self.post.text.length+2, self.post.updateDate.length+4+self.post.author.length)];
 
     self.postTextView.attributedText = text;
-    [self.postTextView sizeToFit];
-    self.postTextViewHeightConstraint.constant = CGRectGetHeight(self.postTextView.frame);
+    CGSize textViewSize = CGSizeMake(CGRectGetWidth(self.view.frame) - CGRectGetMinX(self.postTextView.frame), CGRectGetHeight(self.view.frame) - CGRectGetMinY(self.postTextView.frame));
+    CGRect requiredTextRect = [text boundingRectWithSize:textViewSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    CGSize requiredSize = [self.postTextView sizeThatFits:requiredTextRect.size];
+    self.postTextViewHeightConstraint.constant = requiredSize.height > textViewSize.height ? requiredSize.height : textViewSize.height;
     [self.view layoutIfNeeded];
 }
 
