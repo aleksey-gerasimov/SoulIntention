@@ -143,14 +143,28 @@ static CGFloat const kIconHeight = 22.f;
 - (void)customizeTitleView
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+
     NSInteger randomIndex = arc4random_uniform((int)appDelegate.postHeaderBackgroundColorsArray.count);
     self.postTitleView.backgroundColor = appDelegate.postHeaderBackgroundColorsArray[randomIndex];
     NSLog(@"PostViewController: header background color index = %li", (long)randomIndex);
+
     randomIndex = arc4random_uniform((int)appDelegate.postHeaderTitleFontNamesArray.count);
     self.postTitleLabel.font = [UIFont fontWithName:appDelegate.postHeaderTitleFontNamesArray[randomIndex] size:35.0];
     self.postTitleLabel.text = self.post.title;
     NSLog(@"PostViewController: header font name index = %li", (long)randomIndex);
+
     self.postTitleRatingView.backgroundColor = self.navigationController.navigationBar.barTintColor;
+    [self changeRatingTo:2];
+}
+
+- (void)changeRatingTo:(NSInteger)rating
+{
+    for (UIButton *subview in self.postTitleRatingView.subviews) {
+        if (subview.tag == 0) {
+            continue;
+        }
+        [subview setImage:subview.tag > rating ? [UIImage imageNamed:@"ic_star"] : [UIImage imageNamed:@"ic_star_select"] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - IBActions
@@ -197,6 +211,12 @@ static CGFloat const kIconHeight = 22.f;
             }
         }];
     }
+}
+
+- (IBAction)starButtonPressed:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    [self changeRatingTo:button.tag];
 }
 
 - (IBAction)backButtonPressed:(id)sender
