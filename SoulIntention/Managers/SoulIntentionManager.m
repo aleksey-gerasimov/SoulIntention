@@ -22,6 +22,7 @@ static NSString *const kFavorites = @"/favourite";
 static NSString *const kFavoritesIds = @"/favouriteId";
 static NSString *const kSearchPosts = @"/searchPost";
 static NSString *const kAuthorDescription = @"/about";
+static NSString *const kRate = @"/rate";
 
 @interface SoulIntentionManager ()
 
@@ -61,6 +62,7 @@ static NSString *const kAuthorDescription = @"/about";
     [postMapping addAttributeMappingsFromDictionary:@{@"id" : @"postId",
                                                       @"title" : @"title",
                                                       @"details" : @"text",
+                                                      @"rate.rate" : @"rate",
                                                       @"updated_at" : @"updateDate",
                                                       @"author.full_name" : @"author",
                                                       @"images" : @"images"}];
@@ -76,6 +78,9 @@ static NSString *const kAuthorDescription = @"/about";
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
     //Remove post from favorites
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodDELETE pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
+
+    //Rate post
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kRate keyPath:@"" statusCodes:nil]];
 
     //Search for posts
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kSearchPosts keyPath:@"" statusCodes:nil]];
@@ -203,6 +208,24 @@ static NSString *const kAuthorDescription = @"/about";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager remove from favorites post with id %@ error: %@", postId, [error localizedDescription]);
+        if (handler) {
+            handler(NO, nil, error);
+        }
+    }];
+}
+
+#pragma mark Rate
+
+- (void)ratePostWithId:(NSString *)postId rating:(NSString *)rating completitionHandler:(CompletitionHandler)handler
+{
+    NSDictionary *parameters = @{@"postId" : postId, @"rate" : rating};
+    [self.restManager postObject:nil path:kRate parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager rate post with id %@ rating %@ success", postId, rating);
+        if (handler) {
+            handler(YES, nil, nil);
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"SoulIntentionManager rate post with id %@ rating %@ error: %@", postId, rating, [error localizedDescription]);
         if (handler) {
             handler(NO, nil, error);
         }

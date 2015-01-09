@@ -133,7 +133,7 @@ static CGFloat const kIconHeight = 22.f;
     self.postTitleLabel.text = self.post.title;
 
     self.postTitleRatingView.backgroundColor = self.navigationController.navigationBar.barTintColor;
-    [self changeRatingTo:0];
+    [self changeRatingTo:roundf(self.post.rate.floatValue)];
 }
 
 - (void)changeRatingTo:(NSInteger)rating
@@ -192,7 +192,12 @@ static CGFloat const kIconHeight = 22.f;
 - (IBAction)starButtonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    [self changeRatingTo:button.tag];
+    [[SoulIntentionManager sharedManager] ratePostWithId:self.post.postId rating:@(button.tag).stringValue completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+        if (error) {
+            return;
+        }
+        [self changeRatingTo:button.tag];
+    }];
 }
 
 - (IBAction)backButtonPressed:(id)sender

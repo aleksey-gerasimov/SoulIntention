@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSString *postId;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *text;
+@property (strong, nonatomic) NSString *rate;
 @property (strong, nonatomic) NSString *updateDate;
 @property (strong, nonatomic) NSString *author;
 @property (strong, nonatomic) NSArray *images;
