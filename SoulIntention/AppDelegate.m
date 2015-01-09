@@ -21,17 +21,52 @@
 
 @implementation AppDelegate
 
+#pragma mark - Lifecycle
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [self customizeNavigationBar];
+    [self prepareForWorkWithServer];
+    
+    self.postHeaderBackgroundColorsArray = @[UIColorFromRGB(0x754684),
+                                             UIColorFromRGB(0x834c71),
+                                             UIColorFromRGB(0x955a99),
+                                             UIColorFromRGB(0xa04f85),
+                                             UIColorFromRGB(0xb571a1),
+                                             UIColorFromRGB(0x7d354e)];
+    self.postHeaderTitleFontNamesArray = @[@"IndieFlower",
+                                           @"ShadowsIntoLightTwo-Regular",
+                                           @"ArchitectsDaughter",
+                                           @"CoveredByYourGrace"];
+
+    return YES;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [FBAppCall handleDidBecomeActive];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+}
+
+#pragma mark - Private
+
+- (void)customizeNavigationBar
+{
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:86/255.f green:58/255.f blue:97/255.f alpha:1.f]];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
     [[UINavigationBar appearance] setTranslucent:NO];
+}
 
+- (void)prepareForWorkWithServer
+{
     self.sessionStarted = NO;
     self.favoritesIdsArray = [NSMutableArray new];
-    [self.window.rootViewController.view showLoadingIndicator];
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
     NSLog(@"Device ID = %@", deviceId);
+    [self.window.rootViewController.view showLoadingIndicator];
     __weak AppDelegate *weakSelf = self;
     [[SoulIntentionManager sharedManager] startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
@@ -46,24 +81,13 @@
                 [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to get favorites indexes"];
                 return;
             }
+
             weakSelf.sessionStarted = YES;
             weakSelf.favoritesIdsArray = [[result valueForKey:@"postId"] mutableCopy];
             [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
             NSLog(@"Favorites Ids: \n%@", weakSelf.favoritesIdsArray);
         }];
     }];
-
-    return YES;
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    [FBAppCall handleDidBecomeActive];
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message
