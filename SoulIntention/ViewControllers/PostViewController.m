@@ -75,27 +75,20 @@ static CGFloat const kIconHeight = 22.f;
 
 - (void)showText
 {
-//    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n%@\n\n%@ By %@", self.post.title.uppercaseString, self.post.text, self.post.updateDate, self.post.author]];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n%@ By %@", self.post.text, self.post.updateDate, self.post.author]];
 
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-//    paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.firstLineHeadIndent = 10;
     paragraphStyle.headIndent = 10;
     paragraphStyle.tailIndent = -10;
-//    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-bold" size:18];
-//    NSDictionary *attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};
-//    [text setAttributes:attributes range:NSMakeRange(0, self.post.title.length)];
-
-//    paragraphStyle = [paragraphStyle mutableCopy];
     paragraphStyle.alignment = NSTextAlignmentLeft;
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:14];
     NSDictionary *attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};
-    [text setAttributes:attributes range:NSMakeRange(/*self.post.title.length+2*/ 0, self.post.text.length)];
+    [text setAttributes:attributes range:NSMakeRange(0, self.post.text.length)];
 
     font = [UIFont fontWithName:@"HelveticaNeue" size:12];
     attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor grayColor]};
-    [text setAttributes:attributes range:NSMakeRange(/*self.post.title.length+2+*/self.post.text.length+2, self.post.updateDate.length+4+self.post.author.length)];
+    [text setAttributes:attributes range:NSMakeRange(self.post.text.length+2, self.post.updateDate.length+4+self.post.author.length)];
 
     self.postTextView.attributedText = text;
     CGSize textViewSize = CGSizeMake(CGRectGetWidth(self.view.frame) - CGRectGetMinX(self.postTextView.frame), CGRectGetHeight(self.view.frame) - CGRectGetMinY(self.postTextView.frame));
@@ -119,20 +112,9 @@ static CGFloat const kIconHeight = 22.f;
 - (void)setCustomBarButtonItems
 {
     CGSize size = CGSizeMake(kIconWidth, kIconHeight);
-/*
-    UIImage *normalImage = [UIImage imageNamed:kFacebookButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFacebookButtonHighlightedImage];
-    UIBarButtonItem *facebookBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(facebookButtonPressed:)];
-
-    normalImage = [UIImage imageNamed:kTwitterButtonImage];
-    highlightedImage = [UIImage imageNamed:kTwitterButtonHighlightedImage];
-    UIBarButtonItem *twitterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(twitterButtonPressed:)];
-*/
     UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
     UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
     UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavorite actionTarget:self selector:@selector(favoriteButtonPressed:)];
-
-//    self.navigationItem.rightBarButtonItems = @[facebookBarButtonItem, twitterBarButtonItem, favoriteBarButtonItem];
     self.navigationItem.rightBarButtonItem = favoriteBarButtonItem;
 
     normalImage = [UIImage imageNamed:kBackButtonImage];
@@ -143,18 +125,15 @@ static CGFloat const kIconHeight = 22.f;
 - (void)customizeTitleView
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-
     NSInteger randomIndex = arc4random_uniform((int)appDelegate.postHeaderBackgroundColorsArray.count);
     self.postTitleView.backgroundColor = appDelegate.postHeaderBackgroundColorsArray[randomIndex];
-    NSLog(@"PostViewController: header background color index = %li", (long)randomIndex);
 
     randomIndex = arc4random_uniform((int)appDelegate.postHeaderTitleFontNamesArray.count);
     self.postTitleLabel.font = [UIFont fontWithName:appDelegate.postHeaderTitleFontNamesArray[randomIndex] size:35.0];
     self.postTitleLabel.text = self.post.title;
-    NSLog(@"PostViewController: header font name index = %li", (long)randomIndex);
 
     self.postTitleRatingView.backgroundColor = self.navigationController.navigationBar.barTintColor;
-    [self changeRatingTo:2];
+    [self changeRatingTo:0];
 }
 
 - (void)changeRatingTo:(NSInteger)rating
@@ -171,19 +150,16 @@ static CGFloat const kIconHeight = 22.f;
 
 - (IBAction)facebookButtonPressed:(id)sender
 {
-    NSLog(@"PostViewController facebook button press");
     [[FacebookManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
 
 - (IBAction)twitterButtonPressed:(id)sender
 {
-    NSLog(@"PostViewController twitter button press");
     [[TwitterManager sharedManager] presentShareDialogWithText:self.post.title url:[NSURL URLWithString:kMainPageURLString]];
 }
 
 - (IBAction)favoriteButtonPressed:(id)sender
 {
-    NSLog(@"PostViewController favorite button press");
     [self.view showLoadingIndicator];
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavorite" : @(!self.post.isFavorite)};
