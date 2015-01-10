@@ -63,7 +63,7 @@
 - (void)prepareForWorkWithServer
 {
     self.sessionStarted = NO;
-    self.favoritesIdsArray = [NSMutableArray new];
+//    self.favoritesIdsArray = [NSMutableArray new];
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
     NSLog(@"Device ID = %@", deviceId);
     [self.window.rootViewController.view showLoadingIndicator];
@@ -71,22 +71,22 @@
     [[SoulIntentionManager sharedManager] startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
             [weakSelf.window.rootViewController.view hideLoadingIndicator];
-            [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to connect to the server"];
+            [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to start session"];
             return;
         }
 
-        [[SoulIntentionManager sharedManager] getFavoritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+//        [[SoulIntentionManager sharedManager] getFavoritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             [weakSelf.window.rootViewController.view hideLoadingIndicator];
-            if (error) {
-                [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to get favorites indexes"];
-                return;
-            }
+//            if (error) {
+//                [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to get favorites indexes"];
+//                return;
+//            }
 
             weakSelf.sessionStarted = YES;
-            weakSelf.favoritesIdsArray = [[result valueForKey:@"postId"] mutableCopy];
+//            weakSelf.favoritesIdsArray = [[result valueForKey:@"postId"] mutableCopy];
             [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
-            NSLog(@"Favorites Ids: \n%@", weakSelf.favoritesIdsArray);
-        }];
+//            NSLog(@"Favorites Ids: \n%@", weakSelf.favoritesIdsArray);
+//        }];
     }];
 }
 

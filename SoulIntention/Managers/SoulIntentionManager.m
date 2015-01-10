@@ -17,12 +17,14 @@
 #import "Author.h"
 
 static NSString *const kStartSession = @"/startMobile";
+static NSString *const kEndSession = @"/endMobile";
 static NSString *const kPosts = @"/post";
 static NSString *const kFavorites = @"/favourite";
 static NSString *const kFavoritesIds = @"/favouriteId";
 static NSString *const kSearchPosts = @"/searchPost";
 static NSString *const kAuthorDescription = @"/about";
 static NSString *const kRate = @"/rate";
+static NSInteger const kSessionClosedStatusCode = 403;
 
 @interface SoulIntentionManager ()
 
@@ -56,6 +58,8 @@ static NSString *const kRate = @"/rate";
     //Start session
     RKObjectMapping *emptyMapping = [RKObjectMapping mappingForClass:nil];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
+    //End session
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodGET pathPattern:kEndSession keyPath:@"" statusCodes:nil]];
 
     //Get posts
     RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
@@ -65,7 +69,8 @@ static NSString *const kRate = @"/rate";
                                                       @"rate.rate" : @"rate",
                                                       @"updated_at" : @"updateDate",
                                                       @"author.full_name" : @"author",
-                                                      @"images" : @"images"}];
+                                                      @"images" : @"images",
+                                                      @"favourite" : @"isFavorite"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
     //Get favorite posts
     RKObjectMapping *favoriteMapping = [RKObjectMapping mappingForClass:[Favorite class]];
@@ -115,10 +120,33 @@ static NSString *const kRate = @"/rate";
     }];
 }
 
+- (void)endSessionWithCompletitionHandler:(CompletitionHandler)handler
+{
+    [self.restManager getObjectsAtPath:kEndSession parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager end session success");
+        if (handler) {
+            handler(YES, nil, nil);
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSLog(@"SoulIntentionManager session is already ended");
+            if (handler) {
+                handler(YES, nil, nil);
+            }
+        } else {
+            NSLog(@"SoulIntentionManager end session error: %@", [error localizedDescription]);
+            if (handler) {
+                handler(NO, nil, error);
+            }
+        }
+    }];
+}
+
 #pragma mark - Posts methods
 
 - (void)getPostsWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     NSDictionary *parameters = @{@"limit" : @(limit), @"offset" : @(offset)};
     [self.restManager getObjectsAtPath:kPosts parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get posts success");
@@ -127,14 +155,29 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get posts error: %@", [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf getPostsWithOffset:offset limit:limit completitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }
 
 - (void)getFavoritesWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     NSDictionary *parameters = @{@"limit" : @(limit), @"offset" : @(offset)};
     [self.restManager getObjectsAtPath:kFavorites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get favorites success");
@@ -143,14 +186,29 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get favorites error: %@", [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf getFavoritesWithOffset:offset limit:limit completitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }
 
 - (void)getFavoritesIdsWithCompletitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     [self.restManager getObjectsAtPath:kFavoritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get favorites Ids success");
         if (handler) {
@@ -158,14 +216,29 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get favorites Ids error: %@", [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf getFavoritesIdsWithCompletitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }
 
 - (void)addToFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     NSDictionary *parameters = @{@"postId" : postId};
     [self.restManager postObject:nil path:kFavorites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager add to favorites post with id %@ success", postId);
@@ -174,17 +247,29 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager add to favorites post with id %@ error: %@", postId, [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf addToFavoritesPostWithId:postId completitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }
 
 - (NSURLRequest *)createUrlRequestWithUrlAddress:(NSString *)_stringUrlAddress bodyData:(NSData *)_bodyData requestType:(NSString *)_requestType
 {
-
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-
     NSURL *urlAddress = [NSURL URLWithString:_stringUrlAddress];
     [request setURL:urlAddress];
     [request setHTTPMethod:_requestType];
@@ -198,9 +283,9 @@ static NSString *const kRate = @"/rate";
     return request;
 }
 
-
 - (void)removeFromFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     [self.restManager deleteObject:nil path:[NSString stringWithFormat:@"%@/%@", kFavorites, postId] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager remove from favorites post with id %@ success", postId);
         if (handler) {
@@ -208,8 +293,22 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager remove from favorites post with id %@ error: %@", postId, [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf removeFromFavoritesPostWithId:postId completitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }
@@ -218,6 +317,7 @@ static NSString *const kRate = @"/rate";
 
 - (void)ratePostWithId:(NSString *)postId rating:(NSString *)rating completitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     NSDictionary *parameters = @{@"postId" : postId, @"rate" : rating};
     [self.restManager postObject:nil path:kRate parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager rate post with id %@ rating %@ success", postId, rating);
@@ -226,8 +326,22 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager rate post with id %@ rating %@ error: %@", postId, rating, [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf ratePostWithId:postId rating:rating completitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }
@@ -236,6 +350,7 @@ static NSString *const kRate = @"/rate";
 
 - (void)searchForPostsWithTitle:(NSString *)title offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     parameters[@"title"] = title;
     if (offset) {
@@ -251,8 +366,22 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager search for posts with title \"%@\" error: %@", title, [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf searchForPostsWithTitle:title offset:offset limit:limit completitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }
@@ -261,6 +390,7 @@ static NSString *const kRate = @"/rate";
 
 - (void)getAuthorDescriptionWithCompletitionHandler:(CompletitionHandler)handler
 {
+    __weak SoulIntentionManager *weakSelf = self;
     [self.restManager getObjectsAtPath:kAuthorDescription parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get author description success");
         if (handler) {
@@ -268,8 +398,22 @@ static NSString *const kRate = @"/rate";
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get author description error: %@", [error localizedDescription]);
-        if (handler) {
-            handler(NO, nil, error);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf getAuthorDescriptionWithCompletitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
         }
     }];
 }

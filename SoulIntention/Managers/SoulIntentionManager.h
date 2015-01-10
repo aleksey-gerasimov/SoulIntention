@@ -15,6 +15,7 @@ typedef void(^CompletitionHandler)(BOOL success, NSArray *result, NSError *error
 + (instancetype)sharedManager;
 
 - (void)startSessionWithDeviceId:(NSString *)deviceId completitionHandler:(CompletitionHandler)handler;
+- (void)endSessionWithCompletitionHandler:(CompletitionHandler)handler;
 
 - (void)getPostsWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler;
 - (void)getFavoritesWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler;
