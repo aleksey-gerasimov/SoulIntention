@@ -102,7 +102,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
 
 #pragma mark - Public
 
-#pragma mark - Start Session
+#pragma mark Start Session
 
 - (void)startSessionWithDeviceId:(NSString *)deviceId completitionHandler:(CompletitionHandler)handler
 {
@@ -142,7 +142,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
-#pragma mark - Posts methods
+#pragma mark Posts methods
 
 - (void)getPostsWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
@@ -386,7 +386,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
-#pragma mark - Author
+#pragma mark Author
 
 - (void)getAuthorDescriptionWithCompletitionHandler:(CompletitionHandler)handler
 {

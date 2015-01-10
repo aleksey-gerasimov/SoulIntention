@@ -194,9 +194,7 @@ typedef void(^CellSwipeHandler)(void);
             [weakSelf hideLoadingIndicator];
             if (error) {
                 [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favorites"];
-                return;
             } else {
-//                [weakSelf.appDelegate.favoritesIdsArray removeObject:weakSelf.post.postId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
@@ -205,9 +203,7 @@ typedef void(^CellSwipeHandler)(void);
             [weakSelf hideLoadingIndicator];
             if (error) {
                 [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favorites"];
-                return;
             } else {
-//                [weakSelf.appDelegate.favoritesIdsArray addObject:weakSelf.post.postId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];

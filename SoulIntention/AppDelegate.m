@@ -23,7 +23,8 @@
 
 #pragma mark - Lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     [self customizeNavigationBar];
     [self prepareForWorkWithServer];
     
@@ -63,7 +64,6 @@
 - (void)prepareForWorkWithServer
 {
     self.sessionStarted = NO;
-//    self.favoritesIdsArray = [NSMutableArray new];
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
     NSLog(@"Device ID = %@", deviceId);
     [self.window.rootViewController.view showLoadingIndicator];
@@ -75,18 +75,9 @@
             return;
         }
 
-//        [[SoulIntentionManager sharedManager] getFavoritesIdsWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-            [weakSelf.window.rootViewController.view hideLoadingIndicator];
-//            if (error) {
-//                [weakSelf showAlertViewWithTitle:@"Error" message:@"Failed to get favorites indexes"];
-//                return;
-//            }
-
-            weakSelf.sessionStarted = YES;
-//            weakSelf.favoritesIdsArray = [[result valueForKey:@"postId"] mutableCopy];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
-//            NSLog(@"Favorites Ids: \n%@", weakSelf.favoritesIdsArray);
-//        }];
+        [weakSelf.window.rootViewController.view hideLoadingIndicator];
+        weakSelf.sessionStarted = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
     }];
 }
 

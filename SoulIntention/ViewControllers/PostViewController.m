@@ -169,9 +169,7 @@ static CGFloat const kIconHeight = 22.f;
             [weakSelf.view hideLoadingIndicator];
             if (error) {
                 [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to remove post from favorites"];
-                return;
             } else {
-//                [appDelegate.favoritesIdsArray removeObject:weakSelf.post.postId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];
@@ -180,9 +178,7 @@ static CGFloat const kIconHeight = 22.f;
             [weakSelf.view hideLoadingIndicator];
             if (error) {
                 [appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to add post to favorites"];
-                return;
             } else {
-//                [appDelegate.favoritesIdsArray addObject:weakSelf.post.postId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kFavoriteFlagChangedNotification object:nil userInfo:notificationDictionary];
             }
         }];

@@ -13,7 +13,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (assign, nonatomic) BOOL sessionStarted;
-//@property (strong, nonatomic) NSMutableArray *favoritesIdsArray;
 @property (strong, nonatomic) NSArray *postHeaderBackgroundColorsArray;
 @property (strong, nonatomic) NSArray *postHeaderTitleFontNamesArray;
 

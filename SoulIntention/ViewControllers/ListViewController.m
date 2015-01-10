@@ -100,10 +100,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 - (void)showPosts:(NSArray *)posts
 {
-//    for (NSInteger i=0; i<[posts count]; i++) {
-//        Post *post = posts[i];
-//        post.isFavorite = [self.appDelegate.favoritesIdsArray containsObject:post.postId] ? YES : NO;
-//    }
     self.posts = [posts copy];
     [self.tableView reloadData];
     self.isLoadingPosts = NO;
