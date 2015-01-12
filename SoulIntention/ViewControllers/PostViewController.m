@@ -192,7 +192,7 @@ static CGFloat const kIconHeight = 22.f;
         if (error) {
             return;
         }
-        self.post.rate = [NSString stringWithFormat:@"%li", (long)button.tag];
+        self.post.rate = @(button.tag).stringValue;
         [self changeRatingTo:button.tag];
     }];
 }
