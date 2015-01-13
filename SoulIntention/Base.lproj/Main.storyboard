@@ -4,6 +4,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="ArchitectsDaughter.ttf">
+            <string>ArchitectsDaughter</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Main View Controller-->
         <scene sceneID="nOd-I9-Hp6">
@@ -520,10 +525,10 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jkf-Cs-c2e">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="190"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your loved one death means a piece of heaven is in your home" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ger-w2-kK1">
-                                                <rect key="frame" x="15" y="15" width="290" height="115"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your loved one death means a piece of heaven is in your home, and more and more and even more text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="Ger-w2-kK1">
+                                                <rect key="frame" x="10" y="5" width="300" height="135"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="35"/>
+                                                <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="35"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -567,8 +572,8 @@
                                                         </state>
                                                         <variation key="default">
                                                             <mask key="constraints">
-                                                                <exclude reference="gDZ-ny-NhE"/>
                                                                 <exclude reference="bJS-VV-v8g"/>
+                                                                <exclude reference="gDZ-ny-NhE"/>
                                                             </mask>
                                                         </variation>
                                                         <connections>
@@ -676,14 +681,14 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="Ger-w2-kK1" secondAttribute="trailing" constant="15" id="2b0-Qa-Ugf"/>
-                                            <constraint firstItem="RSD-GP-IWk" firstAttribute="top" secondItem="Ger-w2-kK1" secondAttribute="bottom" constant="15" id="CID-Rv-ION"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ger-w2-kK1" secondAttribute="trailing" constant="10" id="2b0-Qa-Ugf"/>
+                                            <constraint firstItem="RSD-GP-IWk" firstAttribute="top" secondItem="Ger-w2-kK1" secondAttribute="bottom" constant="5" id="CID-Rv-ION"/>
                                             <constraint firstAttribute="bottom" secondItem="RSD-GP-IWk" secondAttribute="bottom" id="EYF-Qd-12a"/>
                                             <constraint firstAttribute="trailing" secondItem="RSD-GP-IWk" secondAttribute="trailing" id="I3y-VU-fTI"/>
                                             <constraint firstAttribute="height" constant="190" id="L2e-3B-IDd"/>
                                             <constraint firstItem="RSD-GP-IWk" firstAttribute="leading" secondItem="jkf-Cs-c2e" secondAttribute="leading" id="OXB-Ab-Rz4"/>
-                                            <constraint firstItem="Ger-w2-kK1" firstAttribute="leading" secondItem="jkf-Cs-c2e" secondAttribute="leading" constant="15" id="jBi-vZ-5wE"/>
-                                            <constraint firstItem="Ger-w2-kK1" firstAttribute="top" secondItem="jkf-Cs-c2e" secondAttribute="top" constant="15" id="oXb-Ac-7Dy"/>
+                                            <constraint firstItem="Ger-w2-kK1" firstAttribute="leading" secondItem="jkf-Cs-c2e" secondAttribute="leading" constant="10" id="jBi-vZ-5wE"/>
+                                            <constraint firstItem="Ger-w2-kK1" firstAttribute="top" secondItem="jkf-Cs-c2e" secondAttribute="top" constant="5" id="oXb-Ac-7Dy"/>
                                         </constraints>
                                     </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sAr-ds-p9b">

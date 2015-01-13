@@ -129,6 +129,7 @@ static CGFloat const kIconHeight = 22.f;
     self.postTitleView.backgroundColor = appDelegate.postHeaderBackgroundColorsArray[randomIndex];
 
     randomIndex = arc4random_uniform((int)appDelegate.postHeaderTitleFontNamesArray.count);
+    NSLog(@"appDelegate.postHeaderTitleFontNamesArray[randomIndex] = %@", appDelegate.postHeaderTitleFontNamesArray[randomIndex]);
     self.postTitleLabel.font = [UIFont fontWithName:appDelegate.postHeaderTitleFontNamesArray[randomIndex] size:35.0];
     self.postTitleLabel.text = self.post.title;
 
@@ -188,11 +189,12 @@ static CGFloat const kIconHeight = 22.f;
 - (IBAction)starButtonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    [[SoulIntentionManager sharedManager] ratePostWithId:self.post.postId rating:@(button.tag).stringValue completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+    NSString *rateString = @(button.tag).stringValue;
+    [[SoulIntentionManager sharedManager] ratePostWithId:self.post.postId rating:rateString completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         if (error) {
             return;
         }
-        self.post.rate = @(button.tag).stringValue;
+        self.post.rate = rateString;
         [self changeRatingTo:button.tag];
     }];
 }

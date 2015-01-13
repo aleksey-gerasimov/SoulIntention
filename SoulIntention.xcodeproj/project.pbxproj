@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B192D9E1A650246001F5646 /* ArchitectsDaughter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B192D9A1A650246001F5646 /* ArchitectsDaughter.ttf */; };
+		5B192D9F1A650246001F5646 /* CoveredByYourGrace.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B192D9B1A650246001F5646 /* CoveredByYourGrace.ttf */; };
+		5B192DA01A650246001F5646 /* IndieFlower.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B192D9C1A650246001F5646 /* IndieFlower.ttf */; };
+		5B192DA11A650246001F5646 /* ShadowsIntoLightTwo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B192D9D1A650246001F5646 /* ShadowsIntoLightTwo-Regular.ttf */; };
 		5B31A45E1A1F17C700629C09 /* UIButton+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B31A45D1A1F17C700629C09 /* UIButton+Image.m */; };
 		5B31A4681A1F5CCE00629C09 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B31A4671A1F5CCE00629C09 /* Constants.m */; };
 		5B4833C91A1B1B1100CA240D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833C81A1B1B1100CA240D /* main.m */; };
@@ -47,6 +51,10 @@
 /* Begin PBXFileReference section */
 		064D9156E3CB37447070654F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		25DBFB504AFE52C4B16713B9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		5B192D9A1A650246001F5646 /* ArchitectsDaughter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArchitectsDaughter.ttf; sourceTree = "<group>"; };
+		5B192D9B1A650246001F5646 /* CoveredByYourGrace.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CoveredByYourGrace.ttf; sourceTree = "<group>"; };
+		5B192D9C1A650246001F5646 /* IndieFlower.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = IndieFlower.ttf; sourceTree = "<group>"; };
+		5B192D9D1A650246001F5646 /* ShadowsIntoLightTwo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ShadowsIntoLightTwo-Regular.ttf"; sourceTree = "<group>"; };
 		5B31A45C1A1F17C700629C09 /* UIButton+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Image.h"; sourceTree = "<group>"; };
 		5B31A45D1A1F17C700629C09 /* UIButton+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Image.m"; sourceTree = "<group>"; };
 		5B31A4661A1F5CCE00629C09 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -117,6 +125,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B192D981A650246001F5646 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5B192D991A650246001F5646 /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5B192D991A650246001F5646 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				5B192D9A1A650246001F5646 /* ArchitectsDaughter.ttf */,
+				5B192D9B1A650246001F5646 /* CoveredByYourGrace.ttf */,
+				5B192D9C1A650246001F5646 /* IndieFlower.ttf */,
+				5B192D9D1A650246001F5646 /* ShadowsIntoLightTwo-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		5B31A45F1A1F5B0000629C09 /* OtherClasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +182,7 @@
 				5B4833F31A1B1B5100CA240D /* Models */,
 				5B4833F61A1B1B5100CA240D /* TableViewCells */,
 				5B4833F91A1B1B5100CA240D /* ViewControllers */,
+				5B192D981A650246001F5646 /* Resources */,
 				5B4833CA1A1B1B1100CA240D /* AppDelegate.h */,
 				5B4833CB1A1B1B1100CA240D /* AppDelegate.m */,
 				5B4833D01A1B1B1100CA240D /* Main.storyboard */,
@@ -358,9 +386,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B192D9F1A650246001F5646 /* CoveredByYourGrace.ttf in Resources */,
+				5B192D9E1A650246001F5646 /* ArchitectsDaughter.ttf in Resources */,
 				5B4833D21A1B1B1100CA240D /* Main.storyboard in Resources */,
+				5B192DA11A650246001F5646 /* ShadowsIntoLightTwo-Regular.ttf in Resources */,
 				5B4833D71A1B1B1100CA240D /* LaunchScreen.xib in Resources */,
 				5B4833D41A1B1B1100CA240D /* Images.xcassets in Resources */,
+				5B192DA01A650246001F5646 /* IndieFlower.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
