@@ -22,10 +22,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kBo-Ku-gN2" userLabel="ContainerView">
-                                <rect key="frame" x="0.0" y="48" width="320" height="368"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter text to search" translatesAutoresizingMaskIntoConstraints="NO" id="LyS-uz-y9x">
                                 <rect key="frame" x="0.0" y="4" width="320" height="44"/>
                                 <constraints>
@@ -115,15 +111,57 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kBo-Ku-gN2" userLabel="ContainerView">
+                                <rect key="frame" x="0.0" y="48" width="320" height="336"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDs-dT-VPL" userLabel="FooterView">
+                                <rect key="frame" x="0.0" y="384" width="320" height="32"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yID-1s-x3f" userLabel="LinkButton">
+                                        <rect key="frame" x="15" y="0.0" width="290" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="9sv-O2-jeV"/>
+                                            <constraint firstAttribute="width" constant="107" id="Dd1-uF-cwh"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <state key="normal" title="maryjorapini.com">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="Dd1-uF-cwh"/>
+                                                <exclude reference="9sv-O2-jeV"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="linkButtonTouchUp:" destination="ABk-ys-SmN" eventType="touchUpInside" id="fI6-WO-JIO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.33725490196078434" green="0.22745098039215686" blue="0.38039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="yID-1s-x3f" secondAttribute="trailing" constant="15" id="6vl-fX-2eR"/>
+                                    <constraint firstItem="yID-1s-x3f" firstAttribute="top" secondItem="BDs-dT-VPL" secondAttribute="top" id="RIN-E4-vOj"/>
+                                    <constraint firstAttribute="height" constant="32" id="afY-tn-cfw"/>
+                                    <constraint firstAttribute="bottom" secondItem="yID-1s-x3f" secondAttribute="bottom" id="vRj-KT-vw4"/>
+                                    <constraint firstItem="yID-1s-x3f" firstAttribute="leading" secondItem="BDs-dT-VPL" secondAttribute="leading" constant="15" id="wpU-rc-dtM"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="kBo-Ku-gN2" secondAttribute="trailing" id="0a1-Yn-JmO"/>
                             <constraint firstAttribute="trailing" secondItem="gxc-T7-AYW" secondAttribute="trailing" id="4ja-vg-uh6"/>
+                            <constraint firstItem="BDs-dT-VPL" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="bottom" id="7ry-ZA-WDm"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="top" constant="-48" id="BeH-27-jtz"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="8wM-LN-3cL" secondAttribute="bottom" id="D2U-ig-GYE"/>
                             <constraint firstItem="qia-Ki-LSh" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="bottom" id="I2g-ZB-OSN"/>
                             <constraint firstItem="kBo-Ku-gN2" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="IyJ-pH-kXL"/>
+                            <constraint firstItem="qia-Ki-LSh" firstAttribute="top" secondItem="BDs-dT-VPL" secondAttribute="bottom" id="M8g-f0-TGp"/>
+                            <constraint firstItem="BDs-dT-VPL" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="UkU-AE-VAi"/>
+                            <constraint firstAttribute="trailing" secondItem="BDs-dT-VPL" secondAttribute="trailing" id="VEv-Sq-Scx"/>
                             <constraint firstItem="kBo-Ku-gN2" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" id="Y1J-Or-nhN"/>
                             <constraint firstItem="LyS-uz-y9x" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="jqF-Lp-xxQ"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="mBt-dx-3pj"/>
@@ -135,10 +173,11 @@
                             <mask key="constraints">
                                 <exclude reference="BeH-27-jtz"/>
                                 <exclude reference="Y1J-Or-nhN"/>
+                                <exclude reference="I2g-ZB-OSN"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Soul Intention" id="gAs-Ac-alI">
+                    <navigationItem key="navigationItem" title="Soul Intentions" id="gAs-Ac-alI">
                         <barButtonItem key="leftBarButtonItem" image="ic_logo" width="22" style="done" id="Krf-4l-aag" userLabel="Icon">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
@@ -178,6 +217,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="144" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="DVK-AM-EMT">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.75686274509803919" green="0.75686274509803919" blue="0.75686274509803919" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" rowHeight="144" id="ZwS-4s-j5U" customClass="ListTableViewCell">
@@ -419,7 +459,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XTE-Cd-cFg" userLabel="Author Image">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+                                        <rect key="frame" x="0.0" y="10" width="320" height="180"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="180" id="0ZB-tu-1yn"/>
@@ -435,7 +475,7 @@
                                         </variation>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZF-60-D8J" userLabel="Author Info">
-                                        <rect key="frame" x="0.0" y="180" width="320" height="300"/>
+                                        <rect key="frame" x="0.0" y="205" width="320" height="300"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="380" id="gbi-bn-it4"/>
@@ -453,10 +493,10 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="PZF-60-D8J" secondAttribute="bottom" id="2sf-7Q-sbK"/>
                                     <constraint firstItem="PZF-60-D8J" firstAttribute="leading" secondItem="vdh-8U-Keb" secondAttribute="leading" id="9bi-zb-rHH"/>
-                                    <constraint firstItem="PZF-60-D8J" firstAttribute="top" secondItem="XTE-Cd-cFg" secondAttribute="bottom" id="Igz-ZX-X06"/>
+                                    <constraint firstItem="PZF-60-D8J" firstAttribute="top" secondItem="XTE-Cd-cFg" secondAttribute="bottom" constant="15" id="Igz-ZX-X06"/>
                                     <constraint firstAttribute="trailing" secondItem="PZF-60-D8J" secondAttribute="trailing" id="NfZ-h0-ktQ"/>
                                     <constraint firstItem="PZF-60-D8J" firstAttribute="top" secondItem="XTE-Cd-cFg" secondAttribute="top" constant="180" id="Pil-JQ-UcB"/>
-                                    <constraint firstItem="XTE-Cd-cFg" firstAttribute="top" secondItem="vdh-8U-Keb" secondAttribute="top" id="SOt-LY-ROb"/>
+                                    <constraint firstItem="XTE-Cd-cFg" firstAttribute="top" secondItem="vdh-8U-Keb" secondAttribute="top" constant="10" id="SOt-LY-ROb"/>
                                     <constraint firstItem="XTE-Cd-cFg" firstAttribute="leading" secondItem="vdh-8U-Keb" secondAttribute="leading" id="cOr-n0-3Na"/>
                                     <constraint firstAttribute="trailing" secondItem="XTE-Cd-cFg" secondAttribute="trailing" id="lCA-Ne-xx4"/>
                                     <constraint firstItem="PZF-60-D8J" firstAttribute="top" secondItem="vdh-8U-Keb" secondAttribute="top" constant="180" id="s8y-m6-s6z"/>

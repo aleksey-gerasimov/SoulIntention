@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5B4833C21A1B1B1100CA240D"
-               BuildableName = "SoulIntention.app"
-               BlueprintName = "SoulIntention"
-               ReferencedContainer = "container:SoulIntention.xcodeproj">
+               BuildableName = "SoulIntentions.app"
+               BlueprintName = "SoulIntentions"
+               ReferencedContainer = "container:SoulIntentions.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5B4833DB1A1B1B1100CA240D"
-               BuildableName = "SoulIntentionTests.xctest"
-               BlueprintName = "SoulIntentionTests"
-               ReferencedContainer = "container:SoulIntention.xcodeproj">
+               BuildableName = "SoulIntentionsTests.xctest"
+               BlueprintName = "SoulIntentionsTests"
+               ReferencedContainer = "container:SoulIntentions.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5B4833DB1A1B1B1100CA240D"
-               BuildableName = "SoulIntentionTests.xctest"
-               BlueprintName = "SoulIntentionTests"
-               ReferencedContainer = "container:SoulIntention.xcodeproj">
+               BuildableName = "SoulIntentionsTests.xctest"
+               BlueprintName = "SoulIntentionsTests"
+               ReferencedContainer = "container:SoulIntentions.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5B4833C21A1B1B1100CA240D"
-            BuildableName = "SoulIntention.app"
-            BlueprintName = "SoulIntention"
-            ReferencedContainer = "container:SoulIntention.xcodeproj">
+            BuildableName = "SoulIntentions.app"
+            BlueprintName = "SoulIntentions"
+            ReferencedContainer = "container:SoulIntentions.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5B4833C21A1B1B1100CA240D"
-            BuildableName = "SoulIntention.app"
-            BlueprintName = "SoulIntention"
-            ReferencedContainer = "container:SoulIntention.xcodeproj">
+            BuildableName = "SoulIntentions.app"
+            BlueprintName = "SoulIntentions"
+            ReferencedContainer = "container:SoulIntentions.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5B4833C21A1B1B1100CA240D"
-            BuildableName = "SoulIntention.app"
-            BlueprintName = "SoulIntention"
-            ReferencedContainer = "container:SoulIntention.xcodeproj">
+            BuildableName = "SoulIntentions.app"
+            BlueprintName = "SoulIntentions"
+            ReferencedContainer = "container:SoulIntentions.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

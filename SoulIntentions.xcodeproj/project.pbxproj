@@ -59,7 +59,7 @@
 		5B31A45D1A1F17C700629C09 /* UIButton+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Image.m"; sourceTree = "<group>"; };
 		5B31A4661A1F5CCE00629C09 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		5B31A4671A1F5CCE00629C09 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		5B4833C31A1B1B1100CA240D /* SoulIntention.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoulIntention.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B4833C31A1B1B1100CA240D /* SoulIntentions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoulIntentions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4833C71A1B1B1100CA240D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B4833C81A1B1B1100CA240D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5B4833CA1A1B1B1100CA240D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 		5B4833D11A1B1B1100CA240D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B4833D31A1B1B1100CA240D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5B4833D61A1B1B1100CA240D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5B4833DC1A1B1B1100CA240D /* SoulIntentionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulIntentionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B4833DC1A1B1B1100CA240D /* SoulIntentionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulIntentionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4833E11A1B1B1100CA240D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B4833E21A1B1B1100CA240D /* SoulIntentionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoulIntentionTests.m; sourceTree = "<group>"; };
 		5B4833ED1A1B1B5100CA240D /* FacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookManager.h; sourceTree = "<group>"; };
@@ -167,8 +167,8 @@
 		5B4833C41A1B1B1100CA240D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5B4833C31A1B1B1100CA240D /* SoulIntention.app */,
-				5B4833DC1A1B1B1100CA240D /* SoulIntentionTests.xctest */,
+				5B4833C31A1B1B1100CA240D /* SoulIntentions.app */,
+				5B4833DC1A1B1B1100CA240D /* SoulIntentionsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -307,9 +307,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5B4833C21A1B1B1100CA240D /* SoulIntention */ = {
+		5B4833C21A1B1B1100CA240D /* SoulIntentions */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B4833E61A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntention" */;
+			buildConfigurationList = 5B4833E61A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntentions" */;
 			buildPhases = (
 				ECD9843C15DF78DD8ABE8062 /* Check Pods Manifest.lock */,
 				5B4833BF1A1B1B1100CA240D /* Sources */,
@@ -321,14 +321,14 @@
 			);
 			dependencies = (
 			);
-			name = SoulIntention;
+			name = SoulIntentions;
 			productName = SoulIntention;
-			productReference = 5B4833C31A1B1B1100CA240D /* SoulIntention.app */;
+			productReference = 5B4833C31A1B1B1100CA240D /* SoulIntentions.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5B4833DB1A1B1B1100CA240D /* SoulIntentionTests */ = {
+		5B4833DB1A1B1B1100CA240D /* SoulIntentionsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B4833E91A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntentionTests" */;
+			buildConfigurationList = 5B4833E91A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntentionsTests" */;
 			buildPhases = (
 				5B4833D81A1B1B1100CA240D /* Sources */,
 				5B4833D91A1B1B1100CA240D /* Frameworks */,
@@ -339,9 +339,9 @@
 			dependencies = (
 				5B4833DE1A1B1B1100CA240D /* PBXTargetDependency */,
 			);
-			name = SoulIntentionTests;
+			name = SoulIntentionsTests;
 			productName = SoulIntentionTests;
-			productReference = 5B4833DC1A1B1B1100CA240D /* SoulIntentionTests.xctest */;
+			productReference = 5B4833DC1A1B1B1100CA240D /* SoulIntentionsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -362,7 +362,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5B4833BE1A1B1B1100CA240D /* Build configuration list for PBXProject "SoulIntention" */;
+			buildConfigurationList = 5B4833BE1A1B1B1100CA240D /* Build configuration list for PBXProject "SoulIntentions" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -375,8 +375,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5B4833C21A1B1B1100CA240D /* SoulIntention */,
-				5B4833DB1A1B1B1100CA240D /* SoulIntentionTests */,
+				5B4833C21A1B1B1100CA240D /* SoulIntentions */,
+				5B4833DB1A1B1B1100CA240D /* SoulIntentionsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -477,7 +477,7 @@
 /* Begin PBXTargetDependency section */
 		5B4833DE1A1B1B1100CA240D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5B4833C21A1B1B1100CA240D /* SoulIntention */;
+			target = 5B4833C21A1B1B1100CA240D /* SoulIntentions */;
 			targetProxy = 5B4833DD1A1B1B1100CA240D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -589,7 +589,7 @@
 				INFOPLIST_FILE = SoulIntention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CODE_SIGN_FLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SoulIntentions;
 				PROVISIONING_PROFILE = "f0d3cbeb-09ad-4e89-b9f9-7bb56b90b537";
 			};
 			name = Debug;
@@ -603,7 +603,7 @@
 				INFOPLIST_FILE = SoulIntention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CODE_SIGN_FLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SoulIntentions;
 				PROVISIONING_PROFILE = "8806cfc8-b103-4bdc-9bd8-8cbcf8601884";
 			};
 			name = Release;
@@ -622,7 +622,7 @@
 				);
 				INFOPLIST_FILE = SoulIntentionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SoulIntentionsTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SoulIntention.app/SoulIntention";
 			};
 			name = Debug;
@@ -637,7 +637,7 @@
 				);
 				INFOPLIST_FILE = SoulIntentionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SoulIntentionsTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SoulIntention.app/SoulIntention";
 			};
 			name = Release;
@@ -645,7 +645,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B4833BE1A1B1B1100CA240D /* Build configuration list for PBXProject "SoulIntention" */ = {
+		5B4833BE1A1B1B1100CA240D /* Build configuration list for PBXProject "SoulIntentions" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B4833E41A1B1B1100CA240D /* Debug */,
@@ -654,7 +654,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B4833E61A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntention" */ = {
+		5B4833E61A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntentions" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B4833E71A1B1B1100CA240D /* Debug */,
@@ -663,7 +663,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B4833E91A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntentionTests" */ = {
+		5B4833E91A1B1B1100CA240D /* Build configuration list for PBXNativeTarget "SoulIntentionsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B4833EA1A1B1B1100CA240D /* Debug */,

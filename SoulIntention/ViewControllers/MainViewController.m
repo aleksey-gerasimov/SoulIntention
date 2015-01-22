@@ -187,6 +187,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [self displayChildViewControllersWithTag:button.tag];
 }
 
+- (IBAction)linkButtonTouchUp:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kMainPageURLString]];
+}
+
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

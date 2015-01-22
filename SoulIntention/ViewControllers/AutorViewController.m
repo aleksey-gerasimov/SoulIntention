@@ -78,7 +78,7 @@ static NSInteger const kAuthorImageViewHeight = 180;
         [weakSelf.authorTextView sizeToFit];
         weakSelf.authorTextViewHeightConstraint.constant = CGRectGetHeight(weakSelf.authorTextView.frame);
 
-        void(^loadImageHandler)(UIImage*, NSInteger) = ^(UIImage *image, NSInteger height){
+        void(^loadImageHandler)(UIImage *, NSInteger) = ^(UIImage *image, NSInteger height) {
             weakSelf.authorImageView.image = image;
             weakSelf.authorImageViewHeightConstraint.constant = height;
             [weakSelf.view layoutIfNeeded];
