@@ -41,7 +41,7 @@
             [viewController addURL:url];
         }
 
-        __weak AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
         [appDelegate.window.rootViewController presentViewController:viewController animated:YES completion:nil];
         success = YES;
     } else {

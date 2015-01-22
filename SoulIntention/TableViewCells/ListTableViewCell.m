@@ -21,8 +21,8 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-static CGFloat const kIconWidth = 30.f;
-static CGFloat const kIconHeight = 30.f;
+//static CGFloat const kIconWidth = 30.f;
+//static CGFloat const kIconHeight = 30.f;
 static CGFloat const kSwipeOffset = 107.f;
 
 typedef NS_ENUM(NSInteger, CellType) {
@@ -64,7 +64,7 @@ typedef void(^CellSwipeHandler)(void);
     [super awakeFromNib];
 
     [self initGestureRecognizer];
-    [self setButtonImages];
+//    [self setButtonImages];
 
     self.cellType = CellTypeCenter;
     self.appDelegate = [UIApplication sharedApplication].delegate;
@@ -119,15 +119,15 @@ typedef void(^CellSwipeHandler)(void);
 
 #pragma mark - Private Methods
 
-- (void)setButtonImages
-{
-    [self.facebookButton setNormalImage:[UIImage imageNamed:kFacebookButtonImage]
-                       highlightedImage:[UIImage imageNamed:kFacebookButtonHighlightedImage]
-                                   size:CGSizeMake(kIconWidth, kIconHeight)];
-    [self.twitterButton setNormalImage:[UIImage imageNamed:kTwitterButtonImage]
-                      highlightedImage:[UIImage imageNamed:kTwitterButtonHighlightedImage]
-                                  size:CGSizeMake(kIconWidth, kIconHeight)];
-}
+//- (void)setButtonImages
+//{
+//    [self.facebookButton setNormalImage:[UIImage imageNamed:kFacebookButtonImage]
+//                       highlightedImage:[UIImage imageNamed:kFacebookButtonHighlightedImage]
+//                                   size:CGSizeMake(kIconWidth, kIconHeight)];
+//    [self.twitterButton setNormalImage:[UIImage imageNamed:kTwitterButtonImage]
+//                      highlightedImage:[UIImage imageNamed:kTwitterButtonHighlightedImage]
+//                                  size:CGSizeMake(kIconWidth, kIconHeight)];
+//}
 
 - (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction completitionHandler:(CellSwipeHandler)handler
 {

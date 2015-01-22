@@ -19,8 +19,8 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-static CGFloat const kIconWidth = 30.f;
-static CGFloat const kIconHeight = 30.f;
+//static CGFloat const kIconWidth = 30.f;
+//static CGFloat const kIconHeight = 30.f;
 
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
@@ -185,11 +185,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.navigationItem.rightBarButtonItem.enabled = button.tag == SoulsChildViewController;
     [self.view layoutIfNeeded];
     [self displayChildViewControllersWithTag:button.tag];
-}
-
-- (IBAction)linkButtonTouchUp:(id)sender
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kMainPageURLString]];
 }
 
 #pragma mark - UISearchBarDelegate

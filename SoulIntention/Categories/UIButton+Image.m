@@ -18,18 +18,23 @@
     [button setNormalImage:isHighlighted ? highlightedImage : normalImage
           highlightedImage:isHighlighted ? normalImage : highlightedImage
                       size:size];
-    [button sizeToFit];
+    button.frame = CGRectMake(0.0, 0.0, size.width, size.height);
+//    [button sizeToFit];
+
     if (target && selector) {
         [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
     }
+
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)button];
     return barButtonItem;
 }
 
 - (void)setNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage size:(CGSize)size
 {
-    [self setImage:[UIImage imageWithImage:normalImage scaleToSize:size] forState:UIControlStateNormal];
-    [self setImage:[UIImage imageWithImage:highlightedImage scaleToSize:size] forState:UIControlStateHighlighted];
+    [self setBackgroundImage:normalImage forState:UIControlStateNormal];
+    [self setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
+//    [self setImage:[UIImage imageWithImage:normalImage scaleToSize:size] forState:UIControlStateNormal];
+//    [self setImage:[UIImage imageWithImage:highlightedImage scaleToSize:size] forState:UIControlStateHighlighted];
 }
 
 @end

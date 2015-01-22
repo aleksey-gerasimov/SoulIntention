@@ -19,8 +19,8 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-static CGFloat const kIconWidth = 22.f;
-static CGFloat const kIconHeight = 22.f;
+//static CGFloat const kIconWidth = 22.f;
+//static CGFloat const kIconHeight = 22.f;
 
 @interface PostViewController ()
 
@@ -42,7 +42,7 @@ static CGFloat const kIconHeight = 22.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"Soul Intention";
+    self.navigationItem.title = @"Soul Intentions";
 
     [self showImage];
     [self showText];
@@ -56,8 +56,8 @@ static CGFloat const kIconHeight = 22.f;
     __weak PostViewController *weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kFavoriteFlagChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         weakSelf.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
-        UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
-        UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+        UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
+        UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
         UIBarButtonItem *barButtonItem = [weakSelf.navigationItem.rightBarButtonItems lastObject];
         UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
         [favoriteButton setNormalImage:weakSelf.post.isFavorite ? highlightedImage : normalImage
@@ -82,11 +82,11 @@ static CGFloat const kIconHeight = 22.f;
     paragraphStyle.headIndent = 10;
     paragraphStyle.tailIndent = -10;
     paragraphStyle.alignment = NSTextAlignmentLeft;
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     NSDictionary *attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};
     [text setAttributes:attributes range:NSMakeRange(0, self.post.text.length)];
 
-    font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+    font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor grayColor]};
     [text setAttributes:attributes range:NSMakeRange(self.post.text.length+2, self.post.updateDate.length+4+self.post.author.length)];
 
@@ -112,8 +112,8 @@ static CGFloat const kIconHeight = 22.f;
 - (void)setCustomBarButtonItems
 {
     CGSize size = CGSizeMake(kIconWidth, kIconHeight);
-    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
     UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavorite actionTarget:self selector:@selector(favoriteButtonPressed:)];
     self.navigationItem.rightBarButtonItem = favoriteBarButtonItem;
 
@@ -129,7 +129,6 @@ static CGFloat const kIconHeight = 22.f;
     self.postTitleView.backgroundColor = appDelegate.postHeaderBackgroundColorsArray[randomIndex];
 
     randomIndex = arc4random_uniform((int)appDelegate.postHeaderTitleFontNamesArray.count);
-    NSLog(@"appDelegate.postHeaderTitleFontNamesArray[randomIndex] = %@", appDelegate.postHeaderTitleFontNamesArray[randomIndex]);
     self.postTitleLabel.font = [UIFont fontWithName:appDelegate.postHeaderTitleFontNamesArray[randomIndex] size:35.0];
     self.postTitleLabel.text = self.post.title;
 

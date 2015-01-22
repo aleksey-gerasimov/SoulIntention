@@ -32,6 +32,11 @@ NSString *const kTwitterButtonImage = @"ic_twitter";
 NSString *const kTwitterButtonHighlightedImage = @"ic_twitter_select";
 NSString *const kFavoriteButtonImage = @"ic_favorite";
 NSString *const kFavoriteButtonHighlightedImage = @"ic_favorite_select";
+NSString *const kFavoriteNavigationButtonImage = @"ic_favorite_nawbar";
+NSString *const kFavoriteNavigationButtonHighlightedImage = @"ic_favorite_nawbar_select";
+
+CGFloat const kIconWidth = 30.f;
+CGFloat const kIconHeight = 30.f;
 
 @implementation Constants
 

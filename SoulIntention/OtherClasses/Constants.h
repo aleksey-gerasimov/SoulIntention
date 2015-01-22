@@ -34,6 +34,11 @@ extern NSString *const kTwitterButtonImage;
 extern NSString *const kTwitterButtonHighlightedImage;
 extern NSString *const kFavoriteButtonImage;
 extern NSString *const kFavoriteButtonHighlightedImage;
+extern NSString *const kFavoriteNavigationButtonImage;
+extern NSString *const kFavoriteNavigationButtonHighlightedImage;
+
+extern CGFloat const kIconWidth;
+extern CGFloat const kIconHeight;
 
 @interface Constants : NSObject
 
