@@ -17,7 +17,6 @@
 		5B4833CC1A1B1B1100CA240D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833CB1A1B1B1100CA240D /* AppDelegate.m */; };
 		5B4833D21A1B1B1100CA240D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B4833D01A1B1B1100CA240D /* Main.storyboard */; };
 		5B4833D41A1B1B1100CA240D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B4833D31A1B1B1100CA240D /* Images.xcassets */; };
-		5B4833D71A1B1B1100CA240D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B4833D51A1B1B1100CA240D /* LaunchScreen.xib */; };
 		5B4833E31A1B1B1100CA240D /* SoulIntentionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833E21A1B1B1100CA240D /* SoulIntentionTests.m */; };
 		5B4834001A1B1B5100CA240D /* FacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833EE1A1B1B5100CA240D /* FacebookManager.m */; };
 		5B4834011A1B1B5100CA240D /* SoulIntentionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4833F01A1B1B5100CA240D /* SoulIntentionManager.m */; };
@@ -67,7 +66,6 @@
 		5B4833CB1A1B1B1100CA240D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5B4833D11A1B1B1100CA240D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B4833D31A1B1B1100CA240D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		5B4833D61A1B1B1100CA240D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5B4833DC1A1B1B1100CA240D /* SoulIntentionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulIntentionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B4833E11A1B1B1100CA240D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B4833E21A1B1B1100CA240D /* SoulIntentionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoulIntentionTests.m; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 				5B4833CB1A1B1B1100CA240D /* AppDelegate.m */,
 				5B4833D01A1B1B1100CA240D /* Main.storyboard */,
 				5B4833D31A1B1B1100CA240D /* Images.xcassets */,
-				5B4833D51A1B1B1100CA240D /* LaunchScreen.xib */,
 				5B4833C61A1B1B1100CA240D /* Supporting Files */,
 			);
 			path = SoulIntention;
@@ -395,7 +392,6 @@
 				5B192D9E1A650246001F5646 /* ArchitectsDaughter.ttf in Resources */,
 				5B4833D21A1B1B1100CA240D /* Main.storyboard in Resources */,
 				5B192DA11A650246001F5646 /* ShadowsIntoLightTwo-Regular.ttf in Resources */,
-				5B4833D71A1B1B1100CA240D /* LaunchScreen.xib in Resources */,
 				5B4833D41A1B1B1100CA240D /* Images.xcassets in Resources */,
 				5B192DA01A650246001F5646 /* IndieFlower.ttf in Resources */,
 			);
@@ -497,14 +493,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		5B4833D51A1B1B1100CA240D /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5B4833D61A1B1B1100CA240D /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -591,6 +579,7 @@
 			baseConfigurationReference = 25DBFB504AFE52C4B16713B9 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				INFOPLIST_FILE = SoulIntention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -605,6 +594,7 @@
 			baseConfigurationReference = 93C806F357FC21F764DB28CC /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				INFOPLIST_FILE = SoulIntention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
