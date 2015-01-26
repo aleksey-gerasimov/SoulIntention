@@ -28,6 +28,8 @@ extern NSString *const kFavoriteFlagChangedNotification;
 extern NSString *const kBackButtonImage;
 extern NSString *const kLogoButtonImage;
 extern NSString *const kSearchButtonImage;
+extern NSString *const kFilterDateButtonImage;
+extern NSString *const kFilterRateButtonImage;
 extern NSString *const kFacebookButtonImage;
 extern NSString *const kFacebookButtonHighlightedImage;
 extern NSString *const kTwitterButtonImage;

@@ -28,6 +28,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     FavoritesChildViewController = 2,
 };
 
+typedef NS_ENUM(NSInteger, FilterType) {
+    FilterTypeMostRecent,
+    FilterTypeMostRated
+};
+
 @interface MainViewController () <UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -42,6 +47,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 @property (strong, nonatomic) NSMutableArray *childViewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
+@property (assign, nonatomic) FilterType filterType;
 @property (assign, nonatomic) BOOL searchBarIsShown;
 
 @end
@@ -96,6 +102,16 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     }];
 }
 
+- (void)setFilterType:(FilterType)filterType
+{
+    _filterType = filterType > FilterTypeMostRated ? FilterTypeMostRecent : filterType;
+
+    CGSize size = CGSizeMake(kIconWidth, kIconHeight);
+    UIImage *normalImage = self.filterType == FilterTypeMostRecent ? [UIImage imageNamed:kFilterDateButtonImage] : [UIImage imageNamed:kFilterRateButtonImage];
+    UIBarButtonItem *filterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(filterButtonTouchUp:)];
+    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItems.firstObject, filterBarButtonItem];
+}
+
 #pragma mark - Private Methods
 
 - (void)setCustomBarButtons
@@ -108,7 +124,9 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
     normalImage = [UIImage imageNamed:kSearchButtonImage];
     UIBarButtonItem *searchBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(searchButtonTouchUp:)];
-    self.navigationItem.rightBarButtonItem = searchBarButtonItem;
+    self.navigationItem.rightBarButtonItems = @[searchBarButtonItem];
+
+    self.filterType = FilterTypeMostRecent;
 }
 
 - (void)initializeChildViewControllers
@@ -164,8 +182,12 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (IBAction)searchButtonTouchUp:(id)sender
 {
-    NSLog(@"Search Button Press");
     self.searchBarIsShown = !self.searchBarIsShown;
+}
+
+- (IBAction)filterButtonTouchUp:(id)sender
+{
+    self.filterType++;
 }
 
 - (void)menuButtonTouchUpInside:(id)sender
@@ -182,7 +204,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
             self.underlineLeadingConstraint.constant = 0;
             break;
     }
-    self.navigationItem.rightBarButtonItem.enabled = button.tag == SoulsChildViewController;
+    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.firstObject).enabled = button.tag == SoulsChildViewController;
+    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.lastObject).enabled = button.tag != AutorChildViewController;
     [self.view layoutIfNeeded];
     [self displayChildViewControllersWithTag:button.tag];
 }
