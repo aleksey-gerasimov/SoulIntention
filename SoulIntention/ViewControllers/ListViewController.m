@@ -32,6 +32,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 @property (strong, nonatomic) NSString *searchText;
 @property (assign, nonatomic) BOOL isLoadingPosts;
 @property (assign, nonatomic) BOOL needsUpdate;
+@property (assign, nonatomic) FilterType filterType;
 
 @end
 
@@ -48,14 +49,21 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     self.favoritePosts = [NSMutableArray new];
     self.posts = [NSArray new];
     self.needsUpdate = YES;
+    self.filterType = FilterTypeMostRecent;
 
     __weak ListViewController *weakSelf = self;
     switch (self.listStyle) {
         case ListStyleAll: {
             [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-                [weakSelf getAllPostsWithOffset:0];
+                [weakSelf getAllPostsOrderedBy:weakSelf.filterType offset:0];
+            }];
+            [[NSNotificationCenter defaultCenter] addObserverForName:kSetFilterTypeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+                [weakSelf.allPosts removeAllObjects];
+                NSNumber *updatedFilterType = note.userInfo[@"filterType"];
+                [weakSelf getAllPostsOrderedBy:updatedFilterType.integerValue offset:0];
             }];
             [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+                weakSelf.filterType = FilterTypeMostRecent;
                 [weakSelf.allPosts removeAllObjects];
                 [weakSelf searchForPostsWithTitle:note.userInfo[@"text"] offset:0];
             }];
@@ -75,7 +83,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 {
     [super viewWillAppear:animated];
     if (self.needsUpdate && self.appDelegate.sessionStarted) {
-        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavoritePostsWithOffset:0];
+        self.listStyle == ListStyleAll ? [self getAllPostsOrderedBy:self.filterType offset:0] : [self getFavoritePostsWithOffset:0];
     }
 }
 
@@ -108,13 +116,14 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 #pragma mark All Posts
 
-- (void)getAllPostsWithOffset:(NSInteger)offset
+- (void)getAllPostsOrderedBy:(FilterType)filterType offset:(NSInteger)offset
 {
+    self.filterType = filterType;
     self.searchText = @"";
     self.isLoadingPosts = YES;
     [self.view showLoadingIndicator];
     __weak ListViewController *weakSelf = self;
-    [[SoulIntentionManager sharedManager] getPostsWithOffset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+    [[SoulIntentionManager sharedManager] getPostsOrderedBy:self.filterType offset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load posts"];
@@ -222,7 +231,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     if (scrollViewContentOffsetY <= -kLoadingPostsOnScrollOffset) {
         [self.allPosts removeAllObjects];
         [self.favoritePosts removeAllObjects];
-        self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavoritePostsWithOffset:0];
+        self.listStyle == ListStyleAll ? [self getAllPostsOrderedBy:self.filterType offset:0] : [self getFavoritePostsWithOffset:0];
         return;
     }
 
@@ -235,7 +244,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         NSLog(@"Loading more posts with offset %lu", (unsigned long)self.posts.count);
         switch (self.listStyle) {
             case ListStyleAll:
-                self.searchText.length > 0 ? [self searchForPostsWithTitle:self.searchText offset:self.posts.count] : [self getAllPostsWithOffset:self.posts.count];
+                self.searchText.length > 0 ? [self searchForPostsWithTitle:self.searchText offset:self.posts.count] : [self getAllPostsOrderedBy:self.filterType offset:self.posts.count];
                 break;
             case ListStyleFavorite:
                 [self getFavoritePostsWithOffset:self.posts.count];

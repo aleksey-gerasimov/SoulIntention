@@ -28,11 +28,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     FavoritesChildViewController = 2,
 };
 
-typedef NS_ENUM(NSInteger, FilterType) {
-    FilterTypeMostRecent,
-    FilterTypeMostRated
-};
-
 @interface MainViewController () <UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -188,6 +183,7 @@ typedef NS_ENUM(NSInteger, FilterType) {
 - (IBAction)filterButtonTouchUp:(id)sender
 {
     self.filterType++;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSetFilterTypeNotification object:nil userInfo:@{@"filterType" : @(_filterType)}];
 }
 
 - (void)menuButtonTouchUpInside:(id)sender
@@ -205,7 +201,7 @@ typedef NS_ENUM(NSInteger, FilterType) {
             break;
     }
     ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.firstObject).enabled = button.tag == SoulsChildViewController;
-    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.lastObject).enabled = button.tag != AutorChildViewController;
+    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.lastObject).enabled = button.tag == SoulsChildViewController;
     [self.view layoutIfNeeded];
     [self displayChildViewControllersWithTag:button.tag];
 }
@@ -214,6 +210,7 @@ typedef NS_ENUM(NSInteger, FilterType) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    self.filterType = FilterTypeMostRecent;
     [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
     [self hideSearchBar];
 }

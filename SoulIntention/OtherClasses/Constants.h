@@ -17,6 +17,7 @@ extern NSString *const kMainPageURLString;
 extern NSString *const kSessionStartedNotification;
 
 extern NSInteger const kPostsLimit;
+extern NSString *const kSetFilterTypeNotification;
 extern NSString *const kSearchForPostsNotification;
 extern NSString *const kHideSearchBarNotification;
 
@@ -41,6 +42,11 @@ extern NSString *const kFavoriteNavigationButtonHighlightedImage;
 
 extern CGFloat const kIconWidth;
 extern CGFloat const kIconHeight;
+
+typedef NS_ENUM(NSInteger, FilterType) {
+    FilterTypeMostRecent,
+    FilterTypeMostRated
+};
 
 @interface Constants : NSObject
 

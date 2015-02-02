@@ -15,6 +15,7 @@ NSString *const kMainPageURLString = @"http://www.maryjorapini.com";
 NSString *const kSessionStartedNotification = @"SessionStartedNotification";
 
 NSInteger const kPostsLimit = 10;
+NSString *const kSetFilterTypeNotification = @"SetFilterTypeNotification";
 NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
 NSString *const kHideSearchBarNotification = @"HideSearchBarNotification";
 

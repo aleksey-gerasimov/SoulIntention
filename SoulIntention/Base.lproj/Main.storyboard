@@ -808,8 +808,8 @@
                                         </state>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="btr-V5-ET6"/>
                                                 <exclude reference="R4H-Qa-chB"/>
+                                                <exclude reference="btr-V5-ET6"/>
                                             </mask>
                                         </variation>
                                         <connections>

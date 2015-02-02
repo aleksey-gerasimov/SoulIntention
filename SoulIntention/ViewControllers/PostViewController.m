@@ -88,11 +88,19 @@
 
     font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor grayColor]};
-    [text setAttributes:attributes range:NSMakeRange(self.post.text.length+2, self.post.updateDate.length+4+self.post.author.length)];
+    [text setAttributes:attributes range:NSMakeRange(self.post.text.length, 2+self.post.updateDate.length+4+self.post.author.length)];
 
     self.postTextView.attributedText = text;
-    CGSize textViewSize = CGSizeMake(CGRectGetWidth(self.view.frame) - CGRectGetMinX(self.postTextView.frame), CGRectGetHeight(self.view.frame) - CGRectGetMinY(self.postTextView.frame));
+
+    CGFloat textViewWidth = CGRectGetWidth(self.view.frame) - CGRectGetMinX(self.postTextView.frame) - (CGRectGetWidth(self.view.frame) - CGRectGetMaxX(self.postTextView.frame));
+    CGFloat textViewHeight = CGRectGetHeight(self.view.frame) - CGRectGetMinY(self.postTextView.frame);
+    CGSize textViewSize = CGSizeMake(textViewWidth, textViewHeight);
+
     CGRect requiredTextRect = [text boundingRectWithSize:textViewSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    CGFloat ceilWidth = ceil(CGRectGetWidth(requiredTextRect));
+    CGFloat ceilHeight = ceil(CGRectGetHeight(requiredTextRect));
+    requiredTextRect = CGRectMake(CGRectGetMinX(requiredTextRect), CGRectGetMinY(requiredTextRect), ceilWidth, ceilHeight);
+
     CGSize requiredSize = [self.postTextView sizeThatFits:requiredTextRect.size];
     self.postTextViewHeightConstraint.constant = requiredSize.height > textViewSize.height ? requiredSize.height : textViewSize.height;
     [self.view layoutIfNeeded];
