@@ -19,9 +19,6 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-//static CGFloat const kIconWidth = 22.f;
-//static CGFloat const kIconHeight = 22.f;
-
 @interface PostViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *postTitleView;
@@ -53,17 +50,7 @@
     self.postImageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds);
     [self.view layoutIfNeeded];
 
-    __weak PostViewController *weakSelf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:kFavoriteFlagChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        weakSelf.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
-        UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
-        UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
-        UIBarButtonItem *barButtonItem = [weakSelf.navigationItem.rightBarButtonItems lastObject];
-        UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
-        [favoriteButton setNormalImage:weakSelf.post.isFavorite ? highlightedImage : normalImage
-                      highlightedImage:weakSelf.post.isFavorite ? normalImage : highlightedImage
-                                  size:CGSizeMake(kIconWidth, kIconHeight)];
-    }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteStatusChanged:) name:kFavoriteFlagChangedNotification object:nil];
 }
 
 - (void)dealloc
@@ -120,8 +107,8 @@
 - (void)setCustomBarButtonItems
 {
     CGSize size = CGSizeMake(kIconWidth, kIconHeight);
-    UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
     UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavorite actionTarget:self selector:@selector(favoriteButtonPressed:)];
     self.navigationItem.rightBarButtonItem = favoriteBarButtonItem;
 
@@ -142,6 +129,18 @@
 
     self.postTitleRatingView.backgroundColor = self.navigationController.navigationBar.barTintColor;
     [self changeRatingTo:roundf(self.post.rate.floatValue)];
+}
+
+- (void)favoriteStatusChanged:(NSNotification *)note
+{
+    self.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+    UIBarButtonItem *barButtonItem = [self.navigationItem.rightBarButtonItems lastObject];
+    UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
+    [favoriteButton setNormalImage:self.post.isFavorite ? highlightedImage : normalImage
+                  highlightedImage:self.post.isFavorite ? normalImage : highlightedImage
+                              size:CGSizeMake(kIconWidth, kIconHeight)];
 }
 
 - (void)changeRatingTo:(NSInteger)rating

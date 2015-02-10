@@ -19,9 +19,6 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-//static CGFloat const kIconWidth = 30.f;
-//static CGFloat const kIconHeight = 30.f;
-
 typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     SoulsChildViewController = 0,
     AutorChildViewController = 1,
@@ -30,6 +27,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 @interface MainViewController () <UISearchBarDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView *menuView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarTopConstraint;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
@@ -59,14 +57,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     _searchBarIsShown = NO;
     
     [self initializeChildViewControllers];
-    [self setButtonsTarget];
+    [self setupMenuView];
     [self setCustomBarButtons];
-
-    NSInteger screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
-    self.postsButtonWidthConstraint.constant = screenWidth/3;
-    self.underlineWidthConstraint.constant = screenWidth + screenWidth*2/3;
-    self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
-    [self.view layoutIfNeeded];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSearchBar) name:kHideSearchBarNotification object:nil];
 }
@@ -139,8 +131,16 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [self displayChildViewControllersWithTag:[self.childViewControllers indexOfObject:soulsViewController]];
 }
 
-- (void)setButtonsTarget
+- (void)setupMenuView
 {
+    self.menuView.backgroundColor = self.navigationController.navigationBar.barTintColor;
+
+    NSInteger screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+    self.postsButtonWidthConstraint.constant = screenWidth/3;
+    self.underlineWidthConstraint.constant = screenWidth + screenWidth*2/3;
+    self.underlineLeadingConstraint.constant = -2*self.postsButtonWidthConstraint.constant;
+    [self.view layoutIfNeeded];
+
     [self.postsButton addTarget:self action:@selector(menuButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     self.postsButton.tag = SoulsChildViewController;
     [self.autorButton addTarget:self action:@selector(menuButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];

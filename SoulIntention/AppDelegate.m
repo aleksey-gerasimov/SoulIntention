@@ -27,17 +27,7 @@
 {
     [self customizeNavigationBar];
     [self prepareForWorkWithServer];
-    
-    self.postHeaderBackgroundColorsArray = @[UIColorFromRGB(0x754684),
-                                             UIColorFromRGB(0x834c71),
-                                             UIColorFromRGB(0x955a99),
-                                             UIColorFromRGB(0xa04f85),
-                                             UIColorFromRGB(0xb571a1),
-                                             UIColorFromRGB(0x7d354e)];
-    self.postHeaderTitleFontNamesArray = @[@"IndieFlower",
-                                           @"ShadowsIntoLightTwo-Regular",
-                                           @"ArchitectsDaughter",
-                                           @"CoveredByYourGrace"];
+    [self fillData];
 
     return YES;
 }
@@ -56,9 +46,7 @@
 
 - (void)customizeNavigationBar
 {
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:86/255.f green:58/255.f blue:97/255.f alpha:1.f]];
-    [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
-    [[UINavigationBar appearance] setTranslucent:NO];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:67.f/255.f green:42.f/255.f blue:78.f/255.f alpha:1.f]];
 }
 
 - (void)prepareForWorkWithServer
@@ -79,6 +67,20 @@
         weakSelf.sessionStarted = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
     }];
+}
+
+- (void)fillData
+{
+    self.postHeaderBackgroundColorsArray = @[UIColorFromRGB(0x754684),
+                                             UIColorFromRGB(0x834c71),
+                                             UIColorFromRGB(0x955a99),
+                                             UIColorFromRGB(0xa04f85),
+                                             UIColorFromRGB(0xb571a1),
+                                             UIColorFromRGB(0x7d354e)];
+    self.postHeaderTitleFontNamesArray = @[@"IndieFlower",
+                                           @"ShadowsIntoLightTwo-Regular",
+                                           @"ArchitectsDaughter",
+                                           @"CoveredByYourGrace"];
 }
 
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message
