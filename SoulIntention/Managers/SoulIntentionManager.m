@@ -10,6 +10,7 @@
 
 #import "SoulIntentionManager.h"
 
+#import "Filter.h"
 #import "Constants.h"
 
 #import "Post.h"
@@ -144,13 +145,11 @@ static NSInteger const kSessionClosedStatusCode = 403;
 
 #pragma mark Posts methods
 
-- (void)getPostsOrderedBy:(FilterType)filterType offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
+- (void)getPostsWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
     __weak SoulIntentionManager *weakSelf = self;
     NSMutableDictionary *parameters = [@{@"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
-    if (filterType == FilterTypeMostRated) {
-        parameters[@"orderBy"] = @"rate";
-    }
+    parameters[@"orderBy"] = [Filter sharedInstance].selectedFilter;
     [self.restManager getObjectsAtPath:kPosts parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get posts success");
         if (handler) {
@@ -163,7 +162,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
             NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
             [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
-                    [weakSelf getPostsOrderedBy:(FilterType)filterType offset:offset limit:limit completitionHandler:handler];
+                    [weakSelf getPostsWithOffset:offset limit:limit completitionHandler:handler];
                 } else {
                     if (handler) {
                         handler(NO, nil, originalError);

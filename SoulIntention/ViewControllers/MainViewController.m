@@ -15,6 +15,7 @@
 #import "SoulIntentionManager.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "Filter.h"
 
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
@@ -28,6 +29,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 @interface MainViewController () <UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *menuView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filterViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filterViewTopConstraint;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarTopConstraint;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
@@ -40,7 +43,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 @property (strong, nonatomic) NSMutableArray *childViewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
-@property (assign, nonatomic) FilterType filterType;
+//@property (assign, nonatomic) FilterType filterType;
+@property (assign, nonatomic) BOOL filterViewIsShown;
 @property (assign, nonatomic) BOOL searchBarIsShown;
 
 @end
@@ -54,13 +58,14 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [super viewDidLoad];
 
     self.childViewControllers = [NSMutableArray new];
+    _filterViewIsShown = NO;
     _searchBarIsShown = NO;
     
     [self initializeChildViewControllers];
     [self setupMenuView];
     [self setCustomBarButtons];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSearchBar) name:kHideSearchBarNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideFilterViewAndSearchBar) name:kHideFilterViewAndSearchBarNotification object:nil];
 }
 
 - (void)dealloc
@@ -85,19 +90,41 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
         weakSelf.containerView.alpha = _searchBarIsShown ? 0.2 : 1.0;
         weakSelf.searchBarTopConstraint.constant = _searchBarIsShown ? 0 : -CGRectGetHeight(weakSelf.searchBar.frame);
         [weakSelf.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
     }];
+
+    if (_searchBarIsShown && self.filterViewIsShown) {
+        self.filterViewIsShown = NO;
+    }
 }
 
-- (void)setFilterType:(FilterType)filterType
+- (void)setFilterViewIsShown:(BOOL)filterViewIsShown
 {
-    _filterType = filterType > FilterTypeMostRated ? FilterTypeMostRecent : filterType;
+    _filterViewIsShown = filterViewIsShown;
 
-    CGSize size = CGSizeMake(kIconWidth, kIconHeight);
-    UIImage *normalImage = self.filterType == FilterTypeMostRecent ? [UIImage imageNamed:kFilterDateButtonImage] : [UIImage imageNamed:kFilterRateButtonImage];
-    UIBarButtonItem *filterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(filterButtonTouchUp:)];
-    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItems.firstObject, filterBarButtonItem];
+    __weak MainViewController *weakSelf = self;
+    [UIView animateWithDuration:kAnimationDuration animations:^{
+        weakSelf.filterViewTopConstraint.constant = _filterViewIsShown ? 0 : -weakSelf.filterViewHeightConstraint.constant;
+        [weakSelf.view layoutIfNeeded];
+    }];
+
+    if (_filterViewIsShown) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kShowFilterViewNotification object:self];
+        if (self.searchBarIsShown) {
+            self.searchBarIsShown = NO;
+        }
+    }
 }
+
+//- (void)setFilterType:(FilterType)filterType
+//{
+//    _filterType = filterType > FilterTypeMostRated ? FilterTypeMostRecent : filterType;
+//
+//    CGSize size = CGSizeMake(kIconWidth, kIconHeight);
+////    UIImage *normalImage = self.filterType == FilterTypeMostRecent ? [UIImage imageNamed:kFilterDateButtonImage] : [UIImage imageNamed:kFilterRateButtonImage];
+//    UIImage *normalImage = [UIImage imageNamed:kFilterButtonImage];
+//    UIBarButtonItem *filterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(filterButtonTouchUp:)];
+//    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItems.firstObject, filterBarButtonItem];
+//}
 
 #pragma mark - Private Methods
 
@@ -111,9 +138,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
     normalImage = [UIImage imageNamed:kSearchButtonImage];
     UIBarButtonItem *searchBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(searchButtonTouchUp:)];
-    self.navigationItem.rightBarButtonItems = @[searchBarButtonItem];
+    normalImage = [UIImage imageNamed:kFilterButtonImage];
+    UIBarButtonItem *filterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(filterButtonTouchUp:)];
+    self.navigationItem.rightBarButtonItems = @[searchBarButtonItem, filterBarButtonItem];
 
-    self.filterType = FilterTypeMostRecent;
+//    self.filterType = FilterTypeMostRecent;
 }
 
 - (void)initializeChildViewControllers
@@ -163,13 +192,16 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.currentViewController.view.frame = self.containerView.bounds;
     [self.containerView addSubview:self.currentViewController.view];
 
-    [self hideSearchBar];
+    [self hideFilterViewAndSearchBar];
 }
 
-- (void)hideSearchBar
+- (void)hideFilterViewAndSearchBar
 {
     if (self.searchBarIsShown) {
         self.searchBarIsShown = NO;
+    }
+    if (self.filterViewIsShown) {
+        self.filterViewIsShown = NO;
     }
 }
 
@@ -182,8 +214,9 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (IBAction)filterButtonTouchUp:(id)sender
 {
-    self.filterType++;
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSetFilterTypeNotification object:nil userInfo:@{@"filterType" : @(_filterType)}];
+    self.filterViewIsShown = !self.filterViewIsShown;
+//    self.filterType++;
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kSetFilterTypeNotification object:nil userInfo:@{@"filterType" : @(_filterType)}];
 }
 
 - (void)menuButtonTouchUpInside:(id)sender
@@ -210,9 +243,10 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    self.filterType = FilterTypeMostRecent;
+//    self.filterType = FilterTypeMostRecent;
+    [Filter sharedInstance].selectedIndex = 0;
     [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
-    [self hideSearchBar];
+    [self hideFilterViewAndSearchBar];
 }
 
 @end

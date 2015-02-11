@@ -16,8 +16,9 @@ NSString *const kSessionStartedNotification = @"SessionStartedNotification";
 
 NSInteger const kPostsLimit = 10;
 NSString *const kSetFilterTypeNotification = @"SetFilterTypeNotification";
+NSString *const kShowFilterViewNotification = @"ShowFilterViewNotification";
 NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
-NSString *const kHideSearchBarNotification = @"HideSearchBarNotification";
+NSString *const kHideFilterViewAndSearchBarNotification = @"kHideFilterViewAndSearchBarNotification";
 
 CGFloat const kAnimationDuration = 0.5;
 NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
@@ -27,8 +28,9 @@ NSString *const kFavoriteFlagChangedNotification = @"kFavoriteFlagChangedNotific
 NSString *const kBackButtonImage = @"ic_back_arrow";
 NSString *const kLogoButtonImage = @"ic_logo";
 NSString *const kSearchButtonImage = @"ic_search";
-NSString *const kFilterDateButtonImage = @"ic_filter_date";
-NSString *const kFilterRateButtonImage = @"ic_filter_rate";
+NSString *const kFilterButtonImage = @"ic_filter";
+//NSString *const kFilterDateButtonImage = @"ic_filter_date";
+//NSString *const kFilterRateButtonImage = @"ic_filter_rate";
 NSString *const kFacebookButtonImage = @"ic_facebook";
 NSString *const kFacebookButtonHighlightedImage = @"ic_facebook_select";
 NSString *const kTwitterButtonImage = @"ic_twitter";

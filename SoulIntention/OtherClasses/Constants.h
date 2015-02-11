@@ -18,8 +18,9 @@ extern NSString *const kSessionStartedNotification;
 
 extern NSInteger const kPostsLimit;
 extern NSString *const kSetFilterTypeNotification;
+extern NSString *const kShowFilterViewNotification;
 extern NSString *const kSearchForPostsNotification;
-extern NSString *const kHideSearchBarNotification;
+extern NSString *const kHideFilterViewAndSearchBarNotification;
 
 extern CGFloat const kAnimationDuration;
 extern NSString *const kListCellSwipeNotification;
@@ -29,8 +30,9 @@ extern NSString *const kFavoriteFlagChangedNotification;
 extern NSString *const kBackButtonImage;
 extern NSString *const kLogoButtonImage;
 extern NSString *const kSearchButtonImage;
-extern NSString *const kFilterDateButtonImage;
-extern NSString *const kFilterRateButtonImage;
+extern NSString *const kFilterButtonImage;
+//extern NSString *const kFilterDateButtonImage;
+//extern NSString *const kFilterRateButtonImage;
 extern NSString *const kFacebookButtonImage;
 extern NSString *const kFacebookButtonHighlightedImage;
 extern NSString *const kTwitterButtonImage;
@@ -43,10 +45,10 @@ extern NSString *const kFavoriteNavigationButtonHighlightedImage;
 extern CGFloat const kIconWidth;
 extern CGFloat const kIconHeight;
 
-typedef NS_ENUM(NSInteger, FilterType) {
-    FilterTypeMostRecent,
-    FilterTypeMostRated
-};
+//typedef NS_ENUM(NSInteger, FilterType) {
+//    FilterTypeMostRecent,
+//    FilterTypeMostRated
+//};
 
 @interface Constants : NSObject
 
