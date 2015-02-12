@@ -184,16 +184,16 @@
             </objects>
             <point key="canvasLocation" x="2005" y="570"/>
         </scene>
-        <!--Filter View Controller-->
+        <!--Sort View Controller-->
         <scene sceneID="lRx-Mf-1Ep">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="KM5-es-LPe" customClass="FilterViewController" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="KM5-es-LPe" customClass="SortViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="30" sectionHeaderHeight="1" sectionFooterHeight="1" id="YzR-hS-RgJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="filterCell" textLabel="RQX-bU-hL0" style="IBUITableViewCellStyleDefault" id="f0L-zu-3NW">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="sortCell" textLabel="RQX-bU-hL0" style="IBUITableViewCellStyleDefault" id="f0L-zu-3NW">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f0L-zu-3NW" id="cHQ-9r-omJ">
                                     <autoresizingMask key="autoresizingMask"/>

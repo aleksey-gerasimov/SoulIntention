@@ -75,8 +75,23 @@ static NSInteger const kAuthorImageViewHeight = 180;
 
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[author.info dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error:nil];
         weakSelf.authorTextView.attributedText = attributedString;
-        [weakSelf.authorTextView sizeToFit];
-        weakSelf.authorTextViewHeightConstraint.constant = CGRectGetHeight(weakSelf.authorTextView.frame);
+
+        CGFloat textViewWidth = CGRectGetWidth(self.view.frame) - CGRectGetMinX(self.authorTextView.frame) - (CGRectGetWidth(self.view.frame) - CGRectGetMaxX(self.authorTextView.frame));
+        CGFloat textViewHeight = CGRectGetHeight(self.view.frame) - CGRectGetMinY(self.authorTextView.frame);
+        CGSize textViewSize = CGSizeMake(textViewWidth, textViewHeight);
+
+        CGRect requiredTextRect = [attributedString boundingRectWithSize:textViewSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+        CGFloat ceilWidth = ceil(CGRectGetWidth(requiredTextRect));
+        CGFloat ceilHeight = ceil(CGRectGetHeight(requiredTextRect));
+        requiredTextRect = CGRectMake(CGRectGetMinX(requiredTextRect), CGRectGetMinY(requiredTextRect), ceilWidth, ceilHeight);
+
+        CGSize requiredSize = [self.authorTextView sizeThatFits:requiredTextRect.size];
+        self.authorTextViewHeightConstraint.constant = requiredSize.height > textViewSize.height ? requiredSize.height : textViewSize.height;
+        [self.view layoutIfNeeded];
+
+//        [weakSelf.authorTextView sizeToFit];
+//        weakSelf.authorTextViewHeightConstraint.constant = CGRectGetHeight(weakSelf.authorTextView.frame);
+//        [self.view layoutIfNeeded];
 
         void(^loadImageHandler)(UIImage *, NSInteger) = ^(UIImage *image, NSInteger height) {
             weakSelf.authorImageView.image = image;

@@ -10,7 +10,7 @@
 
 #import "SoulIntentionManager.h"
 
-#import "Filter.h"
+#import "SortType.h"
 #import "Constants.h"
 
 #import "Post.h"
@@ -149,7 +149,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
 {
     __weak SoulIntentionManager *weakSelf = self;
     NSMutableDictionary *parameters = [@{@"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
-    parameters[@"orderBy"] = [Filter sharedInstance].selectedFilter;
+    parameters[@"orderBy"] = [[SortType sharedInstance] transformSortTypeForServerRequest];
     [self.restManager getObjectsAtPath:kPosts parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get posts success");
         if (handler) {

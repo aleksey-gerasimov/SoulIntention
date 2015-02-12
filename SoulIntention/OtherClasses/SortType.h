@@ -1,5 +1,5 @@
 //
-//  FilterType.h
+//  SortType.h
 //  SoulIntentions
 //
 //  Created by Aleksey on 2/11/15.
@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Filter : NSObject
+@interface SortType : NSObject
 
-@property (strong, nonatomic) NSArray *allFilters;
+@property (strong, nonatomic) NSArray *allSorts;
 @property (assign, nonatomic) NSNumber *selectedIndex;
-@property (weak, nonatomic) NSString *selectedFilter;
 
 + (instancetype)sharedInstance;
+
+- (NSString *)transformSortTypeForServerRequest;
 
 @end

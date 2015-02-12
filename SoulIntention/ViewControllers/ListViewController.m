@@ -32,7 +32,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 @property (strong, nonatomic) NSString *searchText;
 @property (assign, nonatomic) BOOL isLoadingPosts;
 @property (assign, nonatomic) BOOL needsUpdate;
-//@property (assign, nonatomic) FilterType filterType;
 
 @end
 
@@ -49,7 +48,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     self.favoritePosts = [NSMutableArray new];
     self.posts = [NSArray new];
     self.needsUpdate = YES;
-//    self.filterType = FilterTypeMostRecent;
 
     __weak ListViewController *weakSelf = self;
     switch (self.listStyle) {
@@ -59,11 +57,9 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
             }];
             [[NSNotificationCenter defaultCenter] addObserverForName:kSetFilterTypeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
                 [weakSelf.allPosts removeAllObjects];
-//                NSNumber *updatedFilterType = note.userInfo[@"filterType"];
                 [weakSelf getAllPostsWithOffset:0];
             }];
             [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//                weakSelf.filterType = FilterTypeMostRecent;
                 [weakSelf.allPosts removeAllObjects];
                 [weakSelf searchForPostsWithTitle:note.userInfo[@"text"] offset:0];
             }];
@@ -118,7 +114,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 - (void)getAllPostsWithOffset:(NSInteger)offset
 {
-//    self.filterType = filterType;
     self.searchText = @"";
     self.isLoadingPosts = YES;
     [self.view showLoadingIndicator];

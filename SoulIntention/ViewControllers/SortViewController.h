@@ -1,5 +1,5 @@
 //
-//  FilterViewController.h
+//  SortViewController.h
 //  SoulIntentions
 //
 //  Created by Aleksey on 2/11/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FilterViewController : UITableViewController
+@interface SortViewController : UITableViewController
 
 @end

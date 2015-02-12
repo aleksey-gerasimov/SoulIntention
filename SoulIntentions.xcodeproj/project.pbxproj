@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B03DE7C1A8B4DF800338828 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B03DE7B1A8B4DF800338828 /* FilterViewController.m */; };
-		5B03DE7F1A8B5DBD00338828 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B03DE7E1A8B5DBD00338828 /* Filter.m */; };
+		5B03DE7C1A8B4DF800338828 /* SortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B03DE7B1A8B4DF800338828 /* SortViewController.m */; };
+		5B03DE7F1A8B5DBD00338828 /* SortType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B03DE7E1A8B5DBD00338828 /* SortType.m */; };
 		5B192D9E1A650246001F5646 /* ArchitectsDaughter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B192D9A1A650246001F5646 /* ArchitectsDaughter.ttf */; };
 		5B192D9F1A650246001F5646 /* CoveredByYourGrace.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B192D9B1A650246001F5646 /* CoveredByYourGrace.ttf */; };
 		5B192DA01A650246001F5646 /* IndieFlower.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B192D9C1A650246001F5646 /* IndieFlower.ttf */; };
@@ -36,7 +36,6 @@
 		5BD8378D1A288A660089CD11 /* Favorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8378C1A288A660089CD11 /* Favorite.m */; };
 		5BF05C951A712A2C00AE6645 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF05C941A712A2C00AE6645 /* InitialViewController.m */; };
 		84CE291B1A1B393300109DC3 /* AutorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE291A1A1B393300109DC3 /* AutorViewController.m */; };
-		84CE29211A1B690C00109DC3 /* UIImage+ScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */; };
 		B5884602BAEE1AFCDF27C19E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 064D9156E3CB37447070654F /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -53,10 +52,10 @@
 /* Begin PBXFileReference section */
 		064D9156E3CB37447070654F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		25DBFB504AFE52C4B16713B9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		5B03DE7A1A8B4DF800338828 /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
-		5B03DE7B1A8B4DF800338828 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
-		5B03DE7D1A8B5DBD00338828 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
-		5B03DE7E1A8B5DBD00338828 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
+		5B03DE7A1A8B4DF800338828 /* SortViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortViewController.h; sourceTree = "<group>"; };
+		5B03DE7B1A8B4DF800338828 /* SortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortViewController.m; sourceTree = "<group>"; };
+		5B03DE7D1A8B5DBD00338828 /* SortType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortType.h; sourceTree = "<group>"; };
+		5B03DE7E1A8B5DBD00338828 /* SortType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortType.m; sourceTree = "<group>"; };
 		5B192D9A1A650246001F5646 /* ArchitectsDaughter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArchitectsDaughter.ttf; sourceTree = "<group>"; };
 		5B192D9B1A650246001F5646 /* CoveredByYourGrace.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CoveredByYourGrace.ttf; sourceTree = "<group>"; };
 		5B192D9C1A650246001F5646 /* IndieFlower.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = IndieFlower.ttf; sourceTree = "<group>"; };
@@ -106,8 +105,6 @@
 		84CE29191A1B393300109DC3 /* AutorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutorViewController.h; sourceTree = "<group>"; };
 		84CE291A1A1B393300109DC3 /* AutorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutorViewController.m; sourceTree = "<group>"; };
 		84CE291C1A1B43C600109DC3 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
-		84CE291F1A1B690C00109DC3 /* UIImage+ScaleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ScaleImage.h"; sourceTree = "<group>"; };
-		84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ScaleImage.m"; sourceTree = "<group>"; };
 		93C806F357FC21F764DB28CC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,8 +153,8 @@
 			children = (
 				5B31A4661A1F5CCE00629C09 /* Constants.h */,
 				5B31A4671A1F5CCE00629C09 /* Constants.m */,
-				5B03DE7D1A8B5DBD00338828 /* Filter.h */,
-				5B03DE7E1A8B5DBD00338828 /* Filter.m */,
+				5B03DE7D1A8B5DBD00338828 /* SortType.h */,
+				5B03DE7E1A8B5DBD00338828 /* SortType.m */,
 			);
 			path = OtherClasses;
 			sourceTree = "<group>";
@@ -277,8 +274,8 @@
 				5B4833FF1A1B1B5100CA240D /* PostViewController.m */,
 				84CE29191A1B393300109DC3 /* AutorViewController.h */,
 				84CE291A1A1B393300109DC3 /* AutorViewController.m */,
-				5B03DE7A1A8B4DF800338828 /* FilterViewController.h */,
-				5B03DE7B1A8B4DF800338828 /* FilterViewController.m */,
+				5B03DE7A1A8B4DF800338828 /* SortViewController.h */,
+				5B03DE7B1A8B4DF800338828 /* SortViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -286,8 +283,6 @@
 		84CE291E1A1B68DE00109DC3 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				84CE291F1A1B690C00109DC3 /* UIImage+ScaleImage.h */,
-				84CE29201A1B690C00109DC3 /* UIImage+ScaleImage.m */,
 				5B31A45C1A1F17C700629C09 /* UIButton+Image.h */,
 				5B31A45D1A1F17C700629C09 /* UIButton+Image.m */,
 				5BB622EF1A2364BD003797D3 /* UIView+LoadingIndicator.h */,
@@ -456,8 +451,8 @@
 			files = (
 				5B4834021A1B1B5100CA240D /* TwitterManager.m in Sources */,
 				84CE291B1A1B393300109DC3 /* AutorViewController.m in Sources */,
-				5B03DE7C1A8B4DF800338828 /* FilterViewController.m in Sources */,
-				5B03DE7F1A8B5DBD00338828 /* Filter.m in Sources */,
+				5B03DE7C1A8B4DF800338828 /* SortViewController.m in Sources */,
+				5B03DE7F1A8B5DBD00338828 /* SortType.m in Sources */,
 				5B532A581A1CCC4E00D96279 /* Author.m in Sources */,
 				5B31A45E1A1F17C700629C09 /* UIButton+Image.m in Sources */,
 				5B4834031A1B1B5100CA240D /* Post.m in Sources */,
@@ -470,7 +465,6 @@
 				5B4834001A1B1B5100CA240D /* FacebookManager.m in Sources */,
 				5B4834041A1B1B5100CA240D /* ListTableViewCell.m in Sources */,
 				5B4833C91A1B1B1100CA240D /* main.m in Sources */,
-				84CE29211A1B690C00109DC3 /* UIImage+ScaleImage.m in Sources */,
 				5BD8378D1A288A660089CD11 /* Favorite.m in Sources */,
 				5BF05C951A712A2C00AE6645 /* InitialViewController.m in Sources */,
 				5B4834011A1B1B5100CA240D /* SoulIntentionManager.m in Sources */,
