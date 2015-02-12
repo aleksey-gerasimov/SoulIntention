@@ -45,6 +45,7 @@ typedef void(^CellSwipeHandler)(void);
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *cellView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellViewCenterXConstraint;
 
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
@@ -119,24 +120,15 @@ typedef void(^CellSwipeHandler)(void);
 
 #pragma mark - Private Methods
 
-//- (void)setButtonImages
-//{
-//    [self.facebookButton setNormalImage:[UIImage imageNamed:kFacebookButtonImage]
-//                       highlightedImage:[UIImage imageNamed:kFacebookButtonHighlightedImage]
-//                                   size:CGSizeMake(kIconWidth, kIconHeight)];
-//    [self.twitterButton setNormalImage:[UIImage imageNamed:kTwitterButtonImage]
-//                      highlightedImage:[UIImage imageNamed:kTwitterButtonHighlightedImage]
-//                                  size:CGSizeMake(kIconWidth, kIconHeight)];
-//}
-
 - (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction completitionHandler:(CellSwipeHandler)handler
 {
     if (direction == SwipeDirectionLeft) {
         offset = -offset;
     }
+    self.cellViewCenterXConstraint.constant = self.cellViewCenterXConstraint.constant - offset;
 
     [UIView animateWithDuration:kAnimationDuration animations:^{
-        self.cellView.frame = CGRectOffset(self.cellView.frame, offset, 0.f);
+        [self layoutIfNeeded];
     } completion:^(BOOL finished) {
         if (handler) {
             handler();
@@ -170,14 +162,11 @@ typedef void(^CellSwipeHandler)(void);
 {
     if (self.post.postId == note.userInfo[@"postId"]) {
         self.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
-        [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:^{
-            UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
-            UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
-            [self.favoriteButton setNormalImage:self.post.isFavorite ? highlightedImage : normalImage
-                               highlightedImage:self.post.isFavorite ? normalImage : highlightedImage
-                                           size:CGSizeMake(kIconWidth, kIconHeight)];
-        }];
-        self.cellType = CellTypeCenter;
+        UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+        UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+        [self.favoriteButton setNormalImage:self.post.isFavorite ? highlightedImage : normalImage
+                           highlightedImage:self.post.isFavorite ? normalImage : highlightedImage
+                                       size:CGSizeMake(kIconWidth, kIconHeight)];
     }
 }
 
@@ -185,7 +174,6 @@ typedef void(^CellSwipeHandler)(void);
 
 - (IBAction)favoriteButtonTouchUpInside:(id)sender
 {
-    NSLog(@"ListTableViewCell favorite button pressed");
     [self showLoadingIndicator];
     NSDictionary *notificationDictionary = @{@"postId" : self.post.postId, @"isFavorite" : @(!self.post.isFavorite)};
     __weak ListTableViewCell *weakSelf = self;
@@ -211,12 +199,10 @@ typedef void(^CellSwipeHandler)(void);
 }
 
 - (IBAction)facebookButtonTouchUpInside:(id)sender {
-    NSLog(@"ListTableViewCell facebook button pressed");
     [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:[NSURL URLWithString:kMainPageURLString]];
 }
 
 - (IBAction)twitterButtonTouchUpInside:(id)sender {
-    NSLog(@"ListTableViewCell twitter button pressed");
     [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:[NSURL URLWithString:kMainPageURLString]];
 }
 

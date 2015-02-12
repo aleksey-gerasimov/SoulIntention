@@ -29,7 +29,7 @@
 - (void)setNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage size:(CGSize)size
 {
     [self setImage:normalImage forState:UIControlStateNormal];
-//    [self setImage:highlightedImage forState:UIControlStateHighlighted];
+    [self setImage:highlightedImage forState:UIControlStateHighlighted];
 }
 
 @end

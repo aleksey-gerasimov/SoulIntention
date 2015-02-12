@@ -121,13 +121,15 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     CGSize size = CGSizeMake(kIconWidth, kIconHeight);
 
     UIImage *normalImage = [UIImage imageNamed:kLogoButtonImage];
-    UIBarButtonItem *logoBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:nil selector:nil];
+    UIBarButtonItem *logoBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(logoButtonTouchUp:)];
     self.navigationItem.leftBarButtonItem = logoBarButtonItem;
 
     normalImage = [UIImage imageNamed:kSearchButtonImage];
     UIBarButtonItem *searchBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(searchButtonTouchUp:)];
+
     normalImage = [UIImage imageNamed:kFilterButtonImage];
     UIBarButtonItem *filterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(filterButtonTouchUp:)];
+
     self.navigationItem.rightBarButtonItems = @[searchBarButtonItem, filterBarButtonItem];
 }
 
@@ -192,6 +194,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 }
 
 #pragma mark - IBAction
+
+- (IBAction)logoButtonTouchUp:(id)sender
+{
+    [self menuButtonTouchUpInside:self.postsButton];
+}
 
 - (IBAction)searchButtonTouchUp:(id)sender
 {

@@ -417,15 +417,24 @@
                                                 <constraint firstItem="ZXU-t9-DoW" firstAttribute="leading" secondItem="qiT-gs-Yuv" secondAttribute="leading" id="1AB-XM-vHw"/>
                                                 <constraint firstAttribute="trailing" secondItem="ZXU-t9-DoW" secondAttribute="trailing" id="2v3-jM-nc2"/>
                                                 <constraint firstAttribute="trailing" secondItem="UGp-DM-fBr" secondAttribute="trailing" id="5VG-ef-QQx"/>
+                                                <constraint firstAttribute="centerX" secondItem="UGp-DM-fBr" secondAttribute="centerX" id="5WA-qo-GWP"/>
                                                 <constraint firstAttribute="bottom" secondItem="UGp-DM-fBr" secondAttribute="bottom" id="FQP-vK-QSW"/>
                                                 <constraint firstItem="ZXU-t9-DoW" firstAttribute="top" secondItem="qiT-gs-Yuv" secondAttribute="top" id="Sz5-O0-h2n"/>
                                                 <constraint firstAttribute="bottom" secondItem="ZXU-t9-DoW" secondAttribute="bottom" id="Xqw-fJ-Fiy"/>
                                                 <constraint firstItem="UGp-DM-fBr" firstAttribute="leading" secondItem="qiT-gs-Yuv" secondAttribute="leading" id="YNn-ZS-Jcs"/>
                                                 <constraint firstItem="UGp-DM-fBr" firstAttribute="top" secondItem="qiT-gs-Yuv" secondAttribute="top" id="aSl-UQ-a2x"/>
+                                                <constraint firstItem="ZXU-t9-DoW" firstAttribute="width" secondItem="UGp-DM-fBr" secondAttribute="width" id="q89-5t-2aP"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="5VG-ef-QQx"/>
+                                                    <exclude reference="YNn-ZS-Jcs"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellView" destination="UGp-DM-fBr" id="akN-lK-Ype"/>
+                                            <outlet property="cellViewCenterXConstraint" destination="5WA-qo-GWP" id="2zk-BY-Ddj"/>
                                             <outlet property="dateLabel" destination="luy-Iw-tnI" id="IZj-2H-568"/>
                                             <outlet property="descriptionLabel" destination="NgL-Kw-YuH" id="LRa-gb-4BY"/>
                                             <outlet property="facebookButton" destination="aYD-18-bEq" id="u3X-Ed-jKA"/>
