@@ -107,13 +107,14 @@
 - (void)setCustomBarButtonItems
 {
     CGSize size = CGSizeMake(kIconWidth, kIconHeight);
-    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
     UIBarButtonItem *favoriteBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:self.post.isFavorite actionTarget:self selector:@selector(favoriteButtonPressed:)];
     self.navigationItem.rightBarButtonItem = favoriteBarButtonItem;
 
     normalImage = [UIImage imageNamed:kBackButtonImage];
-    UIBarButtonItem *backBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(backButtonPressed:)];
+    highlightedImage = [UIImage imageNamed:kBackButtonHighlightedImage];
+    UIBarButtonItem *backBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(backButtonPressed:)];
     self.navigationItem.leftBarButtonItem = backBarButtonItem;
 }
 
@@ -134,8 +135,8 @@
 - (void)favoriteStatusChanged:(NSNotification *)note
 {
     self.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
-    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
     UIBarButtonItem *barButtonItem = [self.navigationItem.rightBarButtonItems lastObject];
     UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
     [favoriteButton setNormalImage:self.post.isFavorite ? highlightedImage : normalImage
@@ -149,7 +150,7 @@
         if (subview.tag == 0) {
             continue;
         }
-        [subview setImage:subview.tag > rating ? [UIImage imageNamed:@"ic_star"] : [UIImage imageNamed:@"ic_star_select"] forState:UIControlStateNormal];
+        [subview setImage:subview.tag > rating ? [UIImage imageNamed:kStarButtonImage] : [UIImage imageNamed:kStarButtonHighlightedImage] forState:UIControlStateNormal];
     }
 }
 

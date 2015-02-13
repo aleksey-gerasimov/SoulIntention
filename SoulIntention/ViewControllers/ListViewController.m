@@ -32,6 +32,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 @property (strong, nonatomic) NSString *searchText;
 @property (assign, nonatomic) BOOL isLoadingPosts;
 @property (assign, nonatomic) BOOL needsUpdate;
+@property (assign, nonatomic) BOOL noFavorites;
 
 @end
 
@@ -122,7 +123,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         [weakSelf.view hideLoadingIndicator];
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load posts"];
-            weakSelf.isLoadingPosts = NO;
         } else {
             [weakSelf.allPosts addObjectsFromArray:result];
         }
@@ -159,7 +159,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         [weakSelf.view hideLoadingIndicator];
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favorite posts"];
-            weakSelf.isLoadingPosts = NO;
         } else {
             [weakSelf.favoritePosts addObjectsFromArray:[result valueForKey:@"post"]];
         }
@@ -186,16 +185,28 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
 
 #pragma mark - TableView DataSource
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];
-    cell.post = self.posts[indexPath.row];
-    return cell;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   return self.posts.count;
+    NSInteger numberOfRows = self.posts.count;
+    self.noFavorites = NO;
+    if (self.listStyle == ListStyleFavorite) {
+        self.noFavorites = self.posts.count > 0 ? NO : YES;
+        numberOfRows = self.posts.count > 0 ? self.posts.count : 1;
+        self.tableView.separatorStyle = self.posts.count > 0 ? UITableViewCellSeparatorStyleSingleLine : UITableViewCellSeparatorStyleNone;
+    }
+    return numberOfRows;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.listStyle == ListStyleFavorite && self.noFavorites) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noFavoritesPlaceholderCell"];
+        return cell;
+    } else {
+        ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];
+        cell.post = self.posts[indexPath.row];
+        return cell;
+    }
 }
 
 #pragma mark - TableView Delegate

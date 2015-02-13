@@ -10,6 +10,7 @@
 
 #import "SoulIntentionManager.h"
 
+#import "AppDelegate.h"
 #import "SortType.h"
 #import "Constants.h"
 
@@ -19,6 +20,7 @@
 
 static NSString *const kStartSession = @"/startMobile";
 static NSString *const kEndSession = @"/endMobile";
+static NSString *const kDeviceToken = @"/deviceToken";
 static NSString *const kPosts = @"/post";
 static NSString *const kFavorites = @"/favourite";
 static NSString *const kFavoritesIds = @"/favouriteId";
@@ -30,6 +32,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
 @interface SoulIntentionManager ()
 
 @property (strong, nonatomic) RKObjectManager *restManager;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 @end
 
@@ -47,6 +50,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:baseURL];
         instance.restManager = [[RKObjectManager alloc] initWithHTTPClient:client];
         [instance configureManager];
+        instance.appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     });
     return instance;
 }
@@ -110,11 +114,14 @@ static NSInteger const kSessionClosedStatusCode = 403;
     NSDictionary *parameters = @{@"deviceId": deviceId};
     [self.restManager postObject:nil path:kStartSession parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager start session success");
+        self.appDelegate.sessionStarted = YES;
+        [self.appDelegate prepareForWorkWithPushNotifications];
         if (handler) {
             handler(YES, nil, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager start session error: %@", [error localizedDescription]);
+        self.appDelegate.sessionStarted = NO;
         if (handler) {
             handler(NO, nil, error);
         }
@@ -143,6 +150,22 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
+- (void)registerForNotificationsWithDeviceToken:(NSString *)deviceToken completitionHandler:(CompletitionHandler)handler
+{
+    NSDictionary *parameters = @{@"deviceToken" : deviceToken};
+    [self.restManager postObject:nil path:kDeviceToken parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager register for notifications success");
+        if (handler) {
+            handler(YES, nil, nil);
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"SoulIntentionManager register for notifications error: %@", [error localizedDescription]);
+        if (handler) {
+            handler(NO, nil, error);
+        }
+    }];
+}
+
 #pragma mark Posts methods
 
 - (void)getPostsWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
@@ -159,8 +182,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager get posts error: %@", [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf getPostsWithOffset:offset limit:limit completitionHandler:handler];
                 } else {
@@ -180,7 +202,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
 - (void)getFavoritesWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
     __weak SoulIntentionManager *weakSelf = self;
-    NSDictionary *parameters = @{@"limit" : @(limit), @"offset" : @(offset)};
+    NSMutableDictionary *parameters = [@{@"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
+    parameters[@"orderBy"] = [[SortType sharedInstance] transformSortTypeForServerRequest];
     [self.restManager getObjectsAtPath:kFavorites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get favorites success");
         if (handler) {
@@ -190,8 +213,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager get favorites error: %@", [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf getFavoritesWithOffset:offset limit:limit completitionHandler:handler];
                 } else {
@@ -220,8 +242,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager get favorites Ids error: %@", [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf getFavoritesIdsWithCompletitionHandler:handler];
                 } else {
@@ -251,8 +272,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager add to favorites post with id %@ error: %@", postId, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf addToFavoritesPostWithId:postId completitionHandler:handler];
                 } else {
@@ -269,21 +289,21 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
-- (NSURLRequest *)createUrlRequestWithUrlAddress:(NSString *)_stringUrlAddress bodyData:(NSData *)_bodyData requestType:(NSString *)_requestType
-{
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    NSURL *urlAddress = [NSURL URLWithString:_stringUrlAddress];
-    [request setURL:urlAddress];
-    [request setHTTPMethod:_requestType];
-    [request setHTTPBody:_bodyData];
-    [request setValue:@"must-revalidate" forHTTPHeaderField:@"Cashe-Control"];
-    [request setTimeoutInterval:30.0f];
-    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
-    if ([_requestType isEqualToString:@"PATCH"]){
-        [request setValue:@"PATCH" forHTTPHeaderField:@"X-HTTP-Method-Override"];
-    }
-    return request;
-}
+//- (NSURLRequest *)createUrlRequestWithUrlAddress:(NSString *)_stringUrlAddress bodyData:(NSData *)_bodyData requestType:(NSString *)_requestType
+//{
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    NSURL *urlAddress = [NSURL URLWithString:_stringUrlAddress];
+//    [request setURL:urlAddress];
+//    [request setHTTPMethod:_requestType];
+//    [request setHTTPBody:_bodyData];
+//    [request setValue:@"must-revalidate" forHTTPHeaderField:@"Cashe-Control"];
+//    [request setTimeoutInterval:30.0f];
+//    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
+//    if ([_requestType isEqualToString:@"PATCH"]){
+//        [request setValue:@"PATCH" forHTTPHeaderField:@"X-HTTP-Method-Override"];
+//    }
+//    return request;
+//}
 
 - (void)removeFromFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
@@ -297,8 +317,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager remove from favorites post with id %@ error: %@", postId, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf removeFromFavoritesPostWithId:postId completitionHandler:handler];
                 } else {
@@ -330,8 +349,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager rate post with id %@ rating %@ error: %@", postId, rating, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf ratePostWithId:postId rating:rating completitionHandler:handler];
                 } else {
@@ -353,14 +371,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
 - (void)searchForPostsWithTitle:(NSString *)title offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
     __weak SoulIntentionManager *weakSelf = self;
-    NSMutableDictionary *parameters = [NSMutableDictionary new];
-    parameters[@"title"] = title;
-    if (offset) {
-        parameters[@"offset"] = @(offset);
-    }
-    if (limit) {
-        parameters[@"limit"] = @(limit);
-    }
+    NSMutableDictionary *parameters = [@{@"title" : title, @"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
+    parameters[@"orderBy"] = [[SortType sharedInstance] transformSortTypeForServerRequest];
     [self.restManager getObjectsAtPath:kSearchPosts parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager search for posts with title \"%@\" success", title);
         if (handler) {
@@ -370,8 +382,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager search for posts with title \"%@\" error: %@", title, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf searchForPostsWithTitle:title offset:offset limit:limit completitionHandler:handler];
                 } else {
@@ -402,8 +413,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager get author description error: %@", [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-            [weakSelf startSessionWithDeviceId:deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf getAuthorDescriptionWithCompletitionHandler:handler];
                 } else {

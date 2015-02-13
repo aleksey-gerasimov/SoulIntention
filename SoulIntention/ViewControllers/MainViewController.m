@@ -121,14 +121,17 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     CGSize size = CGSizeMake(kIconWidth, kIconHeight);
 
     UIImage *normalImage = [UIImage imageNamed:kLogoButtonImage];
-    UIBarButtonItem *logoBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(logoButtonTouchUp:)];
+    UIImage *highlightedImage = [UIImage imageNamed:kLogoButtonHighlightedImage];
+    UIBarButtonItem *logoBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(logoButtonTouchUp:)];
     self.navigationItem.leftBarButtonItem = logoBarButtonItem;
 
     normalImage = [UIImage imageNamed:kSearchButtonImage];
-    UIBarButtonItem *searchBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(searchButtonTouchUp:)];
+    highlightedImage = [UIImage imageNamed:kSearchButtonHighlightedImage];
+    UIBarButtonItem *searchBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(searchButtonTouchUp:)];
 
-    normalImage = [UIImage imageNamed:kFilterButtonImage];
-    UIBarButtonItem *filterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:normalImage size:size isHighlighted:NO actionTarget:self selector:@selector(filterButtonTouchUp:)];
+    normalImage = [UIImage imageNamed:kSortButtonImage];
+    highlightedImage = [UIImage imageNamed:kSortButtonHighlightedImage];
+    UIBarButtonItem *filterBarButtonItem = [UIButton createBarButtonItemWithNormalImage:normalImage highlightedImage:highlightedImage size:size isHighlighted:NO actionTarget:self selector:@selector(filterButtonTouchUp:)];
 
     self.navigationItem.rightBarButtonItems = @[searchBarButtonItem, filterBarButtonItem];
 }
@@ -224,8 +227,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
             self.underlineLeadingConstraint.constant = 0;
             break;
     }
-    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.firstObject).enabled = button.tag == SoulsChildViewController;
-    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.lastObject).enabled = button.tag == SoulsChildViewController;
+    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.firstObject).enabled = button.tag != AutorChildViewController;
+    ((UIBarButtonItem *)self.navigationItem.rightBarButtonItems.lastObject).enabled = button.tag != AutorChildViewController;
     [self.view layoutIfNeeded];
     [self displayChildViewControllersWithTag:button.tag];
 }
@@ -234,7 +237,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [SortType sharedInstance].selectedIndex = 0;
+//    [SortType sharedInstance].selectedIndex = 0;
     [self hideFilterViewAndSearchBar];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
 }

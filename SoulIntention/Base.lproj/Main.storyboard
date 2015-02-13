@@ -222,7 +222,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qme-Al-mrF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2005" y="165"/>
+            <point key="canvasLocation" x="2005" y="185"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="LMc-5T-Pmc">
@@ -242,6 +242,50 @@
                                 <color key="separatorColor" red="0.75686274509803919" green="0.75686274509803919" blue="0.75686274509803919" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="noFavoritesPlaceholderCell" rowHeight="170" id="1l8-Dh-ies">
+                                        <rect key="frame" x="0.0" y="218" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1l8-Dh-ies" id="AQ2-cL-TGe">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD A SOUL INTENTION TO YOUR FAVORITES TO VIEW IT HERE!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sZ-Mr-S7d" userLabel="messageLabel">
+                                                    <rect key="frame" x="25" y="0.0" width="270" height="70"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="70" id="CG1-08-35B"/>
+                                                        <constraint firstAttribute="height" constant="21" id="Ty4-86-PQ2"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                                    <color key="textColor" red="0.18823529410000001" green="0.18823529410000001" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="Ty4-86-PQ2"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_favorite_BG" translatesAutoresizingMaskIntoConstraints="NO" id="MBW-gn-RcJ">
+                                                    <rect key="frame" x="117" y="75" width="87" height="87"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="87" id="JdG-Pb-Seg"/>
+                                                        <constraint firstAttribute="height" constant="87" id="Qbd-gG-eFb"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="5sZ-Mr-S7d" secondAttribute="trailing" constant="25" id="2bE-D7-EY4"/>
+                                                <constraint firstItem="MBW-gn-RcJ" firstAttribute="top" secondItem="5sZ-Mr-S7d" secondAttribute="bottom" constant="5" id="9JE-a1-o7J"/>
+                                                <constraint firstAttribute="centerX" secondItem="MBW-gn-RcJ" secondAttribute="centerX" id="Pjs-BU-NhK"/>
+                                                <constraint firstItem="MBW-gn-RcJ" firstAttribute="top" secondItem="AQ2-cL-TGe" secondAttribute="top" constant="5" id="W0V-rP-IsT"/>
+                                                <constraint firstItem="5sZ-Mr-S7d" firstAttribute="top" secondItem="AQ2-cL-TGe" secondAttribute="top" id="ooj-ke-bTQ"/>
+                                                <constraint firstItem="5sZ-Mr-S7d" firstAttribute="leading" secondItem="AQ2-cL-TGe" secondAttribute="leading" constant="25" id="yPe-Tr-EDO"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="W0V-rP-IsT"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" rowHeight="164" id="ZwS-4s-j5U" customClass="ListTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="ZwS-4s-j5U" id="qiT-gs-Yuv">
@@ -254,10 +298,10 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="160" height="163"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kV0-UO-WLK" userLabel="favoriteButton">
-                                                                    <rect key="frame" x="12" y="67" width="30" height="30"/>
+                                                                    <rect key="frame" x="12" y="62" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="30" id="1nN-Tg-9vN"/>
-                                                                        <constraint firstAttribute="height" constant="30" id="LSX-xT-W96"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="1nN-Tg-9vN"/>
+                                                                        <constraint firstAttribute="height" constant="40" id="LSX-xT-W96"/>
                                                                     </constraints>
                                                                     <state key="normal" image="ic_favorite">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -277,29 +321,29 @@
                                                             <rect key="frame" x="160" y="0.0" width="160" height="163"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYD-18-bEq" userLabel="facebookButton">
-                                                                    <rect key="frame" x="118" y="19" width="30" height="30"/>
+                                                                    <rect key="frame" x="108" y="19" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="30" id="hFU-lC-rsz"/>
-                                                                        <constraint firstAttribute="width" constant="30" id="ji3-6k-SOl"/>
+                                                                        <constraint firstAttribute="height" constant="40" id="hFU-lC-rsz"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="ji3-6k-SOl"/>
                                                                     </constraints>
                                                                     <state key="normal" image="ic_facebook">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
-                                                                    <state key="highlighted" image="ic_facebook_select"/>
+                                                                    <state key="highlighted" image="ic_facebook_press"/>
                                                                     <connections>
                                                                         <action selector="facebookButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="bR4-5Q-SDe"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sAj-Kg-Rvt" userLabel="twitterButton">
-                                                                    <rect key="frame" x="118" y="114" width="30" height="30"/>
+                                                                    <rect key="frame" x="108" y="104" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="30" id="0Yl-86-lGw"/>
-                                                                        <constraint firstAttribute="height" constant="30" id="2qu-rK-cgK"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="0Yl-86-lGw"/>
+                                                                        <constraint firstAttribute="height" constant="40" id="2qu-rK-cgK"/>
                                                                     </constraints>
                                                                     <state key="normal" image="ic_twitter">
                                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
-                                                                    <state key="highlighted" image="ic_twitter_select"/>
+                                                                    <state key="highlighted" image="ic_twitter_press"/>
                                                                     <connections>
                                                                         <action selector="twitterButtonTouchUpInside:" destination="ZwS-4s-j5U" eventType="touchUpInside" id="3tN-2H-h9q"/>
                                                                     </connections>
@@ -452,19 +496,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="2Rm-sx-XXG"/>
-                            <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="E7W-td-i7e"/>
-                            <constraint firstItem="DVK-AM-EMT" firstAttribute="leading" secondItem="2oA-Rl-jMk" secondAttribute="leading" id="ayK-zA-LSj"/>
-                            <constraint firstItem="DVK-AM-EMT" firstAttribute="top" secondItem="2oA-Rl-jMk" secondAttribute="top" id="nfz-72-M8O"/>
-                            <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="sdE-Rp-gc8"/>
-                            <constraint firstAttribute="trailing" secondItem="DVK-AM-EMT" secondAttribute="trailing" id="ssC-wm-x7n"/>
+                            <constraint firstItem="DVK-AM-EMT" firstAttribute="top" secondItem="PGi-4f-Ybm" secondAttribute="bottom" id="Kzl-fs-pYI"/>
+                            <constraint firstItem="DVK-AM-EMT" firstAttribute="leading" secondItem="2oA-Rl-jMk" secondAttribute="leading" id="gvw-Xj-cYz"/>
+                            <constraint firstAttribute="trailing" secondItem="DVK-AM-EMT" secondAttribute="trailing" id="ix6-AK-xi1"/>
+                            <constraint firstItem="yJo-PF-EsR" firstAttribute="top" secondItem="DVK-AM-EMT" secondAttribute="bottom" id="xIq-Ie-rfe"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="2Rm-sx-XXG"/>
-                                <exclude reference="E7W-td-i7e"/>
-                            </mask>
-                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
@@ -613,10 +649,10 @@
                                                             <constraint firstAttribute="height" constant="30" id="4vQ-FM-3Y8"/>
                                                             <constraint firstAttribute="width" constant="30" id="nEK-Xr-as0"/>
                                                         </constraints>
-                                                        <state key="normal" image="ic_facebook_share">
+                                                        <state key="normal" image="ic_facebook">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="highlighted" image="ic_facebook_share_select"/>
+                                                        <state key="highlighted" image="ic_facebook_press"/>
                                                         <connections>
                                                             <action selector="facebookButtonPressed:" destination="Uon-8Q-Tvg" eventType="touchUpInside" id="efq-W2-ExA"/>
                                                         </connections>
@@ -627,10 +663,10 @@
                                                             <constraint firstAttribute="height" constant="30" id="tQK-Ax-vmM"/>
                                                             <constraint firstAttribute="width" constant="30" id="uw0-aQ-Q2X"/>
                                                         </constraints>
-                                                        <state key="normal" image="ic_twitter_share">
+                                                        <state key="normal" image="ic_twitter">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <state key="highlighted" image="ic_twitter_share_select"/>
+                                                        <state key="highlighted" image="ic_twitter_press"/>
                                                         <connections>
                                                             <action selector="twitterButtonPressed:" destination="Uon-8Q-Tvg" eventType="touchUpInside" id="VG8-iN-RvG"/>
                                                         </connections>
@@ -934,18 +970,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_facebook" width="20" height="20"/>
-        <image name="ic_facebook_select" width="20" height="20"/>
-        <image name="ic_facebook_share" width="22" height="22"/>
-        <image name="ic_facebook_share_select" width="22" height="22"/>
-        <image name="ic_favorite" width="20" height="20"/>
-        <image name="ic_logo" width="15" height="15"/>
-        <image name="ic_search" width="15" height="15"/>
+        <image name="ic_facebook" width="40" height="40"/>
+        <image name="ic_facebook_press" width="40" height="40"/>
+        <image name="ic_favorite" width="40" height="40"/>
+        <image name="ic_favorite_BG" width="87" height="87"/>
+        <image name="ic_logo" width="23" height="23"/>
+        <image name="ic_search" width="23" height="23"/>
         <image name="ic_star" width="22" height="22"/>
-        <image name="ic_twitter" width="20" height="20"/>
-        <image name="ic_twitter_select" width="20" height="20"/>
-        <image name="ic_twitter_share" width="22" height="22"/>
-        <image name="ic_twitter_share_select" width="22" height="22"/>
+        <image name="ic_twitter" width="40" height="40"/>
+        <image name="ic_twitter_press" width="40" height="40"/>
         <image name="segmented_control" width="534" height="30"/>
     </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

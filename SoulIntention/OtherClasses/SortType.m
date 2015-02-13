@@ -37,7 +37,7 @@
         _allSorts = @[@"By Date",
                         @"By Rate"];
         _sortsForRequestArray = @[@"date",
-                                    @"rate"];
+                                  @"rate"];
         _selectedIndex = @0;
     }
     return self;

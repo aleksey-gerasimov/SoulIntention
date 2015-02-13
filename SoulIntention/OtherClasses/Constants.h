@@ -28,9 +28,13 @@ extern NSString *const kListCellSwipeNotification;
 extern NSString *const kFavoriteFlagChangedNotification;
 
 extern NSString *const kBackButtonImage;
+extern NSString *const kBackButtonHighlightedImage;
 extern NSString *const kLogoButtonImage;
+extern NSString *const kLogoButtonHighlightedImage;
 extern NSString *const kSearchButtonImage;
-extern NSString *const kFilterButtonImage;
+extern NSString *const kSearchButtonHighlightedImage;
+extern NSString *const kSortButtonImage;
+extern NSString *const kSortButtonHighlightedImage;
 extern NSString *const kFacebookButtonImage;
 extern NSString *const kFacebookButtonHighlightedImage;
 extern NSString *const kTwitterButtonImage;
@@ -39,6 +43,8 @@ extern NSString *const kFavoriteButtonImage;
 extern NSString *const kFavoriteButtonHighlightedImage;
 extern NSString *const kFavoriteNavigationButtonImage;
 extern NSString *const kFavoriteNavigationButtonHighlightedImage;
+extern NSString *const kStarButtonImage;
+extern NSString *const kStarButtonHighlightedImage;
 
 extern CGFloat const kIconWidth;
 extern CGFloat const kIconHeight;

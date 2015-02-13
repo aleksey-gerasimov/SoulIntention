@@ -12,11 +12,13 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property (strong, nonatomic) NSString *deviceId;
 @property (assign, nonatomic) BOOL sessionStarted;
 @property (strong, nonatomic) NSArray *postHeaderBackgroundColorsArray;
 @property (strong, nonatomic) NSArray *postHeaderTitleFontNamesArray;
 
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message;
+- (void)prepareForWorkWithPushNotifications;
 
 @end
 
