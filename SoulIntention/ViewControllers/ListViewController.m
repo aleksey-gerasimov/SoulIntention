@@ -65,43 +65,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         weakSelf.searchText = note.userInfo[@"text"];
         weakSelf.listStyle == ListStyleAll ? [weakSelf.allPosts removeAllObjects] : [weakSelf.favoritePosts removeAllObjects];
         weakSelf.listStyle == ListStyleAll ? [weakSelf getAllPostsWithOffset:0] : [weakSelf getFavoritePostsWithOffset:0];
-//        self.listStyle == ListStyleAll ? [weakSelf searchForPostsWithTitle:self.searchText offset:0] : [weakSelf getFavoritePostsWithOffset:0];
     }];
     if (self.listStyle == ListStyleFavorite) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavoritePosts:) name:kFavoriteFlagChangedNotification object:nil];
     }
-
-//    switch (self.listStyle) {
-//        case ListStyleAll: {
-//            [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//                [weakSelf getAllPostsWithOffset:0];
-//            }];
-//            [[NSNotificationCenter defaultCenter] addObserverForName:kSetSortTypeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//                [weakSelf.allPosts removeAllObjects];
-//                [weakSelf getAllPostsWithOffset:0];
-//            }];
-//            [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//                [weakSelf.allPosts removeAllObjects];
-//                [weakSelf searchForPostsWithTitle:note.userInfo[@"text"] offset:0];
-//            }];
-//            break;
-//        }
-//        case ListStyleFavorite: {
-//            [[NSNotificationCenter defaultCenter] addObserverForName:kSessionStartedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//                [weakSelf getFavoritePostsWithOffset:0];
-//            }];
-//            [[NSNotificationCenter defaultCenter] addObserverForName:kSetSortTypeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//                [weakSelf.favoritePosts removeAllObjects];
-//                [weakSelf getFavoritePostsWithOffset:0];
-//            }];
-//            [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//                [weakSelf.favoritePosts removeAllObjects];
-//                [weakSelf getFavoritePostsWithOffset:0];
-//            }];
-//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavoritePosts:) name:kFavoriteFlagChangedNotification object:nil];
-//            break;
-//        }
-//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -129,7 +96,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 - (void)showPosts:(NSArray *)posts
 {
@@ -139,47 +106,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     self.needsUpdate = NO;
 }
 
-//- (void)getData:(NSNotification *)note
-//{
-//    self.searchText = ((NSString *)note.userInfo[@"text"]).length > 0 ? note.userInfo[@"text"] : @"";
-//    self.isLoadingPosts = YES;
-//    [self.view showLoadingIndicator];
-//    __weak ListViewController *weakSelf = self;
-//    switch (self.listStyle) {
-//        case ListStyleAll: {
-//            self.allPosts = [NSMutableArray new];
-//            [[SoulIntentionManager sharedManager] getPostsWithOffset:0 limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-//                [weakSelf.view hideLoadingIndicator];
-//                if (error) {
-//                    [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load posts"];
-//                } else {
-//                    [weakSelf.allPosts addObjectsFromArray:result];
-//                }
-//                [weakSelf showPosts:weakSelf.allPosts];
-//            }];
-//            break;
-//        }
-//        case ListStyleFavorite: {
-//            self.favoritePosts = [NSMutableArray new];
-//            [[SoulIntentionManager sharedManager] getFavoritesWithOffset:0 limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-//                [weakSelf.view hideLoadingIndicator];
-//                if (error) {
-//                    [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favorite posts"];
-//                } else {
-//                    [weakSelf.favoritePosts addObjectsFromArray:result];
-//                }
-//                [weakSelf showPosts:weakSelf.favoritePosts];
-//            }];
-//            break;
-//        }
-//    }
-//}
-
 #pragma mark All Posts
 
 - (void)getAllPostsWithOffset:(NSInteger)offset
 {
-//    self.searchText = @"";
     self.isLoadingPosts = YES;
     [self.view showLoadingIndicator];
     __weak ListViewController *weakSelf = self;
@@ -207,24 +137,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     }
 }
 
-//- (void)searchForPostsWithTitle:(NSString *)text offset:(NSInteger)offset
-//{
-//    self.searchText = text;
-//    self.isLoadingPosts = YES;
-//    [self.view showLoadingIndicator];
-//    __weak ListViewController *weakSelf = self;
-//    [[SoulIntentionManager sharedManager] searchForPostsWithTitle:text offset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-//        [weakSelf.view hideLoadingIndicator];
-//        if (error) {
-//            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to make search"];
-//        } else {
-//            NSLog(@"Found %lu posts with title \"%@\", offset = %li, limit = %li", (unsigned long)[result count], text, (long)offset, (long)kPostsLimit);
-//            [weakSelf.allPosts addObjectsFromArray:result];
-//        }
-//        [weakSelf showPosts:weakSelf.allPosts];
-//    }];
-//}
-
 #pragma mark Favorite Posts
 
 - (void)getFavoritePostsWithOffset:(NSInteger)offset
@@ -237,7 +149,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favorite posts"];
         } else {
-            [weakSelf.favoritePosts addObjectsFromArray:result];//[result valueForKey:@"post"]];
+            [weakSelf.favoritePosts addObjectsFromArray:result];
         }
         [weakSelf showPosts:weakSelf.favoritePosts];
     }];
@@ -328,14 +240,6 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     if (scrollViewHeight + scrollViewContentOffsetY > scrollViewContentHeight + kLoadingPostsOnScrollOffset) {
         NSLog(@"Loading more posts with offset %lu", (unsigned long)self.posts.count);
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:self.posts.count] : [self getFavoritePostsWithOffset:self.posts.count];
-//        switch (self.listStyle) {
-//            case ListStyleAll:
-//                self.searchText.length > 0 ? [self searchForPostsWithTitle:self.searchText offset:self.posts.count] : [self getAllPostsWithOffset:self.posts.count];
-//                break;
-//            case ListStyleFavorite:
-//                [self getFavoritePostsWithOffset:self.posts.count];
-//                break;
-//        }
     }
 }
 

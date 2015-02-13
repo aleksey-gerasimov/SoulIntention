@@ -241,7 +241,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-//    [SortType sharedInstance].selectedIndex = 0;
     [self hideFilterViewAndSearchBar];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
 }

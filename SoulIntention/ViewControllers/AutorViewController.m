@@ -76,8 +76,8 @@ static NSInteger const kAuthorImageViewHeight = 180;
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[author.info dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error:nil];
         weakSelf.authorTextView.attributedText = attributedString;
 
-        CGFloat textViewWidth = CGRectGetWidth(self.view.frame) - CGRectGetMinX(self.authorTextView.frame) - (CGRectGetWidth(self.view.frame) - CGRectGetMaxX(self.authorTextView.frame));
-        CGFloat textViewHeight = CGRectGetHeight(self.view.frame) - CGRectGetMinY(self.authorTextView.frame);
+        CGFloat textViewWidth = CGRectGetWidth(weakSelf.view.frame) - CGRectGetMinX(weakSelf.authorTextView.frame) - (CGRectGetWidth(weakSelf.view.frame) - CGRectGetMaxX(weakSelf.authorTextView.frame));
+        CGFloat textViewHeight = CGRectGetHeight(weakSelf.view.frame) - CGRectGetMinY(weakSelf.authorTextView.frame);
         CGSize textViewSize = CGSizeMake(textViewWidth, textViewHeight);
 
         CGRect requiredTextRect = [attributedString boundingRectWithSize:textViewSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
@@ -85,28 +85,30 @@ static NSInteger const kAuthorImageViewHeight = 180;
         CGFloat ceilHeight = ceil(CGRectGetHeight(requiredTextRect));
         requiredTextRect = CGRectMake(CGRectGetMinX(requiredTextRect), CGRectGetMinY(requiredTextRect), ceilWidth, ceilHeight);
 
-        CGSize requiredSize = [self.authorTextView sizeThatFits:requiredTextRect.size];
-        self.authorTextViewHeightConstraint.constant = requiredSize.height > textViewSize.height ? requiredSize.height : textViewSize.height;
-        [self.view layoutIfNeeded];
+        CGSize requiredSize = [weakSelf.authorTextView sizeThatFits:requiredTextRect.size];
+        weakSelf.authorTextViewHeightConstraint.constant = requiredSize.height > textViewSize.height ? requiredSize.height : textViewSize.height;
+        [weakSelf.view layoutIfNeeded];
 
-//        [weakSelf.authorTextView sizeToFit];
-//        weakSelf.authorTextViewHeightConstraint.constant = CGRectGetHeight(weakSelf.authorTextView.frame);
-//        [self.view layoutIfNeeded];
+        [weakSelf getAuthorImageWithURL:author.imageURL];
+    }];
+}
 
-        void(^loadImageHandler)(UIImage *, NSInteger) = ^(UIImage *image, NSInteger height) {
-            weakSelf.authorImageView.image = image;
-            weakSelf.authorImageViewHeightConstraint.constant = height;
-            [weakSelf.view layoutIfNeeded];
-        };
-        NSURL *url = [NSURL URLWithString:author.imageURL];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        [weakSelf.authorImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            NSLog(@"AuthorViewController image load success");
-            loadImageHandler(image, kAuthorImageViewHeight);
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            NSLog(@"AuthorViewController image load error: %@", [error localizedDescription]);
-            loadImageHandler(nil, 0);
-        }];
+- (void)getAuthorImageWithURL:(NSString *)imageURL
+{
+    __weak AutorViewController *weakSelf = self;
+    void(^loadImageHandler)(UIImage *, NSInteger) = ^(UIImage *image, NSInteger height) {
+        weakSelf.authorImageView.image = image;
+        weakSelf.authorImageViewHeightConstraint.constant = height;
+        [weakSelf.view layoutIfNeeded];
+    };
+    NSURL *url = [NSURL URLWithString:imageURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [self.authorImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        NSLog(@"AuthorViewController image load success");
+        loadImageHandler(image, kAuthorImageViewHeight);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        NSLog(@"AuthorViewController image load error: %@", [error localizedDescription]);
+        loadImageHandler(nil, 0);
     }];
 }
 

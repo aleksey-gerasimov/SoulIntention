@@ -63,7 +63,6 @@ typedef void(^CellSwipeHandler)(void);
     [super awakeFromNib];
 
     [self initGestureRecognizer];
-//    [self setButtonImages];
 
     self.cellType = CellTypeCenter;
     self.appDelegate = [UIApplication sharedApplication].delegate;

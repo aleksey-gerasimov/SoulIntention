@@ -15,7 +15,6 @@
 #import "Constants.h"
 
 #import "Post.h"
-//#import "Favorite.h"
 #import "Author.h"
 
 static NSString *const kStartSession = @"/startMobile";
@@ -23,7 +22,6 @@ static NSString *const kEndSession = @"/endMobile";
 static NSString *const kDeviceToken = @"/deviceToken";
 static NSString *const kPosts = @"/post";
 static NSString *const kFavorites = @"/favourite";
-//static NSString *const kFavoritesIds = @"/favouriteId";
 static NSString *const kSearchPosts = @"/searchPost";
 static NSString *const kAuthorDescription = @"/about";
 static NSString *const kRate = @"/rate";
@@ -61,10 +59,12 @@ static NSInteger const kSessionClosedStatusCode = 403;
 {
     NSMutableArray *responseDescriptors = [NSMutableArray new];
     //Start session
-    RKObjectMapping *emptyMapping = [RKObjectMapping mappingForClass:nil];
+    RKObjectMapping *emptyMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kStartSession keyPath:@"" statusCodes:nil]];
     //End session
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodGET pathPattern:kEndSession keyPath:@"" statusCodes:nil]];
+    //Register for notifications
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodGET pathPattern:kDeviceToken keyPath:@"" statusCodes:nil]];
 
     //Get posts
     RKObjectMapping *postMapping = [RKObjectMapping mappingForClass:[Post class]];
@@ -77,13 +77,10 @@ static NSInteger const kSessionClosedStatusCode = 403;
                                                       @"images" : @"images",
                                                       @"favourite" : @"isFavorite"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
+    //Search for posts
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kSearchPosts keyPath:@"" statusCodes:nil]];
     //Get favorite posts
-//    RKObjectMapping *favoriteMapping = [RKObjectMapping mappingForClass:[Favorite class]];
-//    [favoriteMapping addAttributeMappingsFromDictionary:@{@"post_id" : @"postId"}];
-//    [favoriteMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"post" toKeyPath:@"post" withMapping:postMapping]];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
-    //Get favorite posts ids
-//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favoriteMapping method:RKRequestMethodGET pathPattern:kFavoritesIds keyPath:@"" statusCodes:nil]];
     //Add post to favorites
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
     //Remove post from favorites
@@ -91,9 +88,6 @@ static NSInteger const kSessionClosedStatusCode = 403;
 
     //Rate post
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kRate keyPath:@"" statusCodes:nil]];
-
-    //Search for posts
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kSearchPosts keyPath:@"" statusCodes:nil]];
 
     //Get author description
     RKObjectMapping *authorMapping = [RKObjectMapping mappingForClass:[Author class]];
@@ -107,7 +101,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
 
 #pragma mark - Public
 
-#pragma mark Start Session
+#pragma mark Session
 
 - (void)startSessionWithDeviceId:(NSString *)deviceId completitionHandler:(CompletitionHandler)handler
 {
@@ -199,6 +193,37 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
+- (void)searchForPostsWithTitle:(NSString *)title offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
+{
+    __weak SoulIntentionManager *weakSelf = self;
+    NSMutableDictionary *parameters = [@{@"title" : title, @"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
+    parameters[@"orderBy"] = [[SortType sharedInstance] transformSortTypeForServerRequest];
+    [self.restManager getObjectsAtPath:kSearchPosts parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"SoulIntentionManager search for posts with title \"%@\" success", title);
+        if (handler) {
+            handler(YES, [mappingResult array], nil);
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"SoulIntentionManager search for posts with title \"%@\" error: %@", title, [error localizedDescription]);
+        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+            NSError *originalError = error;
+            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+                if (success) {
+                    [weakSelf searchForPostsWithTitle:title offset:offset limit:limit completitionHandler:handler];
+                } else {
+                    if (handler) {
+                        handler(NO, nil, originalError);
+                    }
+                }
+            }];
+        } else {
+            if (handler) {
+                handler(NO, nil, error);
+            }
+        }
+    }];
+}
+
 - (void)getFavoritesWithSearchText:(NSString *)title offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
     __weak SoulIntentionManager *weakSelf = self;
@@ -230,35 +255,6 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
-//- (void)getFavoritesIdsWithCompletitionHandler:(CompletitionHandler)handler
-//{
-//    __weak SoulIntentionManager *weakSelf = self;
-//    [self.restManager getObjectsAtPath:kFavoritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-//        NSLog(@"SoulIntentionManager get favorites Ids success");
-//        if (handler) {
-//            handler(YES, [mappingResult array], nil);
-//        }
-//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-//        NSLog(@"SoulIntentionManager get favorites Ids error: %@", [error localizedDescription]);
-//        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
-//            NSError *originalError = error;
-//            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-//                if (success) {
-//                    [weakSelf getFavoritesIdsWithCompletitionHandler:handler];
-//                } else {
-//                    if (handler) {
-//                        handler(NO, nil, originalError);
-//                    }
-//                }
-//            }];
-//        } else {
-//            if (handler) {
-//                handler(NO, nil, error);
-//            }
-//        }
-//    }];
-//}
-
 - (void)addToFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
     __weak SoulIntentionManager *weakSelf = self;
@@ -288,22 +284,6 @@ static NSInteger const kSessionClosedStatusCode = 403;
         }
     }];
 }
-
-//- (NSURLRequest *)createUrlRequestWithUrlAddress:(NSString *)_stringUrlAddress bodyData:(NSData *)_bodyData requestType:(NSString *)_requestType
-//{
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    NSURL *urlAddress = [NSURL URLWithString:_stringUrlAddress];
-//    [request setURL:urlAddress];
-//    [request setHTTPMethod:_requestType];
-//    [request setHTTPBody:_bodyData];
-//    [request setValue:@"must-revalidate" forHTTPHeaderField:@"Cashe-Control"];
-//    [request setTimeoutInterval:30.0f];
-//    [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
-//    if ([_requestType isEqualToString:@"PATCH"]){
-//        [request setValue:@"PATCH" forHTTPHeaderField:@"X-HTTP-Method-Override"];
-//    }
-//    return request;
-//}
 
 - (void)removeFromFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {
@@ -367,37 +347,6 @@ static NSInteger const kSessionClosedStatusCode = 403;
 }
 
 #pragma mark Search
-
-- (void)searchForPostsWithTitle:(NSString *)title offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
-{
-    __weak SoulIntentionManager *weakSelf = self;
-    NSMutableDictionary *parameters = [@{@"title" : title, @"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
-    parameters[@"orderBy"] = [[SortType sharedInstance] transformSortTypeForServerRequest];
-    [self.restManager getObjectsAtPath:kSearchPosts parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager search for posts with title \"%@\" success", title);
-        if (handler) {
-            handler(YES, [mappingResult array], nil);
-        }
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager search for posts with title \"%@\" error: %@", title, [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
-            NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-                if (success) {
-                    [weakSelf searchForPostsWithTitle:title offset:offset limit:limit completitionHandler:handler];
-                } else {
-                    if (handler) {
-                        handler(NO, nil, originalError);
-                    }
-                }
-            }];
-        } else {
-            if (handler) {
-                handler(NO, nil, error);
-            }
-        }
-    }];
-}
 
 #pragma mark Author
 
