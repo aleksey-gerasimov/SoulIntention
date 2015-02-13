@@ -18,6 +18,7 @@
 @interface AppDelegate ()
 
 @property (strong, nonatomic) NSString *deviceToken;
+@property (assign, nonatomic) BOOL shouldProcessRemoteNotification;
 
 @end
 
@@ -41,6 +42,12 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [FBAppCall handleDidBecomeActive];
+    self.shouldProcessRemoteNotification = NO;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    self.shouldProcessRemoteNotification = YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
@@ -65,6 +72,9 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"Receive remote notification: %@", userInfo);
+    if (self.shouldProcessRemoteNotification) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRemoteNotificationRecievedNotification object:nil];
+    }
 }
 
 #pragma mark - Private
@@ -85,7 +95,7 @@
 
         [weakSelf.window.rootViewController.view hideLoadingIndicator];
         weakSelf.sessionStarted = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil];
     }];
 }
 

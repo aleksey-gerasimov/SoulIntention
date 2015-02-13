@@ -15,6 +15,7 @@ extern NSString *const kBaseURLString;
 extern NSString *const kMainPageURLString;
 
 extern NSString *const kSessionStartedNotification;
+extern NSString *const kRemoteNotificationRecievedNotification;
 
 extern NSInteger const kPostsLimit;
 extern NSString *const kSetSortTypeNotification;

@@ -9,11 +9,12 @@
 #import "Constants.h"
 
 //NSString *const kBaseURLString = @"http://192.168.88.133:7777";
-NSString *const kBaseURLString = @"http://134.249.164.53:7791";
-//NSString *const kBaseURLString = @"http://soulintention.elasticbeanstalk.com";
+//NSString *const kBaseURLString = @"http://134.249.164.53:7791";
+NSString *const kBaseURLString = @"http://soulintention.elasticbeanstalk.com";
 NSString *const kMainPageURLString = @"http://www.maryjorapini.com";
 
 NSString *const kSessionStartedNotification = @"SessionStartedNotification";
+NSString *const kRemoteNotificationRecievedNotification = @"RemoteNotificationRecievedNotification";
 
 NSInteger const kPostsLimit = 10;
 NSString *const kSetSortTypeNotification = @"SetSortTypeNotification";

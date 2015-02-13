@@ -148,7 +148,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     [[SoulIntentionManager sharedManager] getFavoritesWithSearchText:self.searchText offset:offset limit:kPostsLimit completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
         if (error) {
-            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to load favorite posts"];
+            [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:self.searchText.length > 0 ? @"Failed to make search" : @"Failed to load favorite posts"];
         } else {
             [weakSelf.favoritePosts addObjectsFromArray:result];
         }
@@ -172,7 +172,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
-    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @"", @"animate" : @YES}];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
 }
 

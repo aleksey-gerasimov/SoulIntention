@@ -14,7 +14,6 @@
 
 #import "SoulIntentionManager.h"
 #import "SortType.h"
-#import "AppDelegate.h"
 #import "Constants.h"
 
 #import "UIButton+Image.h"
@@ -68,6 +67,11 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.sortViewTopConstraint.constant = -self.sortViewHeightConstraint.constant;
     [self.view layoutIfNeeded];
 
+    __weak MainViewController *weakSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:kRemoteNotificationRecievedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf logoButtonTouchUp:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil];
+    }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSortViewAndSearchBar) name:kHideSortViewAndSearchBarNotification object:nil];
 }
 
@@ -204,6 +208,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (IBAction)logoButtonTouchUp:(id)sender
 {
+    [self.navigationController popToRootViewControllerAnimated:YES];
     [self menuButtonTouchUpInside:self.postsButton];
 }
 
