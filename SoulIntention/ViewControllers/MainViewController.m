@@ -68,7 +68,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.sortViewTopConstraint.constant = -self.sortViewHeightConstraint.constant;
     [self.view layoutIfNeeded];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideFilterViewAndSearchBar) name:kHideSortViewAndSearchBarNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSortViewAndSearchBar) name:kHideSortViewAndSearchBarNotification object:nil];
 }
 
 - (void)dealloc
@@ -118,7 +118,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     }
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 - (void)setCustomBarButtons
 {
@@ -187,10 +187,10 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     self.currentViewController.view.frame = self.containerView.bounds;
     [self.containerView addSubview:self.currentViewController.view];
 
-    [self hideFilterViewAndSearchBar];
+    [self hideSortViewAndSearchBar];
 }
 
-- (void)hideFilterViewAndSearchBar
+- (void)hideSortViewAndSearchBar
 {
     if (self.searchBarIsShown) {
         self.searchBarIsShown = NO;
@@ -241,8 +241,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [self hideFilterViewAndSearchBar];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSearchForPostsNotification object:nil userInfo:@{@"text" : searchBar.text}];
+    [self hideSortViewAndSearchBar];
 }
 
 @end

@@ -135,6 +135,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
             [weakSelf showPosts:weakSelf.allPosts];
         }];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
 }
 
 #pragma mark Favorite Posts
@@ -153,6 +154,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         }
         [weakSelf showPosts:weakSelf.favoritePosts];
     }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
 }
 
 - (void)updateFavoritePosts:(NSNotification *)note
@@ -170,6 +172,8 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
 }
 
 #pragma mark - TableView DataSource

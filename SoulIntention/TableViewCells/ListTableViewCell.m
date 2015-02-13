@@ -74,7 +74,9 @@ typedef void(^CellSwipeHandler)(void);
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    self.cellType = CellTypeCenter;
+    if (self.cellType != CellTypeCenter) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
+    }
 }
 
 - (void)dealloc
@@ -117,20 +119,27 @@ typedef void(^CellSwipeHandler)(void);
 
 #pragma mark - Private Methods
 
-- (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction completitionHandler:(CellSwipeHandler)handler
+- (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction animate:(BOOL)animate completitionHandler:(CellSwipeHandler)handler
 {
     if (direction == SwipeDirectionLeft) {
         offset = -offset;
     }
     self.cellViewCenterXConstraint.constant = self.cellViewCenterXConstraint.constant - offset;
 
-    [UIView animateWithDuration:kAnimationDuration animations:^{
+    if (animate) {
+        [UIView animateWithDuration:kAnimationDuration animations:^{
+            [self layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            if (handler) {
+                handler();
+            }
+        }];
+    } else {
         [self layoutIfNeeded];
-    } completion:^(BOOL finished) {
         if (handler) {
             handler();
         }
-    }];
+    }
 }
 
 #pragma mark - Notifications
@@ -146,10 +155,10 @@ typedef void(^CellSwipeHandler)(void);
         case CellTypeCenter:
             break;
         case CellTypeLeft:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight animate:[userInfo valueForKey:@"animate"] completitionHandler:nil];
             break;
         case CellTypeRight:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft animate:[userInfo valueForKey:@"animate"] completitionHandler:nil];
             break;
     }
     self.cellType = CellTypeCenter;
@@ -224,32 +233,32 @@ typedef void(^CellSwipeHandler)(void);
         case CellTypeRight:
             return; //no need to post notification
         case CellTypeLeft:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight animate:YES completitionHandler:nil];
             self.cellType = CellTypeCenter;
             break;
         case CellTypeCenter:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight animate:YES completitionHandler:nil];
             self.cellType = CellTypeRight;
             break;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId, @"animate" : @YES}];
 }
 
 - (void)swipeToLeftWithGestureRecognizer:(UISwipeGestureRecognizer *)gestureRecogniser
 {
     switch (self.cellType) {
         case CellTypeRight:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft animate:YES completitionHandler:nil];
             self.cellType = CellTypeCenter;
             break;
         case CellTypeLeft:
             return; //no need to post notification
         case CellTypeCenter:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft animate:YES completitionHandler:nil];
             self.cellType = CellTypeLeft;
             break;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : self.post.postId, @"animate" : @YES}];
 }
 
 @end
