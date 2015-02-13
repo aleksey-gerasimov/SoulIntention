@@ -17,10 +17,10 @@ extern NSString *const kMainPageURLString;
 extern NSString *const kSessionStartedNotification;
 
 extern NSInteger const kPostsLimit;
-extern NSString *const kSetFilterTypeNotification;
-extern NSString *const kShowFilterViewNotification;
+extern NSString *const kSetSortTypeNotification;
+extern NSString *const kShowSortViewNotification;
 extern NSString *const kSearchForPostsNotification;
-extern NSString *const kHideFilterViewAndSearchBarNotification;
+extern NSString *const kHideSortViewAndSearchBarNotification;
 
 extern CGFloat const kAnimationDuration;
 extern NSString *const kListCellSwipeNotification;

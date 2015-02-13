@@ -13,9 +13,9 @@
 #import "AutorViewController.h"
 
 #import "SoulIntentionManager.h"
+#import "SortType.h"
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "SortType.h"
 
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
@@ -29,8 +29,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 @interface MainViewController () <UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *menuView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filterViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filterViewTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sortViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sortViewTopConstraint;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarTopConstraint;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 @property (strong, nonatomic) NSMutableArray *childViewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
-@property (assign, nonatomic) BOOL filterViewIsShown;
+@property (assign, nonatomic) BOOL sortViewIsShown;
 @property (assign, nonatomic) BOOL searchBarIsShown;
 
 @end
@@ -57,14 +57,18 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     [super viewDidLoad];
 
     self.childViewControllers = [NSMutableArray new];
-    _filterViewIsShown = NO;
+    _sortViewIsShown = NO;
     _searchBarIsShown = NO;
     
     [self initializeChildViewControllers];
     [self setupMenuView];
     [self setCustomBarButtons];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideFilterViewAndSearchBar) name:kHideFilterViewAndSearchBarNotification object:nil];
+    self.sortViewHeightConstraint.constant = 30*[SortType sharedInstance].allSorts.count;
+    self.sortViewTopConstraint.constant = -self.sortViewHeightConstraint.constant;
+    [self.view layoutIfNeeded];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideFilterViewAndSearchBar) name:kHideSortViewAndSearchBarNotification object:nil];
 }
 
 - (void)dealloc
@@ -91,23 +95,23 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
         [weakSelf.view layoutIfNeeded];
     }];
 
-    if (_searchBarIsShown && self.filterViewIsShown) {
-        self.filterViewIsShown = NO;
+    if (_searchBarIsShown && self.sortViewIsShown) {
+        self.sortViewIsShown = NO;
     }
 }
 
-- (void)setFilterViewIsShown:(BOOL)filterViewIsShown
+- (void)setSortViewIsShown:(BOOL)sortViewIsShown
 {
-    _filterViewIsShown = filterViewIsShown;
+    _sortViewIsShown = sortViewIsShown;
 
     __weak MainViewController *weakSelf = self;
     [UIView animateWithDuration:kAnimationDuration animations:^{
-        weakSelf.filterViewTopConstraint.constant = _filterViewIsShown ? 0 : -weakSelf.filterViewHeightConstraint.constant;
+        weakSelf.sortViewTopConstraint.constant = _sortViewIsShown ? 0 : -weakSelf.sortViewHeightConstraint.constant;
         [weakSelf.view layoutIfNeeded];
     }];
 
-    if (_filterViewIsShown) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kShowFilterViewNotification object:self];
+    if (_sortViewIsShown) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kShowSortViewNotification object:self];
         if (self.searchBarIsShown) {
             self.searchBarIsShown = NO;
         }
@@ -191,8 +195,8 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     if (self.searchBarIsShown) {
         self.searchBarIsShown = NO;
     }
-    if (self.filterViewIsShown) {
-        self.filterViewIsShown = NO;
+    if (self.sortViewIsShown) {
+        self.sortViewIsShown = NO;
     }
 }
 
@@ -210,7 +214,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (IBAction)filterButtonTouchUp:(id)sender
 {
-    self.filterViewIsShown = !self.filterViewIsShown;
+    self.sortViewIsShown = !self.sortViewIsShown;
 }
 
 - (void)menuButtonTouchUpInside:(id)sender

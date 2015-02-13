@@ -15,7 +15,7 @@
 #import "Constants.h"
 
 #import "Post.h"
-#import "Favorite.h"
+//#import "Favorite.h"
 #import "Author.h"
 
 static NSString *const kStartSession = @"/startMobile";
@@ -23,7 +23,7 @@ static NSString *const kEndSession = @"/endMobile";
 static NSString *const kDeviceToken = @"/deviceToken";
 static NSString *const kPosts = @"/post";
 static NSString *const kFavorites = @"/favourite";
-static NSString *const kFavoritesIds = @"/favouriteId";
+//static NSString *const kFavoritesIds = @"/favouriteId";
 static NSString *const kSearchPosts = @"/searchPost";
 static NSString *const kAuthorDescription = @"/about";
 static NSString *const kRate = @"/rate";
@@ -78,12 +78,12 @@ static NSInteger const kSessionClosedStatusCode = 403;
                                                       @"favourite" : @"isFavorite"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
     //Get favorite posts
-    RKObjectMapping *favoriteMapping = [RKObjectMapping mappingForClass:[Favorite class]];
-    [favoriteMapping addAttributeMappingsFromDictionary:@{@"post_id" : @"postId"}];
-    [favoriteMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"post" toKeyPath:@"post" withMapping:postMapping]];
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favoriteMapping method:RKRequestMethodGET pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
+//    RKObjectMapping *favoriteMapping = [RKObjectMapping mappingForClass:[Favorite class]];
+//    [favoriteMapping addAttributeMappingsFromDictionary:@{@"post_id" : @"postId"}];
+//    [favoriteMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"post" toKeyPath:@"post" withMapping:postMapping]];
+    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
     //Get favorite posts ids
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favoriteMapping method:RKRequestMethodGET pathPattern:kFavoritesIds keyPath:@"" statusCodes:nil]];
+//    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:favoriteMapping method:RKRequestMethodGET pathPattern:kFavoritesIds keyPath:@"" statusCodes:nil]];
     //Add post to favorites
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:emptyMapping method:RKRequestMethodPOST pathPattern:kFavorites keyPath:@"" statusCodes:nil]];
     //Remove post from favorites
@@ -199,10 +199,10 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
-- (void)getFavoritesWithOffset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
+- (void)getFavoritesWithSearchText:(NSString *)title offset:(NSInteger)offset limit:(NSInteger)limit completitionHandler:(CompletitionHandler)handler
 {
     __weak SoulIntentionManager *weakSelf = self;
-    NSMutableDictionary *parameters = [@{@"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
+    NSMutableDictionary *parameters = [@{@"title" : title, @"limit" : @(limit), @"offset" : @(offset)} mutableCopy];
     parameters[@"orderBy"] = [[SortType sharedInstance] transformSortTypeForServerRequest];
     [self.restManager getObjectsAtPath:kFavorites parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager get favorites success");
@@ -215,7 +215,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
-                    [weakSelf getFavoritesWithOffset:offset limit:limit completitionHandler:handler];
+                    [weakSelf getFavoritesWithSearchText:(NSString *)title offset:offset limit:limit completitionHandler:handler];
                 } else {
                     if (handler) {
                         handler(NO, nil, originalError);
@@ -230,34 +230,34 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
-- (void)getFavoritesIdsWithCompletitionHandler:(CompletitionHandler)handler
-{
-    __weak SoulIntentionManager *weakSelf = self;
-    [self.restManager getObjectsAtPath:kFavoritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"SoulIntentionManager get favorites Ids success");
-        if (handler) {
-            handler(YES, [mappingResult array], nil);
-        }
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"SoulIntentionManager get favorites Ids error: %@", [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
-            NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-                if (success) {
-                    [weakSelf getFavoritesIdsWithCompletitionHandler:handler];
-                } else {
-                    if (handler) {
-                        handler(NO, nil, originalError);
-                    }
-                }
-            }];
-        } else {
-            if (handler) {
-                handler(NO, nil, error);
-            }
-        }
-    }];
-}
+//- (void)getFavoritesIdsWithCompletitionHandler:(CompletitionHandler)handler
+//{
+//    __weak SoulIntentionManager *weakSelf = self;
+//    [self.restManager getObjectsAtPath:kFavoritesIds parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        NSLog(@"SoulIntentionManager get favorites Ids success");
+//        if (handler) {
+//            handler(YES, [mappingResult array], nil);
+//        }
+//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//        NSLog(@"SoulIntentionManager get favorites Ids error: %@", [error localizedDescription]);
+//        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+//            NSError *originalError = error;
+//            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+//                if (success) {
+//                    [weakSelf getFavoritesIdsWithCompletitionHandler:handler];
+//                } else {
+//                    if (handler) {
+//                        handler(NO, nil, originalError);
+//                    }
+//                }
+//            }];
+//        } else {
+//            if (handler) {
+//                handler(NO, nil, error);
+//            }
+//        }
+//    }];
+//}
 
 - (void)addToFavoritesPostWithId:(NSString *)postId completitionHandler:(CompletitionHandler)handler
 {

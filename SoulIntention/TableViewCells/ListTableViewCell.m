@@ -21,8 +21,6 @@
 #import "UIButton+Image.h"
 #import "UIView+LoadingIndicator.h"
 
-//static CGFloat const kIconWidth = 30.f;
-//static CGFloat const kIconHeight = 30.f;
 static CGFloat const kSwipeOffset = 107.f;
 
 typedef NS_ENUM(NSInteger, CellType) {

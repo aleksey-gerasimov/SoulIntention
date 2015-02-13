@@ -16,10 +16,10 @@ NSString *const kMainPageURLString = @"http://www.maryjorapini.com";
 NSString *const kSessionStartedNotification = @"SessionStartedNotification";
 
 NSInteger const kPostsLimit = 10;
-NSString *const kSetFilterTypeNotification = @"SetFilterTypeNotification";
-NSString *const kShowFilterViewNotification = @"ShowFilterViewNotification";
+NSString *const kSetSortTypeNotification = @"SetSortTypeNotification";
+NSString *const kShowSortViewNotification = @"ShowSortViewNotification";
 NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
-NSString *const kHideFilterViewAndSearchBarNotification = @"kHideFilterViewAndSearchBarNotification";
+NSString *const kHideSortViewAndSearchBarNotification = @"kHideSortViewAndSearchBarNotification";
 
 CGFloat const kAnimationDuration = 0.5;
 NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";

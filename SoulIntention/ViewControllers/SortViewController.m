@@ -13,7 +13,7 @@
 
 @interface SortViewController ()
 
-@property (weak, nonatomic) SortType *sort;
+@property (weak, nonatomic) SortType *sortType;
 
 @end
 
@@ -25,29 +25,17 @@
 {
     [super viewDidLoad];
 
-    [self setupBorder];
-
-    self.sort = [SortType sharedInstance];
+    self.sortType = [SortType sharedInstance];
 
     __weak SortViewController *weakSelf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:kShowFilterViewNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+    [[NSNotificationCenter defaultCenter] addObserverForName:kShowSortViewNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [weakSelf.tableView reloadData];
     }];
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kShowFilterViewNotification];
-}
-
-#pragma mark - Private
-
-- (void)setupBorder
-{
-    self.tableView.layer.cornerRadius = 5.0;
-    self.tableView.layer.borderWidth = 3.0;
-    UIViewController *initialViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
-    self.tableView.layer.borderColor = initialViewController.view.backgroundColor.CGColor;
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kShowSortViewNotification];
 }
 
 #pragma mark - Table view data source
@@ -59,27 +47,47 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.sort.allSorts.count;
+    return self.sortType.allSorts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sortCell" forIndexPath:indexPath];
-    cell.textLabel.text = self.sort.allSorts[indexPath.row];
-    BOOL isSelected = indexPath.row == self.sort.selectedIndex.integerValue ? YES : NO;
-    if (isSelected && !cell.selected) {
-        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    }
+
+    UIViewController *initialViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
+    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.bounds];
+    backgroundView.backgroundColor = initialViewController.view.backgroundColor;
+    cell.selectedBackgroundView = backgroundView;
+    cell.backgroundColor = backgroundView.backgroundColor;
+
+    cell.textLabel.text = self.sortType.allSorts[indexPath.row];
+
+    BOOL isSelected = indexPath.row == self.sortType.selectedIndex.integerValue ? YES : NO;
+    cell.accessoryType = isSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+
     return cell;
 }
 
 #pragma mark Table view delegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat containerHeight = CGRectGetHeight(self.tableView.superview.frame);
+    CGFloat cellHeight = self.sortType.allSorts.count > 0 ? containerHeight/self.sortType.allSorts.count : containerHeight;
+    return cellHeight;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.sort.selectedIndex = @(indexPath.row);
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSetFilterTypeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kHideFilterViewAndSearchBarNotification object:nil];
+    self.sortType.selectedIndex = @(indexPath.row);
+    [self.sortType.allSorts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = idx == self.sortType.selectedIndex.integerValue ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    }];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSetSortTypeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
 }
 
 @end

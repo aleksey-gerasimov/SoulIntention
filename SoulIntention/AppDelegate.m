@@ -116,7 +116,7 @@
     if (self.sessionStarted && self.deviceToken.length > 0) {
         [[SoulIntentionManager sharedManager] registerForNotificationsWithDeviceToken:self.deviceToken completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
             if (!success) {
-                [self showAlertViewWithTitle:@"Warning" message:@"Failed to register for remote notifications."];
+                [self showAlertViewWithTitle:@"Warning" message:@"Failed to register for remote notifications"];
             }
         }];
     }
