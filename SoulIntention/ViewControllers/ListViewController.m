@@ -80,11 +80,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if ([self.navigationController.viewControllers count] < 2) {
-        [self.allPosts removeAllObjects];
-        [self.favoritePosts removeAllObjects];
-        self.needsUpdate = YES;
-    }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
 }
@@ -184,8 +179,11 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
-    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @"", @"animate" : @YES}];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
+
+    if (self.parentViewController) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @"", @"animate" : @YES}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
+    }
 }
 
 #pragma mark - TableView DataSource

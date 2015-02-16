@@ -19,6 +19,7 @@
 
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message;
 - (void)prepareForWorkWithPushNotifications;
+- (void)resetBadgeIcon;
 
 @end
 

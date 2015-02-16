@@ -172,11 +172,12 @@ static NSInteger const kSessionClosedStatusCode = 403;
         if (handler) {
             handler(YES, [mappingResult array], nil);
         }
+        [weakSelf.appDelegate resetBadgeIcon];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get posts error: %@", [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf getPostsWithOffset:offset limit:limit completitionHandler:handler];
                 } else {
@@ -207,7 +208,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager search for posts with title \"%@\" error: %@", title, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf searchForPostsWithTitle:title offset:offset limit:limit completitionHandler:handler];
                 } else {
@@ -238,7 +239,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager get favorites error: %@", [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf getFavoritesWithSearchText:(NSString *)title offset:offset limit:limit completitionHandler:handler];
                 } else {
@@ -268,7 +269,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager add to favorites post with id %@ error: %@", postId, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf addToFavoritesPostWithId:postId completitionHandler:handler];
                 } else {
@@ -297,7 +298,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager remove from favorites post with id %@ error: %@", postId, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf removeFromFavoritesPostWithId:postId completitionHandler:handler];
                 } else {
@@ -329,7 +330,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager rate post with id %@ rating %@ error: %@", postId, rating, [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf ratePostWithId:postId rating:rating completitionHandler:handler];
                 } else {
@@ -346,8 +347,6 @@ static NSInteger const kSessionClosedStatusCode = 403;
     }];
 }
 
-#pragma mark Search
-
 #pragma mark Author
 
 - (void)getAuthorDescriptionWithCompletitionHandler:(CompletitionHandler)handler
@@ -362,7 +361,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
         NSLog(@"SoulIntentionManager get author description error: %@", [error localizedDescription]);
         if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
-            [weakSelf startSessionWithDeviceId:self.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
+            [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
                     [weakSelf getAuthorDescriptionWithCompletitionHandler:handler];
                 } else {

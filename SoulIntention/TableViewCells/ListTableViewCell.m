@@ -166,7 +166,7 @@ typedef void(^CellSwipeHandler)(void);
 
 - (void)favoriteStatusChanged:(NSNotification *)note
 {
-    if (self.post.postId == note.userInfo[@"postId"]) {
+    if ([self.post.postId isEqualToString:note.userInfo[@"postId"]]) {
         self.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
         UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
         UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];

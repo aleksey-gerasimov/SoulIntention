@@ -128,4 +128,9 @@
     }
 }
 
+- (void)resetBadgeIcon
+{
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
 @end
