@@ -24,6 +24,7 @@ extern NSString *const kSearchForPostsNotification;
 extern NSString *const kHideSortViewAndSearchBarNotification;
 
 extern CGFloat const kAnimationDuration;
+extern CGFloat const kLoadingOnScrollOffset;
 extern NSString *const kListCellSwipeNotification;
 
 extern NSString *const kFavoriteFlagChangedNotification;

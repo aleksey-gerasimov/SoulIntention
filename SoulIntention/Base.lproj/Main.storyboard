@@ -577,6 +577,9 @@
                                         <exclude reference="s8y-m6-s6z"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <outlet property="delegate" destination="jev-hb-9sc" id="NA4-Xb-aeE"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

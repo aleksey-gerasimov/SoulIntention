@@ -19,8 +19,6 @@
 
 #import "UIView+LoadingIndicator.h"
 
-static NSInteger const kLoadingPostsOnScrollOffset = 20;
-
 @interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -96,6 +94,12 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)setIsLoadingPosts:(BOOL)isLoadingPosts
+{
+    _isLoadingPosts = isLoadingPosts;
+    self.tableView.scrollEnabled = !isLoadingPosts;
+}
+
 #pragma mark - Private
 
 - (void)showPosts:(NSArray *)posts
@@ -135,6 +139,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
             [weakSelf showPosts:weakSelf.allPosts];
         }];
     }
+
+    if (offset == 0 && [self.tableView numberOfRowsInSection:0] > 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
 }
 
@@ -154,6 +162,10 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
         }
         [weakSelf showPosts:weakSelf.favoritePosts];
     }];
+
+    if (offset == 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
 }
 
@@ -229,7 +241,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     }
 
     CGFloat scrollViewContentOffsetY = scrollView.contentOffset.y;
-    if (scrollViewContentOffsetY <= -kLoadingPostsOnScrollOffset) {
+    if (scrollViewContentOffsetY <= -kLoadingOnScrollOffset) {
         self.searchText = @"";
         self.listStyle == ListStyleAll ? [self.allPosts removeAllObjects] : [self.favoritePosts removeAllObjects];
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavoritePostsWithOffset:0];
@@ -241,7 +253,7 @@ static NSInteger const kLoadingPostsOnScrollOffset = 20;
     if (scrollViewHeight > scrollViewContentHeight) {
         return;
     }
-    if (scrollViewHeight + scrollViewContentOffsetY > scrollViewContentHeight + kLoadingPostsOnScrollOffset) {
+    if (scrollViewHeight + scrollViewContentOffsetY > scrollViewContentHeight + kLoadingOnScrollOffset) {
         NSLog(@"Loading more posts with offset %lu", (unsigned long)self.posts.count);
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:self.posts.count] : [self getFavoritePostsWithOffset:self.posts.count];
     }

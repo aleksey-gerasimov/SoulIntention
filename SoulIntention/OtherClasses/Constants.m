@@ -23,6 +23,7 @@ NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
 NSString *const kHideSortViewAndSearchBarNotification = @"kHideSortViewAndSearchBarNotification";
 
 CGFloat const kAnimationDuration = 0.5;
+CGFloat const kLoadingOnScrollOffset = 60.0;
 NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 
 NSString *const kFavoriteFlagChangedNotification = @"kFavoriteFlagChangedNotification";

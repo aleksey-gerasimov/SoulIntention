@@ -589,7 +589,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_NAME = SoulIntentions;
-				PROVISIONING_PROFILE = "0ed3185a-98b5-42de-9ecf-fc11cfeb28f3";
+				PROVISIONING_PROFILE = "f0d3cbeb-09ad-4e89-b9f9-7bb56b90b537";
 			};
 			name = Debug;
 		};

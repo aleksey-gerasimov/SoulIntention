@@ -35,7 +35,7 @@
     self = [super init];
     if (self) {
         _allSorts = @[@"By Date",
-                        @"By Rate"];
+                      @"By Rating"];
         _sortsForRequestArray = @[@"date",
                                   @"rate"];
         _selectedIndex = @0;

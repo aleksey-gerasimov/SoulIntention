@@ -20,7 +20,7 @@
 
 static NSInteger const kAuthorImageViewHeight = 180;
 
-@interface AutorViewController ()
+@interface AutorViewController () <UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *authorImageView;
@@ -30,6 +30,7 @@ static NSInteger const kAuthorImageViewHeight = 180;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *authorTextViewHeightConstraint;
 
 @property (strong, nonatomic) AppDelegate *appDelegate;
+@property (assign, nonatomic) BOOL isLoadingInfo;
 
 @end
 
@@ -59,14 +60,22 @@ static NSInteger const kAuthorImageViewHeight = 180;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)setIsLoadingInfo:(BOOL)isLoadingInfo
+{
+    _isLoadingInfo = isLoadingInfo;
+    self.scrollView.scrollEnabled = !isLoadingInfo;
+}
+
 #pragma mark - Private
 
 - (void)getAuthorInfo
 {
+    self.isLoadingInfo = YES;
     [self.view showLoadingIndicator];
     __weak AutorViewController *weakSelf = self;
     [[SoulIntentionManager sharedManager] getAuthorDescriptionWithCompletitionHandler:^(BOOL success, NSArray *result, NSError *error) {
         [weakSelf.view hideLoadingIndicator];
+        weakSelf.isLoadingInfo = NO;
         if (error) {
             [weakSelf.appDelegate showAlertViewWithTitle:@"Error" message:@"Failed to get author info"];
             return;
@@ -110,6 +119,20 @@ static NSInteger const kAuthorImageViewHeight = 180;
         NSLog(@"AuthorViewController image load error: %@", [error localizedDescription]);
         loadImageHandler(nil, 0);
     }];
+}
+
+#pragma mark - ScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.isLoadingInfo || scrollView.decelerating) {
+        return;
+    }
+    
+    CGFloat scrollViewContentOffsetY = scrollView.contentOffset.y;
+    if (scrollViewContentOffsetY <= -kLoadingOnScrollOffset) {
+        [self getAuthorInfo];
+    }
 }
 
 @end
