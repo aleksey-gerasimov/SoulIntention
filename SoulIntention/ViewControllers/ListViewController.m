@@ -64,7 +64,13 @@
         weakSelf.listStyle == ListStyleAll ? [weakSelf.allPosts removeAllObjects] : [weakSelf.favoritePosts removeAllObjects];
         weakSelf.listStyle == ListStyleAll ? [weakSelf getAllPostsWithOffset:0] : [weakSelf getFavoritePostsWithOffset:0];
     }];
-    if (self.listStyle == ListStyleFavorite) {
+    if (self.listStyle == ListStyleAll) {
+        [[NSNotificationCenter defaultCenter] addObserverForName:kRemoteNotificationRecievedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            weakSelf.searchText = @"";
+            [weakSelf.allPosts removeAllObjects];
+            [weakSelf getAllPostsWithOffset:0];
+        }];
+    } else {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavoritePosts:) name:kFavoriteFlagChangedNotification object:nil];
     }
 }
@@ -89,10 +95,29 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - Custom Accessors
+
 - (void)setIsLoadingPosts:(BOOL)isLoadingPosts
 {
     _isLoadingPosts = isLoadingPosts;
-    self.tableView.scrollEnabled = !isLoadingPosts;
+    
+    if (isLoadingPosts) {
+        CGPoint contentOffset = self.tableView.contentOffset;
+        self.tableView.scrollEnabled = NO;
+        self.tableView.contentOffset = contentOffset;
+        [UIView animateWithDuration:kAnimationDuration animations:^{
+            if (contentOffset.y <= kLoadingOnScrollOffset) {
+                self.tableView.contentOffset = CGPointZero;
+            } else {
+                CGFloat scrollViewHeight = CGRectGetHeight(self.tableView.frame);
+                CGFloat scrollViewContentHeight = self.tableView.contentSize.height;
+                CGFloat contentOffsetY = scrollViewContentHeight - scrollViewHeight < 0 ? 0.0 : scrollViewContentHeight - scrollViewHeight;
+                self.tableView.contentOffset = CGPointMake(0.0, contentOffsetY);
+            }
+        } completion:^(BOOL finished) {
+            self.tableView.scrollEnabled = YES;
+        }];
+    }
 }
 
 #pragma mark - Private

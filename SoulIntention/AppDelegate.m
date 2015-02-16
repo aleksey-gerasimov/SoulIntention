@@ -42,6 +42,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [FBAppCall handleDidBecomeActive];
+    if (self.shouldProcessRemoteNotification && [UIApplication sharedApplication].applicationIconBadgeNumber > 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRemoteNotificationRecievedNotification object:nil];
+    }
     self.shouldProcessRemoteNotification = NO;
 }
 
@@ -73,6 +76,7 @@
 {
     NSLog(@"Receive remote notification: %@", userInfo);
     if (self.shouldProcessRemoteNotification) {
+        self.shouldProcessRemoteNotification = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:kRemoteNotificationRecievedNotification object:nil];
     }
 }

@@ -70,7 +70,6 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
     __weak MainViewController *weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kRemoteNotificationRecievedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [weakSelf logoButtonTouchUp:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSessionStartedNotification object:nil];
     }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSortViewAndSearchBar) name:kHideSortViewAndSearchBarNotification object:nil];
 }
@@ -208,7 +207,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (IBAction)logoButtonTouchUp:(id)sender
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:NO];
     [self menuButtonTouchUpInside:self.postsButton];
 }
 

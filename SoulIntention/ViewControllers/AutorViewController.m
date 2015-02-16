@@ -60,10 +60,22 @@ static NSInteger const kAuthorImageViewHeight = 180;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - Custom Accessors
+
 - (void)setIsLoadingInfo:(BOOL)isLoadingInfo
 {
     _isLoadingInfo = isLoadingInfo;
-    self.scrollView.scrollEnabled = !isLoadingInfo;
+    
+    if (isLoadingInfo) {
+        CGPoint contentOffset = self.scrollView.contentOffset;
+        self.scrollView.scrollEnabled = NO;
+        self.scrollView.contentOffset = contentOffset;
+        [UIView animateWithDuration:kAnimationDuration animations:^{
+            self.scrollView.contentOffset = CGPointZero;
+        } completion:^(BOOL finished) {
+            self.scrollView.scrollEnabled = YES;
+        }];
+    }
 }
 
 #pragma mark - Private
