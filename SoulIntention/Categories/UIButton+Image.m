@@ -14,8 +14,7 @@
 {
     UIButton *button = [UIButton new];
     [button setNormalImage:isHighlighted ? highlightedImage : normalImage
-          highlightedImage:isHighlighted ? normalImage : highlightedImage
-                      size:size];
+          highlightedImage:isHighlighted ? normalImage : highlightedImage];
     button.frame = CGRectMake(0.0, 0.0, size.width, size.height);
 
     if (target && selector) {
@@ -26,7 +25,7 @@
     return barButtonItem;
 }
 
-- (void)setNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage size:(CGSize)size
+- (void)setNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage
 {
     [self setImage:normalImage forState:UIControlStateNormal];
     [self setImage:highlightedImage forState:UIControlStateHighlighted];

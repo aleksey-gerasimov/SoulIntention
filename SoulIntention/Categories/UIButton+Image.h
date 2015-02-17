@@ -12,6 +12,6 @@
 
 + (UIBarButtonItem *)createBarButtonItemWithNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage size:(CGSize)size isHighlighted:(BOOL)isHighlighted actionTarget:(id)target selector:(SEL)selector;
 
-- (void)setNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage size:(CGSize)size;
+- (void)setNormalImage:(UIImage *)normalImage highlightedImage:(UIImage *)highlightedImage;
 
 @end

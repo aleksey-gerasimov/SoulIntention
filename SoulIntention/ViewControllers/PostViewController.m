@@ -61,7 +61,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 - (void)showText
 {
@@ -98,14 +98,6 @@
 
 - (void)showImage
 {
-//    self.postImageView.image = self.postImage;
-//    if (self.postImage) {
-//        self.postImageViewHeightConstraint.constant = 180;
-//    } else {
-//        self.postImageViewHeightConstraint.constant = 0;
-//    }
-//    [self.view layoutIfNeeded];
-
     self.postImageViewHeightConstraint.constant = 0.0;
     [self.view layoutIfNeeded];
 
@@ -119,12 +111,12 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Post image load success");
+        NSLog(@"Image for post with if %@ load success", weakSelf.post.postId);
         weakSelf.postImageView.image = [UIImage imageWithData:responseObject];
         weakSelf.postImageViewHeightConstraint.constant = 180.0;
         [weakSelf.view layoutIfNeeded];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Post image load error: %@", [error localizedDescription]);
+        NSLog(@"Image for post with id %@ load error: %@", weakSelf.post.postId, [error localizedDescription]);
     }];
     [operation start];
 }
@@ -160,13 +152,12 @@
 - (void)favoriteStatusChanged:(NSNotification *)note
 {
     self.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
-    UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
     UIBarButtonItem *barButtonItem = [self.navigationItem.rightBarButtonItems lastObject];
     UIButton *favoriteButton = (UIButton *)barButtonItem.customView;
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteNavigationButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteNavigationButtonHighlightedImage];
     [favoriteButton setNormalImage:self.post.isFavorite ? highlightedImage : normalImage
-                  highlightedImage:self.post.isFavorite ? normalImage : highlightedImage
-                              size:CGSizeMake(kIconWidth, kIconHeight)];
+                  highlightedImage:self.post.isFavorite ? normalImage : highlightedImage];
 }
 
 - (void)changeRatingTo:(NSInteger)rating

@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 ThinkMobiles. All rights reserved.
 //
 
-//#import <AFNetworking/AFNetworking.h>
-
 #import "ListTableViewCell.h"
 
 #import "SoulIntentionManager.h"
@@ -98,31 +96,18 @@ typedef void(^CellSwipeHandler)(void);
     self.titleLabel.text = _post.title.uppercaseString;
     self.descriptionLabel.text = _post.text;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
-
-    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
-    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
-    [self.favoriteButton setNormalImage:_post.isFavorite ? highlightedImage : normalImage
-                       highlightedImage:_post.isFavorite ? normalImage : highlightedImage
-                                   size:CGSizeMake(kIconWidth, kIconHeight)];
-
-//    _postImage = nil;
-//    if (_post.imageURLs.count > 0) {
-//        NSURL *url = [NSURL URLWithString:[_post.imageURLs firstObject]];
-//        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-//        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSLog(@"Post image load success");
-//            _postImage = [UIImage imageWithData:responseObject];
-//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//            NSLog(@"Post image load error: %@", [error localizedDescription]);
-//        }];
-//        [operation start];
-//    } else {
-//        NSLog(@"No images for post with id %@", _post.postId);
-//    }
+    [self changeFavoriteButtonToFavorite:_post.isFavorite];
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
+
+- (void)changeFavoriteButtonToFavorite:(BOOL)favorite
+{
+    UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
+    UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
+    [self.favoriteButton setNormalImage:favorite ? highlightedImage : normalImage
+                       highlightedImage:favorite ? normalImage : highlightedImage];
+}
 
 - (void)swipeWithOffset:(CGFloat)offset toDirection:(NSInteger)direction animate:(BOOL)animate completitionHandler:(CellSwipeHandler)handler
 {
@@ -174,11 +159,7 @@ typedef void(^CellSwipeHandler)(void);
 {
     if ([self.post.postId isEqualToString:note.userInfo[@"postId"]]) {
         self.post.isFavorite = [(NSNumber *)note.userInfo[@"isFavorite"] boolValue];
-        UIImage *normalImage = [UIImage imageNamed:kFavoriteButtonImage];
-        UIImage *highlightedImage = [UIImage imageNamed:kFavoriteButtonHighlightedImage];
-        [self.favoriteButton setNormalImage:self.post.isFavorite ? highlightedImage : normalImage
-                           highlightedImage:self.post.isFavorite ? normalImage : highlightedImage
-                                       size:CGSizeMake(kIconWidth, kIconHeight)];
+        [self changeFavoriteButtonToFavorite:self.post.isFavorite];
     }
 }
 

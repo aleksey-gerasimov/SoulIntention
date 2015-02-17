@@ -13,6 +13,5 @@
 @interface ListTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) Post *post;
-//@property (strong, nonatomic, readonly) UIImage *postImage;
 
 @end
