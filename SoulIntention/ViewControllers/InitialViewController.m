@@ -21,4 +21,9 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kMainPageURLString]];
 }
 
+- (void)dealloc
+{
+    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
+}
+
 @end

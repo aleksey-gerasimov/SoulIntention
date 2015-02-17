@@ -76,6 +76,7 @@ typedef NS_ENUM(NSUInteger, ChildViewControllers) {
 
 - (void)dealloc
 {
+    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

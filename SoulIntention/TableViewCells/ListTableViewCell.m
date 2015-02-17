@@ -79,6 +79,7 @@ typedef void(^CellSwipeHandler)(void);
 
 - (void)dealloc
 {
+    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -204,14 +205,24 @@ typedef void(^CellSwipeHandler)(void);
 
 - (void)initGestureRecognizer
 {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapWithGestureRecognizer:)];
+
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToLeftWithGestureRecognizer:)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToRightWithGestureRecognizer:)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionLeft;
-    
+
+    [self.cellView addGestureRecognizer:tap];
     [self.cellView addGestureRecognizer:swipeLeft];
     [self.cellView addGestureRecognizer:swipeRight];
+}
+
+- (void)tapWithGestureRecognizer:(UITapGestureRecognizer *)gestureRecognizer
+{
+    if ([self.delegate respondsToSelector:@selector(cellSelectedWithPost:)]) {
+        [self.delegate cellSelectedWithPost:self.post];
+    }
 }
 
 - (void)swipeToRightWithGestureRecognizer:(UISwipeGestureRecognizer *)gestureRecogniser

@@ -23,7 +23,7 @@ NSString *const kSearchForPostsNotification = @"SearchForPostsNotification";
 NSString *const kHideSortViewAndSearchBarNotification = @"kHideSortViewAndSearchBarNotification";
 
 CGFloat const kAnimationDuration = 0.5;
-CGFloat const kLoadingOnScrollOffset = 60.0;
+CGFloat const kLoadingOnScrollOffsetY = 60.0;
 NSString *const kListCellSwipeNotification = @"ListCellSwipeNotification";
 
 NSString *const kFavoriteFlagChangedNotification = @"kFavoriteFlagChangedNotification";
@@ -47,6 +47,7 @@ NSString *const kFavoriteNavigationButtonHighlightedImage = @"ic_favorite_white_
 NSString *const kStarButtonImage = @"ic_star";
 NSString *const kStarButtonHighlightedImage = @"ic_star_select";
 
+CGFloat const kImageHeight = 180.0;
 CGFloat const kIconWidth = 30.f;
 CGFloat const kIconHeight = 30.f;
 

@@ -19,7 +19,7 @@
 
 #import "UIView+LoadingIndicator.h"
 
-@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@interface ListViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ListTableViewCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -89,12 +89,13 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @"", @"animate" : @YES}];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
 }
 
 - (void)dealloc
 {
+    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -109,7 +110,7 @@
         self.tableView.scrollEnabled = NO;
         self.tableView.contentOffset = contentOffset;
         [UIView animateWithDuration:kAnimationDuration animations:^{
-            if (contentOffset.y <= kLoadingOnScrollOffset) {
+            if (contentOffset.y <= kLoadingOnScrollOffsetY) {
                 self.tableView.contentOffset = CGPointZero;
             } else {
                 CGFloat scrollViewHeight = CGRectGetHeight(self.tableView.frame);
@@ -186,7 +187,7 @@
         [weakSelf showPosts:weakSelf.favoritePosts];
     }];
 
-    if (offset == 0) {
+    if (offset == 0 && [self.tableView numberOfRowsInSection:0] > 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @""}];
@@ -195,6 +196,7 @@
 - (void)updateFavoritePosts:(NSNotification *)note
 {
     if ([(NSNumber *)note.userInfo[@"isFavorite"] boolValue]) {
+        self.searchText = @"";
         [self.favoritePosts removeAllObjects];
         self.needsUpdate = YES;
         return;
@@ -218,14 +220,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     NSInteger numberOfRows = self.posts.count;
-    self.tableView.allowsSelection = YES;
     self.noFavorites = NO;
-    if (self.listStyle == ListStyleFavorite) {
+    if (self.listStyle == ListStyleFavorite && self.searchText.length == 0) {
         self.noFavorites = self.posts.count == 0 ? YES : NO;
         numberOfRows = self.noFavorites ? 1 : self.posts.count;
         self.tableView.separatorStyle = self.noFavorites ? UITableViewCellSeparatorStyleNone : UITableViewCellSeparatorStyleSingleLine;
-        self.tableView.allowsSelection = self.noFavorites ? NO : YES;
     }
     return numberOfRows;
 }
@@ -237,18 +238,10 @@
         return cell;
     } else {
         ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];
+        cell.delegate = self;
         cell.post = self.posts[indexPath.row];
         return cell;
     }
-}
-
-#pragma mark - TableView Delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PostViewController class])];
-    postViewController.post = self.posts[indexPath.row];
-    [self.navigationController pushViewController:postViewController animated:YES];
 }
 
 #pragma mark - ScrollView Delegate
@@ -265,7 +258,7 @@
     }
 
     CGFloat scrollViewContentOffsetY = scrollView.contentOffset.y;
-    if (scrollViewContentOffsetY <= -kLoadingOnScrollOffset) {
+    if (scrollViewContentOffsetY <= -kLoadingOnScrollOffsetY) {
         self.searchText = @"";
         self.listStyle == ListStyleAll ? [self.allPosts removeAllObjects] : [self.favoritePosts removeAllObjects];
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavoritePostsWithOffset:0];
@@ -277,10 +270,18 @@
     if (scrollViewHeight > scrollViewContentHeight) {
         return;
     }
-    if (scrollViewHeight + scrollViewContentOffsetY > scrollViewContentHeight + kLoadingOnScrollOffset) {
+    if (scrollViewHeight + scrollViewContentOffsetY > scrollViewContentHeight + kLoadingOnScrollOffsetY) {
         NSLog(@"Loading more posts with offset %lu", (unsigned long)self.posts.count);
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:self.posts.count] : [self getFavoritePostsWithOffset:self.posts.count];
     }
 }
+
+#pragma mark - ListTableViewCellDelegate
+
+- (void)cellSelectedWithPost:(Post *)post
+{
+    PostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PostViewController class])];
+    postViewController.post = post;
+    [self.navigationController pushViewController:postViewController animated:YES];}
 
 @end

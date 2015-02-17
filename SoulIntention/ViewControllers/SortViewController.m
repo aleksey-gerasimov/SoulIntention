@@ -35,6 +35,7 @@
 
 - (void)dealloc
 {
+    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
     [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kShowSortViewNotification];
 }
 

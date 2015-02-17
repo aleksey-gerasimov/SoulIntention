@@ -10,8 +10,16 @@
 
 @class Post;
 
+@protocol ListTableViewCellDelegate <NSObject>
+
+@optional
+- (void)cellSelectedWithPost:(Post *)post;
+
+@end
+
 @interface ListTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) id<ListTableViewCellDelegate> delegate;
 @property (strong, nonatomic) Post *post;
 
 @end

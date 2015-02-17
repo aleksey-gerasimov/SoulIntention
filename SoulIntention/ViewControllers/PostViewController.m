@@ -113,7 +113,7 @@
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Image for post with if %@ load success", weakSelf.post.postId);
         weakSelf.postImageView.image = [UIImage imageWithData:responseObject];
-        weakSelf.postImageViewHeightConstraint.constant = 180.0;
+        weakSelf.postImageViewHeightConstraint.constant = kImageHeight;
         [weakSelf.view layoutIfNeeded];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Image for post with id %@ load error: %@", weakSelf.post.postId, [error localizedDescription]);

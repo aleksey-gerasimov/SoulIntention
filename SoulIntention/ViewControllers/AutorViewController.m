@@ -18,8 +18,6 @@
 
 #import "UIView+LoadingIndicator.h"
 
-static NSInteger const kAuthorImageViewHeight = 180;
-
 @interface AutorViewController () <UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -57,6 +55,7 @@ static NSInteger const kAuthorImageViewHeight = 180;
 
 - (void)dealloc
 {
+    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -116,21 +115,27 @@ static NSInteger const kAuthorImageViewHeight = 180;
 
 - (void)getAuthorImageWithURL:(NSString *)imageURL
 {
+    self.authorImageViewHeightConstraint.constant = 0.0;
+    [self.view layoutIfNeeded];
+
+    if (imageURL.length == 0) {
+        NSLog(@"AuthorViewController no image");
+        return;
+    }
+
     __weak AutorViewController *weakSelf = self;
-    void(^loadImageHandler)(UIImage *, NSInteger) = ^(UIImage *image, NSInteger height) {
-        weakSelf.authorImageView.image = image;
-        weakSelf.authorImageViewHeightConstraint.constant = height;
-        [weakSelf.view layoutIfNeeded];
-    };
     NSURL *url = [NSURL URLWithString:imageURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [self.authorImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"AuthorViewController image load success");
-        loadImageHandler(image, kAuthorImageViewHeight);
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        weakSelf.authorImageView.image = [UIImage imageWithData:responseObject];
+        weakSelf.authorImageViewHeightConstraint.constant = kImageHeight;
+        [weakSelf.view layoutIfNeeded];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"AuthorViewController image load error: %@", [error localizedDescription]);
-        loadImageHandler(nil, 0);
     }];
+    [operation start];
 }
 
 #pragma mark - ScrollView Delegate
@@ -142,7 +147,7 @@ static NSInteger const kAuthorImageViewHeight = 180;
     }
     
     CGFloat scrollViewContentOffsetY = scrollView.contentOffset.y;
-    if (scrollViewContentOffsetY <= -kLoadingOnScrollOffset) {
+    if (scrollViewContentOffsetY <= -kLoadingOnScrollOffsetY) {
         [self getAuthorInfo];
     }
 }

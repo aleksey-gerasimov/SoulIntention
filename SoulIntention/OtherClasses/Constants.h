@@ -24,7 +24,7 @@ extern NSString *const kSearchForPostsNotification;
 extern NSString *const kHideSortViewAndSearchBarNotification;
 
 extern CGFloat const kAnimationDuration;
-extern CGFloat const kLoadingOnScrollOffset;
+extern CGFloat const kLoadingOnScrollOffsetY;
 extern NSString *const kListCellSwipeNotification;
 
 extern NSString *const kFavoriteFlagChangedNotification;
@@ -48,6 +48,7 @@ extern NSString *const kFavoriteNavigationButtonHighlightedImage;
 extern NSString *const kStarButtonImage;
 extern NSString *const kStarButtonHighlightedImage;
 
+CGFloat const kImageHeight;
 extern CGFloat const kIconWidth;
 extern CGFloat const kIconHeight;
 
