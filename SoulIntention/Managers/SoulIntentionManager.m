@@ -146,7 +146,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
 
 - (void)registerForNotificationsWithDeviceToken:(NSString *)deviceToken completitionHandler:(CompletitionHandler)handler
 {
-    NSDictionary *parameters = @{@"deviceToken" : deviceToken};
+    NSDictionary *parameters = @{@"deviceOS" : @"ios", @"deviceToken" : deviceToken};
     [self.restManager postObject:nil path:kDeviceToken parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"SoulIntentionManager register for notifications success");
         if (handler) {

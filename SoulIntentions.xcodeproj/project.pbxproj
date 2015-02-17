@@ -534,7 +534,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "0ed3185a-98b5-42de-9ecf-fc11cfeb28f3";
+				PROVISIONING_PROFILE = "9d333a37-91c0-435a-a53c-5e6f08ead259";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -570,7 +570,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "0ed3185a-98b5-42de-9ecf-fc11cfeb28f3";
+				PROVISIONING_PROFILE = "9d333a37-91c0-435a-a53c-5e6f08ead259";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -589,7 +589,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_NAME = SoulIntentions;
-				PROVISIONING_PROFILE = "0ed3185a-98b5-42de-9ecf-fc11cfeb28f3";
+				PROVISIONING_PROFILE = "9d333a37-91c0-435a-a53c-5e6f08ead259";
 			};
 			name = Debug;
 		};
@@ -605,7 +605,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_NAME = SoulIntentions;
-				PROVISIONING_PROFILE = "0ed3185a-98b5-42de-9ecf-fc11cfeb28f3";
+				PROVISIONING_PROFILE = "9d333a37-91c0-435a-a53c-5e6f08ead259";
 			};
 			name = Release;
 		};
