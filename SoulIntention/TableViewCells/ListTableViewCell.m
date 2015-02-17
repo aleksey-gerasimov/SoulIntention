@@ -146,19 +146,20 @@ typedef void(^CellSwipeHandler)(void);
 
 - (void)cellStateChanged:(NSNotification *)notification
 {
-    NSDictionary *userInfo = notification.userInfo;
-    if ([userInfo valueForKey:@"postId"] == self.post.postId) {
+    NSString *postId = [notification.userInfo valueForKey:@"postId"];
+    if ([postId isEqualToString:self.post.postId]) {
         return;
     }
 
+    BOOL animate = [notification.userInfo valueForKey:@"animate"];
     switch (self.cellType) {
         case CellTypeCenter:
             break;
         case CellTypeLeft:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight animate:[userInfo valueForKey:@"animate"] completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionRight animate:animate completitionHandler:nil];
             break;
         case CellTypeRight:
-            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft animate:[userInfo valueForKey:@"animate"] completitionHandler:nil];
+            [self swipeWithOffset:kSwipeOffset toDirection:SwipeDirectionLeft animate:animate completitionHandler:nil];
             break;
     }
     self.cellType = CellTypeCenter;

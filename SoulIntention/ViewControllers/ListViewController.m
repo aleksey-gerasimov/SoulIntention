@@ -60,9 +60,12 @@
         weakSelf.listStyle == ListStyleAll ? [weakSelf getAllPostsWithOffset:0] : [weakSelf getFavoritePostsWithOffset:0];
     }];
     [[NSNotificationCenter defaultCenter] addObserverForName:kSearchForPostsNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        weakSelf.searchText = note.userInfo[@"text"];
-        weakSelf.listStyle == ListStyleAll ? [weakSelf.allPosts removeAllObjects] : [weakSelf.favoritePosts removeAllObjects];
-        weakSelf.listStyle == ListStyleAll ? [weakSelf getAllPostsWithOffset:0] : [weakSelf getFavoritePostsWithOffset:0];
+        UIViewController *currentViewController = note.userInfo[@"viewController"];
+        if ([weakSelf isEqual:currentViewController]) {
+            weakSelf.searchText = note.userInfo[@"text"];
+            weakSelf.listStyle == ListStyleAll ? [weakSelf.allPosts removeAllObjects] : [weakSelf.favoritePosts removeAllObjects];
+            weakSelf.listStyle == ListStyleAll ? [weakSelf getAllPostsWithOffset:0] : [weakSelf getFavoritePostsWithOffset:0];
+        }
     }];
     if (self.listStyle == ListStyleAll) {
         [[NSNotificationCenter defaultCenter] addObserverForName:kRemoteNotificationRecievedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
