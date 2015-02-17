@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 ThinkMobiles. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
+//#import <AFNetworking/AFNetworking.h>
 
 #import "ListTableViewCell.h"
 
@@ -105,16 +105,21 @@ typedef void(^CellSwipeHandler)(void);
                        highlightedImage:_post.isFavorite ? normalImage : highlightedImage
                                    size:CGSizeMake(kIconWidth, kIconHeight)];
 
-    NSURL *url = [NSURL URLWithString:[_post.images firstObject]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Post image load success");
-        _postImage = [UIImage imageWithData:responseObject];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Post image load error: %@", [error localizedDescription]);
-    }];
-    [operation start];
+//    _postImage = nil;
+//    if (_post.imageURLs.count > 0) {
+//        NSURL *url = [NSURL URLWithString:[_post.imageURLs firstObject]];
+//        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+//        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            NSLog(@"Post image load success");
+//            _postImage = [UIImage imageWithData:responseObject];
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            NSLog(@"Post image load error: %@", [error localizedDescription]);
+//        }];
+//        [operation start];
+//    } else {
+//        NSLog(@"No images for post with id %@", _post.postId);
+//    }
 }
 
 #pragma mark - Private Methods

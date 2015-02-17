@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSString *rate;
 @property (strong, nonatomic) NSString *updateDate;
 @property (strong, nonatomic) NSString *author;
-@property (strong, nonatomic) NSArray *images;
+@property (strong, nonatomic) NSArray *imageURLs;
 @property (assign, nonatomic) BOOL isFavorite;
 
 @end

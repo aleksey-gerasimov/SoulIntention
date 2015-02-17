@@ -74,7 +74,7 @@ static NSInteger const kSessionClosedStatusCode = 403;
                                                       @"rate.rate" : @"rate",
                                                       @"updated_at" : @"updateDate",
                                                       @"author.full_name" : @"author",
-                                                      @"images" : @"images",
+                                                      @"images.image_url" : @"imageURLs",
                                                       @"favourite" : @"isFavorite"}];
     [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:postMapping method:RKRequestMethodGET pathPattern:kPosts keyPath:@"" statusCodes:nil]];
     //Search for posts

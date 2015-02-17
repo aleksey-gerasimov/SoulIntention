@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 ThinkMobiles. All rights reserved.
 //
 
+#import <AFNetworking/AFNetworking.h>
+
 #import "PostViewController.h"
 
 #import "SoulIntentionManager.h"
@@ -55,6 +57,7 @@
 
 - (void)dealloc
 {
+    NSLog(@"%@ dealloc", NSStringFromClass([self class]));
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -95,13 +98,35 @@
 
 - (void)showImage
 {
-    self.postImageView.image = self.postImage;
-    if (self.postImage) {
-        self.postImageViewHeightConstraint.constant = 180;
-    } else {
-        self.postImageViewHeightConstraint.constant = 0;
-    }
+//    self.postImageView.image = self.postImage;
+//    if (self.postImage) {
+//        self.postImageViewHeightConstraint.constant = 180;
+//    } else {
+//        self.postImageViewHeightConstraint.constant = 0;
+//    }
+//    [self.view layoutIfNeeded];
+
+    self.postImageViewHeightConstraint.constant = 0.0;
     [self.view layoutIfNeeded];
+
+    if (self.post.imageURLs.count == 0) {
+        NSLog(@"No images for post with id %@", self.post.postId);
+        return;
+    }
+
+    __weak PostViewController *weakSelf = self;
+    NSURL *url = [NSURL URLWithString:[self.post.imageURLs firstObject]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Post image load success");
+        weakSelf.postImageView.image = [UIImage imageWithData:responseObject];
+        weakSelf.postImageViewHeightConstraint.constant = 180.0;
+        [weakSelf.view layoutIfNeeded];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Post image load error: %@", [error localizedDescription]);
+    }];
+    [operation start];
 }
 
 - (void)setCustomBarButtonItems

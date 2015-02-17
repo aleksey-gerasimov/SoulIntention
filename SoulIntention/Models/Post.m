@@ -21,10 +21,10 @@
     _updateDate = shortDate;
 }
 
-- (void)setImages:(NSArray *)images
-{
-    NSMutableArray *urlsArray = [[images valueForKey:@"image_url"] mutableCopy];
-    _images = urlsArray;
-}
+//- (void)setImages:(NSArray *)images
+//{
+//    NSMutableArray *urlsArray = [[images valueForKey:@"image_url"] mutableCopy];
+//    _images = urlsArray;
+//}
 
 @end

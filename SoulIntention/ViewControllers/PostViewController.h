@@ -13,6 +13,6 @@
 @interface PostViewController : UIViewController
 
 @property (strong, nonatomic) Post *post;
-@property (strong, nonatomic) UIImage *postImage;
+//@property (strong, nonatomic) UIImage *postImage;
 
 @end
