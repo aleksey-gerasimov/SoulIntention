@@ -25,6 +25,7 @@ static NSString *const kFavorites = @"/favourite";
 static NSString *const kSearchPosts = @"/searchPost";
 static NSString *const kAuthorDescription = @"/about";
 static NSString *const kRate = @"/rate";
+static NSInteger const kSessionNotStartedStatusCode = 401;
 static NSInteger const kSessionClosedStatusCode = 403;
 
 @interface SoulIntentionManager ()
@@ -130,7 +131,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
             handler(YES, nil, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSLog(@"SoulIntentionManager session is already ended");
             if (handler) {
                 handler(YES, nil, nil);
@@ -175,7 +177,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
         [weakSelf.appDelegate resetBadgeIcon];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get posts error: %@", [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
@@ -206,7 +209,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager search for posts with title \"%@\" error: %@", title, [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
@@ -237,7 +241,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get favorites error: %@", [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
@@ -267,7 +272,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager add to favorites post with id %@ error: %@", postId, [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
@@ -296,7 +302,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager remove from favorites post with id %@ error: %@", postId, [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
@@ -328,7 +335,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager rate post with id %@ rating %@ error: %@", postId, rating, [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
@@ -359,7 +367,8 @@ static NSInteger const kSessionClosedStatusCode = 403;
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"SoulIntentionManager get author description error: %@", [error localizedDescription]);
-        if (operation.HTTPRequestOperation.response.statusCode == kSessionClosedStatusCode) {
+        NSInteger statusCode = operation.HTTPRequestOperation.response.statusCode;
+        if (statusCode == kSessionNotStartedStatusCode || statusCode == kSessionClosedStatusCode) {
             NSError *originalError = error;
             [weakSelf startSessionWithDeviceId:weakSelf.appDelegate.deviceId completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
                 if (success) {
