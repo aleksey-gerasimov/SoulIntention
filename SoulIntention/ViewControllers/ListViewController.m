@@ -30,7 +30,7 @@
 @property (strong, nonatomic) NSString *searchText;
 @property (assign, nonatomic) BOOL isLoadingPosts;
 @property (assign, nonatomic) BOOL needsUpdate;
-@property (assign, nonatomic) BOOL noFavorites;
+@property (assign, nonatomic) BOOL noResults;
 
 @end
 
@@ -82,6 +82,7 @@
 {
     [super viewWillAppear:animated];
     if (self.needsUpdate && self.appDelegate.sessionStarted) {
+        self.listStyle == ListStyleAll ? [self.allPosts removeAllObjects] : [self.favoritePosts removeAllObjects];
         self.listStyle == ListStyleAll ? [self getAllPostsWithOffset:0] : [self getFavoritePostsWithOffset:0];
     }
 }
@@ -89,6 +90,12 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+
+    if (self.searchText.length > 0) {
+        self.searchText = @"";
+        self.needsUpdate = YES;
+    }
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kListCellSwipeNotification object:nil userInfo:@{@"postId" : @"", @"animate" : @YES}];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHideSortViewAndSearchBarNotification object:nil];
 }
@@ -197,7 +204,6 @@
 {
     if ([(NSNumber *)note.userInfo[@"isFavorite"] boolValue]) {
         self.searchText = @"";
-        [self.favoritePosts removeAllObjects];
         self.needsUpdate = YES;
         return;
     }
@@ -220,21 +226,25 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    NSInteger numberOfRows = self.posts.count;
-    self.noFavorites = NO;
-    if (self.listStyle == ListStyleFavorite && self.searchText.length == 0) {
-        self.noFavorites = self.posts.count == 0 ? YES : NO;
-        numberOfRows = self.noFavorites ? 1 : self.posts.count;
-        self.tableView.separatorStyle = self.noFavorites ? UITableViewCellSeparatorStyleNone : UITableViewCellSeparatorStyleSingleLine;
-    }
+    self.noResults = self.posts.count == 0 ? YES : NO;
+    NSInteger numberOfRows = self.noResults ? 1 : self.posts.count;
+    self.tableView.separatorStyle = self.noResults ? UITableViewCellSeparatorStyleNone : UITableViewCellSeparatorStyleSingleLine;
     return numberOfRows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.listStyle == ListStyleFavorite && self.noFavorites) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noFavoritesPlaceholderCell"];
+    if (self.noResults) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"noResultsCell"];
+        UILabel *label = (UILabel *)[cell viewWithTag:1];
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2];
+        if (self.searchText.length > 0) {
+            label.text = @"NO RESULTS FOUND. PLEASE, REFRESH THE TABLE.";
+            imageView.image = nil;
+        } else {
+            label.text = self.listStyle == ListStyleAll ? @"NO SOUL INTENTIONS ARE CURRENTLY AVAILABLE." : @"ADD A SOUL INTENTION TO YOUR FAVORITES TO VIEW IT HERE!";
+            imageView.image = self.listStyle == ListStyleAll ? nil : [UIImage imageNamed:kNoFavoritesPlaceholderImage];
+        }
         return cell;
     } else {
         ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];

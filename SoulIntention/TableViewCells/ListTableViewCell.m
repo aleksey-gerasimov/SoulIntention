@@ -137,12 +137,12 @@ typedef void(^CellSwipeHandler)(void);
 
 - (void)cellStateChanged:(NSNotification *)notification
 {
-    NSString *postId = [notification.userInfo valueForKey:@"postId"];
+    NSString *postId = (NSString *)[notification.userInfo valueForKey:@"postId"];
     if ([postId isEqualToString:self.post.postId]) {
         return;
     }
 
-    BOOL animate = [notification.userInfo valueForKey:@"animate"];
+    BOOL animate = (BOOL)[notification.userInfo valueForKey:@"animate"];
     switch (self.cellType) {
         case CellTypeCenter:
             break;

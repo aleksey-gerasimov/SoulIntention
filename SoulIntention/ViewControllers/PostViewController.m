@@ -212,13 +212,13 @@
 - (IBAction)starButtonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
+    [self changeRatingTo:button.tag];
     NSString *rateString = @(button.tag).stringValue;
     [[SoulIntentionManager sharedManager] ratePostWithId:self.post.postId rating:rateString completitionHandler:^(BOOL success, NSArray *result, NSError *error) {
-        if (error) {
-            return;
+        if (success) {
+            self.post.rate = rateString;
         }
-        self.post.rate = rateString;
-        [self changeRatingTo:button.tag];
+        [self changeRatingTo:self.post.rate.integerValue];
     }];
 }
 

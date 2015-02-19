@@ -243,13 +243,13 @@
                                 <color key="separatorColor" red="0.75686274509803919" green="0.75686274509803919" blue="0.75686274509803919" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="noFavoritesPlaceholderCell" rowHeight="170" id="1l8-Dh-ies">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="noResultsCell" rowHeight="170" id="1l8-Dh-ies">
                                         <rect key="frame" x="0.0" y="218" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1l8-Dh-ies" id="AQ2-cL-TGe">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD A SOUL INTENTION TO YOUR FAVORITES TO VIEW IT HERE!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sZ-Mr-S7d" userLabel="messageLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD A SOUL INTENTION TO YOUR FAVORITES TO VIEW IT HERE!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sZ-Mr-S7d" userLabel="messageLabel">
                                                     <rect key="frame" x="25" y="0.0" width="270" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="CG1-08-35B"/>
@@ -264,7 +264,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_favorite_BG" translatesAutoresizingMaskIntoConstraints="NO" id="MBW-gn-RcJ">
+                                                <imageView userInteractionEnabled="NO" tag="2" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_favorite_BG" translatesAutoresizingMaskIntoConstraints="NO" id="MBW-gn-RcJ">
                                                     <rect key="frame" x="117" y="75" width="87" height="87"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="87" id="JdG-Pb-Seg"/>

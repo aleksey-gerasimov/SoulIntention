@@ -46,6 +46,7 @@ NSString *const kFavoriteNavigationButtonImage = @"ic_favorite_white";
 NSString *const kFavoriteNavigationButtonHighlightedImage = @"ic_favorite_white_press";
 NSString *const kStarButtonImage = @"ic_star";
 NSString *const kStarButtonHighlightedImage = @"ic_star_select";
+NSString *const kNoFavoritesPlaceholderImage = @"ic_favorite_BG";
 
 CGFloat const kImageHeight = 180.0;
 CGFloat const kIconWidth = 30.f;

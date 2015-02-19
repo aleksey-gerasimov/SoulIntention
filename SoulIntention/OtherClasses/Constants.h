@@ -47,6 +47,7 @@ extern NSString *const kFavoriteNavigationButtonImage;
 extern NSString *const kFavoriteNavigationButtonHighlightedImage;
 extern NSString *const kStarButtonImage;
 extern NSString *const kStarButtonHighlightedImage;
+extern NSString *const kNoFavoritesPlaceholderImage;
 
 CGFloat const kImageHeight;
 extern CGFloat const kIconWidth;
