@@ -52,6 +52,7 @@ extern NSString *const kNoFavoritesPlaceholderImage;
 CGFloat const kImageHeight;
 extern CGFloat const kIconWidth;
 extern CGFloat const kIconHeight;
+extern CGFloat const kDescriptionLineSpacing;
 
 @interface Constants : NSObject
 

@@ -93,7 +93,11 @@
         }
         Author *author = [result firstObject];
 
-        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[author.info dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error:nil];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithData:[author.info dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error:nil];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineSpacing = kDescriptionLineSpacing;
+        NSDictionary *dictionary = @{NSParagraphStyleAttributeName : paragraphStyle};
+        [attributedString addAttributes:dictionary range:NSMakeRange(0, attributedString.length)];
         weakSelf.authorTextView.attributedText = attributedString;
 
         CGFloat textViewWidth = CGRectGetWidth(weakSelf.view.frame) - CGRectGetMinX(weakSelf.authorTextView.frame) - (CGRectGetWidth(weakSelf.view.frame) - CGRectGetMaxX(weakSelf.authorTextView.frame));

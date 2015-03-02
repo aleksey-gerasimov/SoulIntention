@@ -71,6 +71,7 @@
     paragraphStyle.firstLineHeadIndent = 10;
     paragraphStyle.headIndent = 10;
     paragraphStyle.tailIndent = -10;
+    paragraphStyle.lineSpacing = kDescriptionLineSpacing;
     paragraphStyle.alignment = NSTextAlignmentLeft;
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     NSDictionary *attributes = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};

@@ -51,6 +51,7 @@ NSString *const kNoFavoritesPlaceholderImage = @"ic_favorite_BG";
 CGFloat const kImageHeight = 180.0;
 CGFloat const kIconWidth = 30.f;
 CGFloat const kIconHeight = 30.f;
+CGFloat const kDescriptionLineSpacing = 5.0;
 
 @implementation Constants
 

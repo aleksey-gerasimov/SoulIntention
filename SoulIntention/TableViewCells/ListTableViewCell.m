@@ -95,7 +95,13 @@ typedef void(^CellSwipeHandler)(void);
     _post = post;
 
     self.titleLabel.text = _post.title.uppercaseString;
-    self.descriptionLabel.text = _post.text;
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = kDescriptionLineSpacing;
+    NSDictionary *dictionary = @{NSParagraphStyleAttributeName : paragraphStyle};
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:_post.text attributes:dictionary];
+    self.descriptionLabel.attributedText = string;
+    
     self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
     [self changeFavoriteButtonToFavorite:_post.isFavorite];
 }
