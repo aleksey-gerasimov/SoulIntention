@@ -12,7 +12,7 @@
 
 - (void)setUpdateDate:(NSString *)updateDate
 {
-    NSString *shortDate = [updateDate substringToIndex:10];
+    NSString *shortDate = [updateDate substringToIndex:[updateDate rangeOfString:@" "].location];
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     NSDate *date = [dateFormatter dateFromString:shortDate];

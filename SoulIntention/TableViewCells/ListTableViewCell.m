@@ -198,11 +198,13 @@ typedef void(^CellSwipeHandler)(void);
     }
 }
 
-- (IBAction)facebookButtonTouchUpInside:(id)sender {
+- (IBAction)facebookButtonTouchUpInside:(id)sender
+{
     [[FacebookManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:[NSURL URLWithString:kMainPageURLString]];
 }
 
-- (IBAction)twitterButtonTouchUpInside:(id)sender {
+- (IBAction)twitterButtonTouchUpInside:(id)sender
+{
     [[TwitterManager sharedManager] presentShareDialogWithText:self.titleLabel.text url:[NSURL URLWithString:kMainPageURLString]];
 }
 
