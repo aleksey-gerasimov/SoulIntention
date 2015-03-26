@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JFg-vq-ILV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JFg-vq-ILV">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -132,11 +132,12 @@
                             <constraint firstAttribute="trailing" secondItem="QKv-ev-GM5" secondAttribute="trailing" id="59b-uF-DvP"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="top" constant="-48" id="BeH-27-jtz"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="8wM-LN-3cL" secondAttribute="bottom" id="D2U-ig-GYE"/>
-                            <constraint firstItem="qia-Ki-LSh" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="bottom" constant="32" id="GO4-x7-J8J"/>
+                            <constraint firstItem="qia-Ki-LSh" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="bottom" id="GO4-x7-J8J"/>
                             <constraint firstItem="qia-Ki-LSh" firstAttribute="top" secondItem="kBo-Ku-gN2" secondAttribute="bottom" id="I2g-ZB-OSN"/>
                             <constraint firstItem="QKv-ev-GM5" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" constant="-60" id="I94-nn-0ct"/>
                             <constraint firstItem="kBo-Ku-gN2" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" id="IyJ-pH-kXL"/>
                             <constraint firstItem="kBo-Ku-gN2" firstAttribute="top" secondItem="QKv-ev-GM5" secondAttribute="bottom" id="LqO-6X-qYg"/>
+                            <constraint firstAttribute="bottom" secondItem="kBo-Ku-gN2" secondAttribute="bottom" constant="32" id="R9S-4G-GMZ"/>
                             <constraint firstItem="QKv-ev-GM5" firstAttribute="leading" secondItem="mfM-a8-OS4" secondAttribute="leading" constant="160" id="RA0-BD-Mnk"/>
                             <constraint firstItem="gxc-T7-AYW" firstAttribute="top" secondItem="8wM-LN-3cL" secondAttribute="bottom" id="UbQ-Kl-49N"/>
                             <constraint firstItem="kBo-Ku-gN2" firstAttribute="top" secondItem="gxc-T7-AYW" secondAttribute="bottom" id="Y1J-Or-nhN"/>
@@ -152,6 +153,7 @@
                                 <exclude reference="D2U-ig-GYE"/>
                                 <exclude reference="LqO-6X-qYg"/>
                                 <exclude reference="Y1J-Or-nhN"/>
+                                <exclude reference="GO4-x7-J8J"/>
                                 <exclude reference="I2g-ZB-OSN"/>
                             </mask>
                         </variation>
@@ -289,7 +291,7 @@
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" rowHeight="164" id="ZwS-4s-j5U" customClass="ListTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="ZwS-4s-j5U" id="qiT-gs-Yuv">
+                                        <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="ZwS-4s-j5U" id="qiT-gs-Yuv">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZXU-t9-DoW" userLabel="Actions View">
@@ -632,8 +634,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="squ-SJ-mAJ">
-                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="squ-SJ-mAJ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="448"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jkf-Cs-c2e">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="190"/>
@@ -820,12 +822,12 @@
                                             </mask>
                                         </variation>
                                     </imageView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOA-CD-PXA">
-                                        <rect key="frame" x="0.0" y="395" width="320" height="300"/>
+                                    <textView multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOA-CD-PXA">
+                                        <rect key="frame" x="0.0" y="395" width="320" height="53"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="tintColor" red="0.0" green="0.4039215686" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="300" id="uFx-vM-6SQ"/>
+                                            <constraint firstAttribute="height" constant="53" id="uFx-vM-6SQ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -857,10 +859,14 @@
                             <constraint firstItem="squ-SJ-mAJ" firstAttribute="leading" secondItem="gFc-Og-EbJ" secondAttribute="leading" id="Wow-mp-diN"/>
                             <constraint firstItem="squ-SJ-mAJ" firstAttribute="top" secondItem="Sa7-aW-zz5" secondAttribute="bottom" id="YLL-bg-T0O"/>
                             <constraint firstAttribute="trailing" secondItem="squ-SJ-mAJ" secondAttribute="trailing" id="ffz-09-dbn"/>
+                            <constraint firstAttribute="bottom" secondItem="squ-SJ-mAJ" secondAttribute="bottom" constant="32" id="lWA-AA-Ob4"/>
                             <constraint firstItem="Pcb-Ff-UKk" firstAttribute="top" secondItem="squ-SJ-mAJ" secondAttribute="bottom" id="seE-eW-Req"/>
+                            <constraint firstItem="squ-SJ-mAJ" firstAttribute="top" secondItem="gFc-Og-EbJ" secondAttribute="top" id="yKl-j0-p7W"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="YLL-bg-T0O"/>
+                                <exclude reference="HBW-lk-1sf"/>
                                 <exclude reference="seE-eW-Req"/>
                             </mask>
                         </variation>
@@ -902,7 +908,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vz2-8j-wdH" userLabel="FooterView">
                                 <rect key="frame" x="0.0" y="448" width="320" height="32"/>
                                 <subviews>
-                                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ylt-bn-7eD" userLabel="BackgroundView">
+                                    <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ylt-bn-7eD" userLabel="BackgroundView">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="32"/>
                                         <color key="backgroundColor" red="0.2627450980392157" green="0.16470588235294117" blue="0.30588235294117649" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
@@ -952,10 +958,14 @@
                             <constraint firstAttribute="trailing" secondItem="bAj-s5-2gx" secondAttribute="trailing" id="Tcd-l7-Qj8"/>
                             <constraint firstItem="vz2-8j-wdH" firstAttribute="leading" secondItem="XOx-7l-cqk" secondAttribute="leading" id="bYh-pi-UdV"/>
                             <constraint firstItem="bAj-s5-2gx" firstAttribute="top" secondItem="XOx-7l-cqk" secondAttribute="top" constant="20" id="lc5-vw-EmN"/>
+                            <constraint firstItem="vz2-8j-wdH" firstAttribute="top" secondItem="bAj-s5-2gx" secondAttribute="bottom" id="udV-Tz-jKs"/>
+                            <constraint firstAttribute="bottom" secondItem="bAj-s5-2gx" secondAttribute="bottom" id="ziP-TL-MAE"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="4cL-Cf-xHd"/>
                                 <exclude reference="1ke-Qv-sj0"/>
+                                <exclude reference="udV-Tz-jKs"/>
                             </mask>
                         </variation>
                     </view>
@@ -968,7 +978,7 @@
         <!--Navigation Controller-->
         <scene sceneID="8hk-DB-CKR">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lHT-bo-MZT" sceneMemberID="viewController">
+                <navigationController id="lHT-bo-MZT" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="69L-UT-SnM">

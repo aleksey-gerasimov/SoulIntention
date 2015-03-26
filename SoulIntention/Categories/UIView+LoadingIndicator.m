@@ -8,6 +8,7 @@
 
 #import "UIView+LoadingIndicator.h"
 
+//#import "SoulIntentionManager.h"
 #import "AppDelegate.h"
 
 NSInteger const kLoadingIndicatorBackgroundViewTag = 214;
@@ -42,6 +43,10 @@ NSInteger const kLoadingIndicatorViewTag = 215;
 
     [backgroundView addSubview:loadingIndicator];
     loadingIndicator.center = backgroundView.center;
+
+//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundViewTap:)];
+//    [backgroundView addGestureRecognizer:tapGesture];
+
     [self.rootView addSubview:backgroundView];
 }
 
@@ -53,5 +58,10 @@ NSInteger const kLoadingIndicatorViewTag = 215;
     [loadingIndicator removeFromSuperview];
     [backgroundView removeFromSuperview];
 }
+
+//- (IBAction)backgroundViewTap:(id)sender
+//{
+//    [[SoulIntentionManager sharedManager] cancelAllRequestOperations];
+//}
 
 @end

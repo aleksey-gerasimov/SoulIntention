@@ -110,7 +110,7 @@
         requiredTextRect = CGRectMake(CGRectGetMinX(requiredTextRect), CGRectGetMinY(requiredTextRect), ceilWidth, ceilHeight);
 
         CGSize requiredSize = [weakSelf.authorTextView sizeThatFits:requiredTextRect.size];
-        weakSelf.authorTextViewHeightConstraint.constant = requiredSize.height > textViewSize.height ? requiredSize.height : textViewSize.height;
+        weakSelf.authorTextViewHeightConstraint.constant = requiredSize.height;
         [weakSelf.view layoutIfNeeded];
 
         [weakSelf getAuthorImageWithURL:author.imageURL];

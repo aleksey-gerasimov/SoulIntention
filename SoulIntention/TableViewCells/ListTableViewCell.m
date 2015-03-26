@@ -102,7 +102,7 @@ typedef void(^CellSwipeHandler)(void);
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:_post.text attributes:dictionary];
     self.descriptionLabel.attributedText = string;
     
-    self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.updateDate, _post.author];
+    self.dateLabel.text = [NSString stringWithFormat:@"%@ By %@", _post.postDate, _post.author];
     [self changeFavoriteButtonToFavorite:_post.isFavorite];
 }
 

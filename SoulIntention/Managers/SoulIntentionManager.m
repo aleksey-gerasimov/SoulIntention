@@ -73,7 +73,9 @@ static NSInteger const kSessionClosedStatusCode = 403;
                                                       @"title" : @"title",
                                                       @"details" : @"text",
                                                       @"rate.rate" : @"rate",
+                                                      @"created_at" : @"createDate",
                                                       @"updated_at" : @"updateDate",
+                                                      @"post_on_date" : @"postDate",
                                                       @"author.full_name" : @"author",
                                                       @"images.image_url" : @"imageURLs",
                                                       @"favourite" : @"isFavorite"}];
@@ -101,6 +103,12 @@ static NSInteger const kSessionClosedStatusCode = 403;
 }
 
 #pragma mark - Public
+
+//- (void)cancelAllRequestOperations
+//{
+//    NSLog(@"All request operations were canceled");
+//    [self.restManager cancelAllObjectRequestOperationsWithMethod:RKRequestMethodAny matchingPathPattern:kPosts];
+//}
 
 #pragma mark Session
 

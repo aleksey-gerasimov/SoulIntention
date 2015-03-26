@@ -14,6 +14,8 @@ typedef void(^CompletitionHandler)(BOOL success, NSArray *result, NSError *error
 
 + (instancetype)sharedManager;
 
+//- (void)cancelAllRequestOperations;
+
 - (void)startSessionWithDeviceId:(NSString *)deviceId completitionHandler:(CompletitionHandler)handler;
 - (void)endSessionWithCompletitionHandler:(CompletitionHandler)handler;
 - (void)registerForNotificationsWithDeviceToken:(NSString *)deviceToken completitionHandler:(CompletitionHandler)handler;

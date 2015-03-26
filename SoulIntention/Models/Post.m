@@ -10,15 +10,15 @@
 
 @implementation Post
 
-- (void)setUpdateDate:(NSString *)updateDate
+- (void)setPostDate:(NSString *)postDate
 {
-    NSString *shortDate = [updateDate substringToIndex:[updateDate rangeOfString:@" "].location];
+    NSString *shortDate = [postDate substringToIndex:10];
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     NSDate *date = [dateFormatter dateFromString:shortDate];
     dateFormatter.dateFormat = @"MMMM dd, yyyy";
     shortDate = [dateFormatter stringFromDate:date];
-    _updateDate = shortDate;
+    _postDate = shortDate;
 }
 
 @end
