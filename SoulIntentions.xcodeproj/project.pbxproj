@@ -352,7 +352,7 @@
 		5B4833BB1A1B1B1100CA240D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = ThinkMobiles;
 				TargetAttributes = {
 					5B4833C21A1B1B1100CA240D = {
@@ -517,6 +517,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Roman Huti (5EWZN3DN9R)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -588,6 +589,7 @@
 				INFOPLIST_FILE = SoulIntention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CODE_SIGN_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SoulIntentions;
 				PROVISIONING_PROFILE = "9d333a37-91c0-435a-a53c-5e6f08ead259";
 			};
@@ -604,6 +606,7 @@
 				INFOPLIST_FILE = SoulIntention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CODE_SIGN_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SoulIntentions;
 				PROVISIONING_PROFILE = "9d333a37-91c0-435a-a53c-5e6f08ead259";
 			};
@@ -623,6 +626,7 @@
 				);
 				INFOPLIST_FILE = SoulIntentionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SoulIntentionsTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SoulIntention.app/SoulIntention";
 			};
@@ -638,6 +642,7 @@
 				);
 				INFOPLIST_FILE = SoulIntentionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thinkmobiles.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SoulIntentionsTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SoulIntention.app/SoulIntention";
 			};

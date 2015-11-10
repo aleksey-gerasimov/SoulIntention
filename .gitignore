@@ -1,0 +1,7 @@
+Pods/**
+Podfile.lock
+**/xcshareddata/**
+xcuserdata
+*.xcuserstate
+!**.zip
+.DS_Store
